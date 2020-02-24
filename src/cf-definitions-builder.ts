@@ -78,8 +78,11 @@ export default class CFDefinitionsBuilder {
         data.fields.forEach(field => {
             switch (field.type) {
             case 'RichText':
-                builder.appendField(field.id, unionType(['CFRichTextTypes.Block,' +
-                'CFRichTextTypes.Inline']), field.required);
+                builder.appendField(
+                    field.id,
+                    unionType(['CFRichTextTypes.Block', 'CFRichTextTypes.Inline']),
+                    field.required
+                );
                 break;
             case 'Link':
                 builder.appendField(field.id, linkType(field), field.required);
