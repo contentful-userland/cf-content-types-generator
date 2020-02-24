@@ -9,6 +9,7 @@
 
 # Table of Contents
 - [Motivation](#motivation)
+- [Installation](#installation)
 - [Usage](#usage)
     - [Example](#example)
     - [Input](#input)
@@ -22,6 +23,12 @@ To learn more about the data structures we provide and expose i started manually
 Playing around with the contentful CLI lead to the idea to automate the process of type generation by using the provided `contentTypes` data of the `export` command. This is the result of a first prototype ...
 
 After implementing my own solution, i found [this](https://github.com/watermarkchurch/ts-generators) way more advanced project with the same purpose.
+
+## Installation
+
+```bash
+npm install @contentful/content-types-generator
+```
 
 ## Usage
 
