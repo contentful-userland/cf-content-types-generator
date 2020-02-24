@@ -1,0 +1,57 @@
+{
+  "name": "@contentful/content-types-generator",
+  "version": "0.0.1",
+  "description": "Contentful (TS) Content Types Generator",
+  "author": "Marco Link<marco.link@contentful.com>",
+  "license": "MIT",
+  "bin": {
+    "contentful-ctg": "./bin/run"
+  },
+  "main": "lib/index.js",
+  "bugs": "https://github.com/contentful-labs/contentful-ctg/issues",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "oclif": {
+    "bin": "contentful-ctg"
+  },
+  "repository": "contentful-labs/contentful-ctg",
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/errors": "latest",
+    "@oclif/plugin-help": "^2",
+    "contentful": "^7.14.0",
+    "fs-extra": "^8.1.0",
+    "tslib": "^1"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@oclif/test": "^1.2.5",
+    "@types/chai": "^4",
+    "@types/fs-extra": "^8.1.0",
+    "@types/mocha": "^5",
+    "eslint": "^5.13",
+    "eslint-config-oclif": "^3.1",
+    "eslint-config-oclif-typescript": "^0.1",
+    "chai": "^4",
+    "mocha": "^5",
+    "strip-indent": "^3.0.0",
+    "nyc": "^14",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "scripts": {
+    "posttest": "eslint . --ext .ts --config .eslintrc",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "test-watch": "jest --watch",
+    "build": "./node_modules/.bin/tsc",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}

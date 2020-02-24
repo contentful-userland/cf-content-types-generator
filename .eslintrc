@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "operator-linebreak": [
+      "error",
+      "after",
+      {
+        "overrides": {
+          "?": "before",
+          ":": "before"
+        }
+      }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "indent": [
+      "error",
+      4
+    ]
+  },
+  "extends": [
+    "oclif",
+    "oclif-typescript"
+  ]
+}
