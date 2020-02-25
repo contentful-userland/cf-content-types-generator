@@ -1,9 +1,14 @@
 {
   "extends": "../tsconfig",
   "compilerOptions": {
-    "noEmit": true
+    "noEmit": true,
+    "typeRoots": [
+      "./types"
+    ]
   },
   "references": [
-    {"path": ".."}
+    {
+      "path": ".."
+    }
   ]
 }
