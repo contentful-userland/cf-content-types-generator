@@ -1,5 +1,5 @@
 import {test} from '@oclif/test';
-import cmd = require('../src');
+import cmd = require('../src/index');
 
 describe('contentful-ctg cli', () => {
     test

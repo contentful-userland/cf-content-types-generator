@@ -1,12 +1,24 @@
-import CFDefinitionsBuilder from '../src/cf-definitions-builder';
 import {expect} from '@oclif/test';
 import stripIndent = require('strip-indent');
+import * as fs from 'fs-extra';
+import * as path from 'path';
+// @ts-ignore
+import {cleanupTempDirs, createTempDir} from 'jest-fixtures';
+
+import CFDefinitionsBuilder from '../src/cf-definitions-builder';
 
 describe('A Contentful definitions builder', () => {
     let builder: CFDefinitionsBuilder;
 
-    beforeEach(() => {
+    let fixturesPath: string;
+
+    beforeEach(async () => {
         builder = new CFDefinitionsBuilder();
+        fixturesPath = await createTempDir();
+    });
+
+    afterEach(async () => {
+        await cleanupTempDirs();
     });
 
     const modelType = {
@@ -29,31 +41,11 @@ describe('A Contentful definitions builder', () => {
         })).to.throw('given data is not describing a ContentType');
     });
 
-    it('can append imports', () => {
-        builder
-            .appendType(modelType)
-            .appendImport('import * as marco from "link";')
-            .appendImport('import * as marco from "link";');
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
-                import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
-                import * as marco from "link";
-                
-                type SysId = {}
-                `));
-    });
-
     it('can create a definition with empty fields', () => {
         builder.appendType(modelType);
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
-                import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
-                
-                type SysId = {}
+                export interface SysIdFields {
+                }
                 `));
     });
 
@@ -75,12 +67,9 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
                 import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
                 
-                type SysId = {
+                export interface SysIdFields {
                     symbolFieldId: Contentful.EntryFields.Symbol;
                 }
                 `));
@@ -104,12 +93,9 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
                 import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
                 
-                type SysId = {
+                export interface SysIdFields {
                     symbolFieldId?: Contentful.EntryFields.Symbol;
                 }
                 `));
@@ -133,12 +119,9 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
                 import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
                 
-                type SysId = {
+                export interface SysIdFields {
                     boolFieldId?: Contentful.EntryFields.Boolean;
                 }
                 `));
@@ -169,13 +152,10 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
                 import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
                 
-                type SysId = {
-                    linkFieldId?: Contentful.Entry<LinkedType>;
+                export interface SysIdFields {
+                    linkFieldId?: Contentful.Entry<LinkedTypeFields>;
                 }
                 `));
     });
@@ -210,13 +190,10 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
                 import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
                 
-                type SysId = {
-                    arrayFieldId?: Contentful.Entry<Artist | Artwork>[];
+                export interface SysIdFields {
+                    arrayFieldId?: Contentful.Entry<ArtistFields | ArtworkFields>[];
                 }
                 `));
     });
@@ -246,12 +223,7 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
-                import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
-                
-                type SysId = {
+                export interface SysIdFields {
                     stringFieldId?: "hello" | "world";
                 }
                 `));
@@ -283,48 +255,97 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
-                import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
-                
-                type SysId = {
+                export interface SysIdFields {
                     numericFieldId?: 1 | 2 | 3;
                 }
                 `));
     });
 
-    it('can append a custom namespace', () => {
-        builder
-            .setCustomNamespace('Marco')
-            .appendType({
-                ...{}, ...modelType, ...{
-                    fields: [
+    it('can write an interface to output file', async () => {
+        builder.appendType(modelType);
+
+        await builder.write(fixturesPath);
+
+        const result = await fs.readFile(path.resolve(fixturesPath, 'SysId.ts'));
+
+        expect('\n' + result.toString()).to.equal(stripIndent(`
+                export interface SysIdFields {
+                }
+                `));
+    });
+
+    it('can write multiple interfaces to output files', async () => {
+        builder.appendType(modelType);
+        builder.appendType({
+            id: 'rootId',
+            name: 'Root Name',
+            sys: {
+                id: 'myType',
+                type: 'ContentType',
+            }, fields: [],
+        });
+
+        await builder.write(fixturesPath);
+
+        const result1 = await fs.readFile(path.resolve(fixturesPath, 'SysId.ts'));
+        const result2 = await fs.readFile(path.resolve(fixturesPath, 'MyType.ts'));
+
+        expect('\n' + result1.toString()).to.equal(stripIndent(`
+                export interface SysIdFields {
+                }
+                `));
+
+        expect('\n' + result2.toString()).to.equal(stripIndent(`
+                export interface MyTypeFields {
+                }
+                `));
+    });
+
+    it('can reference one type to the other', async () => {
+        builder.appendType(modelType);
+        builder.appendType({
+            id: 'rootId',
+            name: 'Root Name',
+            sys: {
+                id: 'myType',
+                type: 'ContentType',
+            }, fields: [
+                {
+                    id: 'linkFieldId',
+                    name: 'Linked entry Field',
+                    type: 'Link',
+                    localized: false,
+                    required: false,
+                    validations: [
                         {
-                            id: 'symbolFieldId',
-                            name: 'Some Symbol Field',
-                            type: 'Symbol',
-                            localized: false,
-                            required: true,
-                            validations: [],
-                            disabled: false,
-                            omitted: false,
+                            linkContentType: [
+                                'sysId',
+                            ],
                         },
                     ],
+                    disabled: false,
+                    omitted: false,
+                    linkType: 'Entry',
                 },
-            });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
-                // Auto-generated TS definitions for Contentful Data models.
-                
+            ],
+        });
+
+        await builder.write(fixturesPath);
+
+        const result1 = await fs.readFile(path.resolve(fixturesPath, 'SysId.ts'));
+        const result2 = await fs.readFile(path.resolve(fixturesPath, 'MyType.ts'));
+
+        expect('\n' + result1.toString()).to.equal(stripIndent(`
+                export interface SysIdFields {
+                }
+                `));
+
+        expect('\n' + result2.toString()).to.equal(stripIndent(`
                 import * as Contentful from "contentful";
-                import * as CFRichTextTypes from "@contentful/rich-text-types";
-                
-                namespace Marco {
-                
-                    type SysId = {
-                        symbolFieldId: Contentful.EntryFields.Symbol;
-                    }
-                    
+                import { SysIdFields } from "./SysId";
+
+                export interface MyTypeFields {
+                    linkFieldId?: Contentful.Entry<SysIdFields>;
                 }
                 `));
     });

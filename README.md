@@ -8,7 +8,6 @@
 [![License](https://img.shields.io/npm/l/contentful-ctg.svg)](https://github.com/contentful-labs/contentful-ctg/blob/master/package.json)
 
 # Table of Contents
-- [Motivation](#motivation)
 - [Installation](#installation)
 - [Usage](#usage)
     - [Example](#example)
@@ -16,13 +15,6 @@
     - [Output](#output)
     - [Direct Usage](#direct-usage)
 - [Questions](#questions)
-
-## Motivation
-To learn more about the data structures we provide and expose i started manually writing type definitions for data provided by our entries endpoints. 
-
-Playing around with the contentful CLI lead to the idea to automate the process of type generation by using the provided `contentTypes` data of the `export` command. This is the result of a first prototype ...
-
-After implementing my own solution, i found [this](https://github.com/watermarkchurch/ts-generators) way more advanced project with the same purpose.
 
 ## Installation
 
@@ -33,25 +25,28 @@ npm install @contentful/content-types-generator
 ## Usage
 
 ```bash
-Generate (TS) Content Types
+ Content Types Generator (TS)
 
 USAGE
-  $ contentful-ctg [FILE]
+  $ contentful-ctg [FILE] [OUT]
 
 OPTIONS
-  -h, --help                   show CLI help
-  -i, --indent=space|tab       [default: space] indention type
-  -n, --namespace=namespace    declare types inside a namespace
-  -s, --indentSize=indentSize  [default: 2] indention size
-  -t, --type=type|interface    [default: type] type or interface declaration
-  -v, --version                show CLI version
+  -h, --help     show CLI help
+  -v, --version  show CLI version
 ```
 
 ### Example
+**Will print result to console**
 ```bash
-contentful-ctg path/to/exported/file.json --namespace Collection
+contentful-ctg path/to/exported/file.json
 ```
 > in a real world scenario, you would pipe the result to a file.
+
+**Will store resulting files in target directory**
+```bash
+contentful-ctg path/to/exported/file.json path/to/target/out/directory 
+```
+
 
 ### Input
 As input a [json file](https://github.com/contentful/contentful-cli/tree/master/docs/space/export#exported-data) with a `contentTypes` field is expected:
@@ -190,55 +185,31 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
 ```
 > This example shows a subset of the actual payload provided by contentful's cli export command.
 
-### output 
+### Output 
 ```typescript
-// Auto-generated TS definitions for Contentful Data models.
-
-import * as Contentful from "contentful";
 import * as CFRichTextTypes from "@contentful/rich-text-types";
+import * as Contentful from "contentful";
 
-// --namespace Collection --type type
-namespace Collection {
-    
-    type Artist = {
-        name: Contentful.EntryFields.Symbol;
-        profilePicture?: Contentful.Asset;
-        bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
-        dateOfBirth?: Contentful.EntryFields.Date;
-    }
-
-    type Artwork = {
-        name: Contentful.EntryFields.Symbol;
-        type?: "print" | "drawing" | "painting";
-        images?: Contentful.Asset[];
-        artist: Contentful.Entry<Artist>;
-    }
-
-}
-
-// --type interface
-interface Artist  {
+export interface ArtistFields {
     name: Contentful.EntryFields.Symbol;
     profilePicture?: Contentful.Asset;
     bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
-    dateOfBirth?: Contentful.EntryFields.Date;
 }
 
-interface Artwork  {
+export interface ArtworkFields {
     name: Contentful.EntryFields.Symbol;
     type?: "print" | "drawing" | "painting";
-    images?: Contentful.Asset[];
-    artist: Contentful.Entry<Artist>;
+    preview?: Contentful.Asset[];
+    artist: Contentful.Entry<ArtistFields>;
 }
 ```
-This all only works if you add the `contentful` package to your target project to get all relevant type definitions.
+This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
 
 ### Direct Usage
 If you're not a CLI person, or you want to integrate it with your tooling workflow, you can also directly use the `CFDefinitionsBuilder` from `cf-definitions-builder.ts`
 
 ```typescript
 const stringContent = new CFDefinitionsBuilder()
-    .setCustomNamespace("Contentfuel")
     .appendType({
         id: "rootId",
         name: "Root Name",
@@ -255,12 +226,8 @@ const stringContent = new CFDefinitionsBuilder()
     .toString();
 ```
 
-# Questions
-- Should we provide additional `Entry` types? E.g. `Entry<Artist>`?
-- Is `Contentful` the right namespace for internal references to avoid colliding namespaces?
-- What is a good way to evaluate all possible payloads/data types?
-
 # >> Happy typing!
 
 # Inspiration
+- [ts-generators](https://github.com/watermarkchurch/ts-generators)
 - [CLI best practice](https://github.com/lirantal/nodejs-cli-apps-best-practices)
