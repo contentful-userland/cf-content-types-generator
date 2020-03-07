@@ -1,9 +1,9 @@
 import {Field} from 'contentful';
-import {stringType, generic, typeNameWithFields, unionType, linkContentTypeValidations, inValidations} from './utils';
+import {stringType, generic, moduleFieldsName, unionType, linkContentTypeValidations, inValidations} from './utils';
 
 export const linkContentType = (field: Pick<Field, 'id' | 'validations'>): string => {
     const validations = linkContentTypeValidations(field);
-    return unionType(validations.length > 0 ? validations.map(typeNameWithFields) : ['any']);
+    return unionType(validations.length > 0 ? validations.map(moduleFieldsName) : ['any']);
 };
 
 export const linkType = (field: Pick<Field, 'id' | 'validations' | 'linkType'>) => {

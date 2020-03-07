@@ -1,10 +1,8 @@
 import {FieldItem, FieldValidation} from 'contentful';
 
-export const typeName = (name: string): string => name
-    ? name.charAt(0).toUpperCase() + name.slice(1)
-    : '';
+export const moduleName = (name: string): string => name.charAt(0).toUpperCase() + name.slice(1);
 
-export const typeNameWithFields = (name: string): string => typeName(name) + 'Fields';
+export const moduleFieldsName = (name: string): string => moduleName(name) + 'Fields';
 
 export const generic = (type: string, gen: string): string => `${type}<${gen}>`;
 

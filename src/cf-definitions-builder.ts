@@ -2,15 +2,17 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import {Field} from 'contentful';
 import {
-    ImportDeclaration,
+    OptionalKind,
     InterfaceDeclaration,
     Project,
     ScriptTarget,
     SourceFile,
+    forEachStructureChild,
+    StructureKind,
+    ImportDeclarationStructure,
 } from 'ts-morph';
 import {propertyType} from './cf-property-types';
-import {mergeInterfaceDeclarations} from './ts-morph-utils';
-import {typeName, typeNameWithFields} from './utils';
+import {moduleName, moduleFieldsName, generic} from './utils';
 import {typeImports} from './cf-property-imports';
 
 export type CFContentType = {
@@ -41,11 +43,15 @@ export default class CFDefinitionsBuilder {
             throw new Error('given data is not describing a ContentType');
         }
 
-        const file = this.addFile(typeName(model.sys.id));
+        const file = this.addFile(moduleName(model.sys.id));
 
-        const interfaceDeclaration = this.createInterfaceDeclaration(file, typeNameWithFields(model.sys.id));
+        this.addDefaultImports(file);
+
+        const interfaceDeclaration = this.createInterfaceDeclaration(file, moduleFieldsName(model.sys.id));
 
         model.fields.forEach(field => this.addProperty(file, interfaceDeclaration, field));
+
+        this.addEntryTypeAlias(file, model.sys.id, moduleFieldsName(model.sys.id));
 
         file.organizeImports({
             ensureNewLineAtEndOfFile: true,
@@ -55,6 +61,8 @@ export default class CFDefinitionsBuilder {
     };
 
     public write = async (dir: string): Promise<void> => {
+        this.addIndexFile();
+
         const writePromises = this.project.getSourceFiles().map(file => {
             const targetPath = path.resolve(dir, file.getFilePath().slice(1));
             return fs.writeFile(targetPath, file.getFullText());
@@ -76,6 +84,33 @@ export default class CFDefinitionsBuilder {
         return file.addInterface({name, isExported: true});
     };
 
+    private addIndexFile = (): void => {
+        const indexFile = this.addFile('index');
+        this.addDefaultImports(indexFile);
+
+        const files = this.project
+            .getSourceFiles()
+            .map(file => file.getBaseNameWithoutExtension())
+            .filter(fileName => !fileName.startsWith('index'));
+
+        files.forEach(fileName => {
+            indexFile.addExportDeclaration({
+                namedExports: [moduleName(fileName), moduleFieldsName(fileName)],
+                moduleSpecifier: `./${fileName}`,
+            });
+        });
+
+        indexFile.organizeImports();
+    };
+
+    private addEntryTypeAlias = (file: SourceFile, aliasName: string, entryType: string) => {
+        file.addTypeAlias({
+            isExported: true,
+            name: moduleName(aliasName),
+            type: generic('Contentful.Entry', entryType),
+        });
+    }
+
     private addProperty = (
         file: SourceFile,
         declaration: InterfaceDeclaration,
@@ -86,40 +121,47 @@ export default class CFDefinitionsBuilder {
             hasQuestionToken: field.omitted || (!field.required),
             type: propertyType(field),
         });
-
-        file.addImportDeclarations(typeImports(field));
-
-        // eslint-disable-next-line no-warning-comments
-        // TODO: dynamically define imports based on usage
-        file.addImportDeclaration({
-            moduleSpecifier: 'contentful',
-            namespaceImport: 'Contentful',
-        });
-
         file.addImportDeclaration({
             moduleSpecifier: '@contentful/rich-text-types',
             namespaceImport: 'CFRichTextTypes',
         });
+        file.addImportDeclarations(typeImports(field));
     };
 
     private mergeFile = (mergeFileName = 'ContentTypes'): SourceFile => {
         const mergeFile = this.addFile(mergeFileName);
 
-        const addImportDeclarationToMergeFile = (importDeclaration: ImportDeclaration) => {
-            // eslint-disable-next-line no-warning-comments
-            // TODO: only merge if not already doesn't exist already
-            mergeFile.addImportDeclaration(importDeclaration.getStructure());
-        };
+        const imports: OptionalKind<ImportDeclarationStructure>[] = [];
+        const types: string[] = [];
 
-        this.project.getSourceFiles().forEach(sourceFile => {
-            mergeInterfaceDeclarations(sourceFile, mergeFile);
-            sourceFile.getImportDeclarations().forEach(addImportDeclarationToMergeFile);
+        this.project.getSourceFiles()
+            .filter(sourceFile => sourceFile.getBaseNameWithoutExtension() !== mergeFileName)
+            .forEach(sourceFile => forEachStructureChild(sourceFile.getStructure(),
+                childStructure => {
+                    switch (childStructure.kind) {
+                    case StructureKind.ImportDeclaration:
+                        imports.push(childStructure);
+                        break;
+                    case StructureKind.Interface:
+                        types.push(childStructure.name);
+                        mergeFile.addInterface(childStructure);
+                        break;
+                    case StructureKind.TypeAlias:
+                        types.push(childStructure.name);
+                        mergeFile.addTypeAlias(childStructure);
+                        break;
+                    default:
+                        throw new Error(`Unhandled node type '${StructureKind[childStructure.kind]}'.`);
+                    }
+                }));
+
+        // only import modules not present in merge file
+        imports.forEach(importD => {
+            const name = importD.moduleSpecifier.slice(2);
+            if (!types.includes(name)) {
+                mergeFile.addImportDeclaration(importD);
+            }
         });
-
-        mergeFile
-            .getImportDeclarations()
-            .filter(importD => importD.getModuleSpecifierValue().startsWith('./'))
-            .forEach(importD => importD.remove());
 
         mergeFile.organizeImports({
             ensureNewLineAtEndOfFile: true,
@@ -127,5 +169,12 @@ export default class CFDefinitionsBuilder {
 
         return mergeFile;
     };
+
+    private addDefaultImports(file: SourceFile) {
+        file.addImportDeclaration({
+            moduleSpecifier: 'contentful',
+            namespaceImport: 'Contentful',
+        });
+    }
 }
 
