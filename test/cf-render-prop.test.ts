@@ -1,7 +1,7 @@
+import { renderProp } from '../src/renderer/cf-render-prop';
 import {expect} from '@oclif/test';
-import {propertyType} from '../src/cf-property-types';
 
-describe('A propertyType function', () => {
+describe('A renderProp function', () => {
     it('can evaluate an "Symbol" type', () => {
         const field = JSON.parse(`
         {
@@ -17,7 +17,7 @@ describe('A propertyType function', () => {
         }
         `);
 
-        expect(propertyType(field)).to.equal('Contentful.EntryFields.Symbol');
+        expect(renderProp(field)).to.equal('Contentful.EntryFields.Symbol');
     });
 
     it('can evaluate an "Symbol" type with "in" validation', () => {
@@ -41,7 +41,7 @@ describe('A propertyType function', () => {
         }
         `);
 
-        expect(propertyType(field)).to.equal('"Left-aligned" | "Center-aligned"');
+        expect(renderProp(field)).to.equal('"Left-aligned" | "Center-aligned"');
     });
 
     it('can evaluate a "Link" type', () => {
@@ -65,7 +65,7 @@ describe('A propertyType function', () => {
         }
         `);
 
-        expect(propertyType(field)).to.equal('Contentful.Entry<TopicCategoryFields>');
+        expect(renderProp(field)).to.equal('Contentful.Entry<TopicCategoryFields>');
     });
 
     it('can evaluate an "Array" of "Symbol"', () => {
@@ -88,7 +88,7 @@ describe('A propertyType function', () => {
         }
         `);
 
-        expect(propertyType(field)).to.equal('Contentful.EntryFields.Symbol[]');
+        expect(renderProp(field)).to.equal('Contentful.EntryFields.Symbol[]');
     });
 
     it('can evaluate an "Array" of "Symbol" with "in" validation', () => {
@@ -119,7 +119,7 @@ describe('A propertyType function', () => {
         }
         `);
 
-        expect(propertyType(field)).to.equal('("Feature" | "Benefit" | "Tech spec" | "Other")[]');
+        expect(renderProp(field)).to.equal('("Feature" | "Benefit" | "Tech spec" | "Other")[]');
     });
 
     it('can evaluate an "Array" of "Link" with "linkContentType" validation', () => {
@@ -151,6 +151,6 @@ describe('A propertyType function', () => {
         }
         `);
 
-        expect(propertyType(field)).to.equal('Contentful.Entry<ComponentCtaFields | ComponentFaqFields | WrapperImageFields | WrapperVideoFields>[]');
+        expect(renderProp(field)).to.equal('Contentful.Entry<ComponentCtaFields | ComponentFaqFields | WrapperImageFields | WrapperVideoFields>[]');
     });
 });

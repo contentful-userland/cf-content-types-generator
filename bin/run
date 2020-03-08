@@ -6,8 +6,10 @@ const project = path.join(__dirname, '../tsconfig.json');
 const dev = fs.existsSync(project);
 
 if (dev) {
+    // eslint-disable-next-line node/no-unpublished-require
     require('ts-node').register({project});
 }
 
-require(`../${dev ? 'src' : 'lib'}`).run()
+require(`../${dev ? 'src' : 'lib'}`)
+    .run()
     .catch(require('@oclif/errors/handle'));

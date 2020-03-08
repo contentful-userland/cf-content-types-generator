@@ -1,3 +1,4 @@
+import {renderProp} from './renderer/cf-render-prop';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import {Field} from 'contentful';
@@ -11,9 +12,9 @@ import {
     StructureKind,
     ImportDeclarationStructure,
 } from 'ts-morph';
-import {propertyType} from './cf-property-types';
-import {moduleName, moduleFieldsName, generic} from './utils';
-import {typeImports} from './cf-property-imports';
+import {moduleName, moduleFieldsName} from './utils';
+import {propertyImports} from './cf-property-imports';
+import {renderGenericType} from './renderer/render-generic-type';
 
 export type CFContentType = {
     name: string;
@@ -107,7 +108,7 @@ export default class CFDefinitionsBuilder {
         file.addTypeAlias({
             isExported: true,
             name: moduleName(aliasName),
-            type: generic('Contentful.Entry', entryType),
+            type: renderGenericType('Contentful.Entry', entryType),
         });
     }
 
@@ -119,13 +120,21 @@ export default class CFDefinitionsBuilder {
         declaration.addProperty({
             name: field.id,
             hasQuestionToken: field.omitted || (!field.required),
-            type: propertyType(field),
+            type: renderProp(field),
         });
+
+        // eslint-disable-next-line no-warning-comments
+        // TODO: dynamically define imports based on usage
+        file.addImportDeclaration({
+            moduleSpecifier: 'contentful',
+            namespaceImport: 'Contentful',
+        });
+
         file.addImportDeclaration({
             moduleSpecifier: '@contentful/rich-text-types',
             namespaceImport: 'CFRichTextTypes',
         });
-        file.addImportDeclarations(typeImports(field));
+        file.addImportDeclarations(propertyImports(field));
     };
 
     private mergeFile = (mergeFileName = 'ContentTypes'): SourceFile => {
