@@ -1,9 +1,9 @@
-import {expect} from '@oclif/test';
+import { expect } from '@oclif/test';
 import stripIndent = require('strip-indent');
 import * as fs from 'fs-extra';
 import * as path from 'path';
-// @ts-ignore
-import {cleanupTempDirs, createTempDir} from 'jest-fixtures';
+//@ts-ignore
+import { cleanupTempDirs, createTempDir } from 'jest-fixtures';
 
 import CFDefinitionsBuilder from '../src/cf-definitions-builder';
 
@@ -44,8 +44,12 @@ describe('A Contentful definitions builder', () => {
     it('can create a definition with empty fields', () => {
         builder.appendType(modelType);
         expect('\n' + builder.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+
                 export interface SysIdFields {
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -72,6 +76,8 @@ describe('A Contentful definitions builder', () => {
                 export interface SysIdFields {
                     symbolFieldId: Contentful.EntryFields.Symbol;
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -98,6 +104,8 @@ describe('A Contentful definitions builder', () => {
                 export interface SysIdFields {
                     symbolFieldId?: Contentful.EntryFields.Symbol;
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -124,6 +132,8 @@ describe('A Contentful definitions builder', () => {
                 export interface SysIdFields {
                     boolFieldId?: Contentful.EntryFields.Boolean;
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -153,10 +163,13 @@ describe('A Contentful definitions builder', () => {
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
                 import * as Contentful from "contentful";
-                
+                import { LinkedTypeFields } from "./LinkedType";
+
                 export interface SysIdFields {
                     linkFieldId?: Contentful.Entry<LinkedTypeFields>;
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -191,10 +204,14 @@ describe('A Contentful definitions builder', () => {
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
                 import * as Contentful from "contentful";
-                
+                import { ArtistFields } from "./Artist";
+                import { ArtworkFields } from "./Artwork";
+
                 export interface SysIdFields {
                     arrayFieldId?: Contentful.Entry<ArtistFields | ArtworkFields>[];
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -223,9 +240,13 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+
                 export interface SysIdFields {
                     stringFieldId?: "hello" | "world";
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -255,9 +276,13 @@ describe('A Contentful definitions builder', () => {
             },
         });
         expect('\n' + builder.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+                
                 export interface SysIdFields {
                     numericFieldId?: 1 | 2 | 3;
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -269,8 +294,12 @@ describe('A Contentful definitions builder', () => {
         const result = await fs.readFile(path.resolve(fixturesPath, 'SysId.ts'));
 
         expect('\n' + result.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+                
                 export interface SysIdFields {
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
     });
 
@@ -291,13 +320,21 @@ describe('A Contentful definitions builder', () => {
         const result2 = await fs.readFile(path.resolve(fixturesPath, 'MyType.ts'));
 
         expect('\n' + result1.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+                
                 export interface SysIdFields {
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
 
         expect('\n' + result2.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+                
                 export interface MyTypeFields {
                 }
+
+                export type MyType = Contentful.Entry<MyTypeFields>;
                 `));
     });
 
@@ -336,17 +373,23 @@ describe('A Contentful definitions builder', () => {
         const result2 = await fs.readFile(path.resolve(fixturesPath, 'MyType.ts'));
 
         expect('\n' + result1.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+                
                 export interface SysIdFields {
                 }
+
+                export type SysId = Contentful.Entry<SysIdFields>;
                 `));
 
         expect('\n' + result2.toString()).to.equal(stripIndent(`
                 import * as Contentful from "contentful";
                 import { SysIdFields } from "./SysId";
-
+                
                 export interface MyTypeFields {
                     linkFieldId?: Contentful.Entry<SysIdFields>;
                 }
+
+                export type MyType = Contentful.Entry<MyTypeFields>;
                 `));
     });
 });

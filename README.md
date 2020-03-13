@@ -196,12 +196,16 @@ export interface ArtistFields {
     bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
 }
 
+export type Artist = Contentful.Entry<ArtistFields>;
+
 export interface ArtworkFields {
     name: Contentful.EntryFields.Symbol;
     type?: "print" | "drawing" | "painting";
     preview?: Contentful.Asset[];
     artist: Contentful.Entry<ArtistFields>;
 }
+
+export type Artwork = Contentful.Entry<ArtworkFields>;
 ```
 This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
 
