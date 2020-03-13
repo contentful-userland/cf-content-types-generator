@@ -11,6 +11,9 @@
 - [Installation](#installation)
 - [Usage](#usage)
     - [Example](#example)
+    - [Example](#example)
+        - [Local](#local)
+        - [Remote](#remote)
     - [Input](#input)
     - [Output](#output)
     - [Direct Usage](#direct-usage)
@@ -28,14 +31,25 @@ npm install @contentful/content-types-generator
  Content Types Generator (TS)
 
 USAGE
-  $ contentful-ctg [FILE] [OUT]
+  $ contentful-ctg [FILE]
+
+ARGUMENTS
+  FILE  local export (.json)
 
 OPTIONS
-  -h, --help     show CLI help
-  -v, --version  show CLI version
+  -e, --environment=environment  environment
+  -h, --help                     show CLI help
+  -o, --out=out                  output directory
+  -s, --spaceId=spaceId          space id
+  -t, --token=token              management token
+  -v, --version                  show CLI version
 ```
 
 ### Example
+
+#### Local
+Use a local `JSON` file to load `contentTypes`. Flags for `spaceId`, `token` and `environement` will be ignored.
+
 **Will print result to console**
 ```bash
 contentful-ctg path/to/exported/file.json
@@ -45,6 +59,13 @@ contentful-ctg path/to/exported/file.json
 **Will store resulting files in target directory**
 ```bash
 contentful-ctg path/to/exported/file.json path/to/target/out/directory 
+```
+#### Remote
+If no `file` arg provided, remote mode es enabled. 
+`spaceId` and `token` flags need to be set.
+
+```bash
+contentful-ctg -s 2l3j7k267xxx  -t CFPAT-64FtZEIOruksuaE_Td0qBvHdELNWBCC0fZUWq1NFxxx
 ```
 
 
