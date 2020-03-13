@@ -4,12 +4,6 @@ export const moduleName = (name: string): string => name.charAt(0).toUpperCase()
 
 export const moduleFieldsName = (name: string): string => moduleName(name) + 'Fields';
 
-export const generic = (type: string, gen: string): string => `${type}<${gen}>`;
-
-export const unionType = (types: string[]): string => types.join(' | ');
-
-export const stringType = (value: string): string => `"${value}"`;
-
 type WithValidations = Pick<FieldItem, 'validations'>;
 
 const validation = (node: WithValidations, field: keyof FieldValidation): any => {

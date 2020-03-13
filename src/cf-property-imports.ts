@@ -2,7 +2,7 @@ import {Field} from 'contentful';
 import {ImportDeclarationStructure, OptionalKind} from 'ts-morph';
 import {linkContentTypeValidations, moduleName, moduleFieldsName} from './utils';
 
-export const typeImports = (field: Field): OptionalKind<ImportDeclarationStructure>[] => {
+export const propertyImports = (field: Field): OptionalKind<ImportDeclarationStructure>[] => {
     if (field.type === 'Link' && field.linkType === 'Entry') {
         return linkContentTypeValidations(field).map(item => ({
             moduleSpecifier: `./${moduleName(item)}`,

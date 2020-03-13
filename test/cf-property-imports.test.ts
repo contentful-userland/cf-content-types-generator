@@ -1,5 +1,5 @@
 import {expect} from '@oclif/test';
-import {typeImports} from '../src/cf-property-imports';
+import {propertyImports} from '../src/cf-property-imports';
 
 describe('A typeImports function', () => {
     it('returns for port referenced Entry', () => {
@@ -22,7 +22,7 @@ describe('A typeImports function', () => {
           "linkType": "Entry"
         }
         `);
-        expect(typeImports(field)).to.eql([{
+        expect(propertyImports(field)).to.eql([{
             moduleSpecifier: './TopicCategory',
             namedImports: ['TopicCategoryFields'],
         }]);
@@ -42,6 +42,6 @@ describe('A typeImports function', () => {
           "omitted": false
         }
         `);
-        expect(typeImports(field)).to.eql([]);
+        expect(propertyImports(field)).to.eql([]);
     });
 });
