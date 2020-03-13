@@ -27,6 +27,7 @@
     "@oclif/plugin-help": "^2",
     "cli-ux": "^5.4.4",
     "contentful": "^7.14.0",
+    "contentful-export": "^7.8.0",
     "fs-extra": "^8.1.0",
     "ts-morph": "^7.0.0",
     "tslib": "^1"
