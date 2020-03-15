@@ -1,9 +1,9 @@
-import { expect } from '@oclif/test';
+import {expect} from '@oclif/test';
 import stripIndent = require('strip-indent');
 import * as fs from 'fs-extra';
 import * as path from 'path';
 //@ts-ignore
-import { cleanupTempDirs, createTempDir } from 'jest-fixtures';
+import {cleanupTempDirs, createTempDir} from 'jest-fixtures';
 
 import CFDefinitionsBuilder from '../src/cf-definitions-builder';
 
@@ -391,5 +391,16 @@ describe('A Contentful definitions builder', () => {
 
                 export type MyType = Contentful.Entry<MyTypeFields>;
                 `));
+    });
+
+    it('can create index file', async () => {
+        builder.appendType(modelType);
+        await builder.write(fixturesPath);
+
+        const result1 = await fs.readFile(path.resolve(fixturesPath, 'index.ts'));
+console.log(result1.toString());
+        expect('\n' + result1.toString()).to.equal(stripIndent(`
+            export { SysId, SysIdFields } from "./SysId";
+            `));
     });
 });

@@ -1,10 +1,22 @@
 import {test} from '@oclif/test';
 import cmd = require('../src/index');
 
-describe.skip('contentful-ctg cli', () => {
+describe('contentful-ctg cli', () => {
     test
         .stdout()
-        .do(() => cmd.run([]))
-        .catch('file undefined doesn\'t exists.')
-        .it('throws on missing first positional');
+        .do(() => cmd.run(['invalid-file.json']))
+        .catch('file invalid-file.json doesn\'t exists.')
+        .it('throws on invalid file name');
+
+    test
+        .stdout()
+        .do(() => cmd.run(['--spaceId', 'random']))
+        .catch('Please specify "token".')
+        .it('throws on missing token');
+
+    test
+        .stdout()
+        .do(() => cmd.run(['--token', 'random']))
+        .catch('Please specify "spaceId".')
+        .it('throws on missing spaceId');
 });

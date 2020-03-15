@@ -86,13 +86,19 @@ export default class CFDefinitionsBuilder {
     };
 
     private addIndexFile = (): void => {
-        const indexFile = this.addFile('index');
-        this.addDefaultImports(indexFile);
+        const oldIndexFile = this.project.getSourceFile(file => {
+            return file.getBaseNameWithoutExtension() === 'index';
+        });
+
+        if (oldIndexFile) {
+            this.project.removeSourceFile(oldIndexFile);
+        }
 
         const files = this.project
             .getSourceFiles()
-            .map(file => file.getBaseNameWithoutExtension())
-            .filter(fileName => !fileName.startsWith('index'));
+            .map(file => file.getBaseNameWithoutExtension());
+
+        const indexFile = this.addFile('index');
 
         files.forEach(fileName => {
             indexFile.addExportDeclaration({

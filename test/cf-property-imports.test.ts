@@ -2,7 +2,7 @@ import {expect} from '@oclif/test';
 import {propertyImports} from '../src/cf-property-imports';
 
 describe('A typeImports function', () => {
-    it('returns for port referenced Entry', () => {
+    it('returns imports for referenced Entry', () => {
         const field = JSON.parse(`
         {
           "id": "category",

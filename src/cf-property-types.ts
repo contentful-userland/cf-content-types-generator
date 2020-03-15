@@ -5,7 +5,7 @@ import {Field} from 'contentful';
 export const anyType = (field: Field): string => {
     if (field.validations.length > 0) {
         const includesValidation = field.validations.find(validation => validation.in);
-        if (includesValidation && includesValidation.in!.length > 0) {
+        if (includesValidation && includesValidation.in) {
             const mapper = (): (value: string) => string => {
                 if (
                     field.type === 'Symbol' ||
@@ -16,7 +16,7 @@ export const anyType = (field: Field): string => {
                 }
                 return (value: string) => value.toString();
             };
-            return renderUnionType(includesValidation.in!.map(mapper()));
+            return renderUnionType(includesValidation.in.map(mapper()));
         }
     }
 
