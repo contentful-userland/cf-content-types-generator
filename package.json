@@ -1,6 +1,6 @@
 {
   "name": "cf-content-types-generator",
-  "version": "0.0.2",
+  "version": "0.0.0",
   "description": "Contentful Content Types (TS Definitions) Generator",
   "author": "Marco Link<marco.link@contentful.com>",
   "license": "MIT",
@@ -36,6 +36,7 @@
   "devDependencies": {
     "@oclif/dev-cli": "^1",
     "@oclif/test": "^1.2.5",
+    "@semantic-release/changelog": "^5.0.1",
     "@types/chai": "^4",
     "@types/fs-extra": "^8.1.0",
     "@types/mocha": "^5",
@@ -46,6 +47,7 @@
     "jest-fixtures": "^0.6.0",
     "mocha": "^5",
     "nyc": "^14",
+    "semantic-release": "^17.0.7",
     "strip-indent": "^3.0.0",
     "typescript": "^3.7.5"
   },
@@ -55,7 +57,32 @@
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "test:watch": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\" --watch",
     "build": "./node_modules/.bin/tsc",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "presemantic-release": "yarn run build",
+    "semantic-release": "semantic-release"
   },
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "releaseRules": [
+            {
+              "type": "build",
+              "scope": "deps",
+              "release": "patch"
+            }
+          ]
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/changelog",
+      "@semantic-release/github"
+    ]
+  }
 }

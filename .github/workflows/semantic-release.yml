@@ -1,6 +1,9 @@
-name: Tests
+name: Semantic Release
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -13,3 +16,7 @@ jobs:
           node-version: '10.x'
       - run: yarn
       - run: yarn test
+      - run: yarn run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
