@@ -1,11 +1,11 @@
 import {expect} from '@oclif/test';
-import stripIndent = require('strip-indent');
 import * as fs from 'fs-extra';
 import * as path from 'path';
 //@ts-ignore
 import {cleanupTempDirs, createTempDir} from 'jest-fixtures';
 
 import CFDefinitionsBuilder from '../src/cf-definitions-builder';
+import stripIndent = require('strip-indent');
 
 describe('A Contentful definitions builder', () => {
     let builder: CFDefinitionsBuilder;

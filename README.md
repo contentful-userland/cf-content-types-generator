@@ -1,11 +1,11 @@
-# TS contentful content types generator (contentful-ctg)
+# TS contentful content types generator (cf-content-types-generator)
 
 > A CLI to generate Typescript definitions based on [JSON export](https://github.com/contentful/contentful-cli/tree/master/docs/space/export) generated with [contentful CLI](https://github.com/contentful/contentful-cli).
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/contentful-ctg.svg)](https://npmjs.org/package/contentful-ctg)
-[![Downloads/week](https://img.shields.io/npm/dw/contentful-ctg.svg)](https://npmjs.org/package/contentful-ctg)
-[![License](https://img.shields.io/npm/l/contentful-ctg.svg)](https://github.com/contentful-labs/contentful-ctg/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
+[![Downloads/week](https://img.shields.io/npm/dw/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
+[![License](https://img.shields.io/npm/l/cf-content-types-generator.svg)](https://github.com/contentful-labs/cf-content-types-generator/blob/master/package.json)
 
 # Table of Contents
 - [Installation](#installation)
@@ -22,16 +22,16 @@
 ## Installation
 
 ```bash
-npm install @contentful/content-types-generator
+npm install cf-content-types-generator
 ```
 
 ## Usage
 
 ```bash
- Content Types Generator (TS)
+Contentful Content Types (TS Definitions) Generator
 
 USAGE
-  $ contentful-ctg [FILE]
+  $ cf-content-types-generator [FILE]
 
 ARGUMENTS
   FILE  local export (.json)
@@ -52,20 +52,20 @@ Use a local `JSON` file to load `contentTypes`. Flags for `spaceId`, `token` and
 
 **Will print result to console**
 ```bash
-contentful-ctg path/to/exported/file.json
+cf-content-types-generator path/to/exported/file.json
 ```
 > in a real world scenario, you would pipe the result to a file.
 
 **Will store resulting files in target directory**
 ```bash
-contentful-ctg path/to/exported/file.json path/to/target/out/directory 
+cf-content-types-generator path/to/exported/file.json path/to/target/out/directory 
 ```
 #### Remote
 If no `file` arg provided, remote mode es enabled. 
 `spaceId` and `token` flags need to be set.
 
 ```bash
-contentful-ctg -s 2l3j7k267xxx  -t CFPAT-64FtZEIOruksuaE_Td0qBvHdELNWBCC0fZUWq1NFxxx
+cf-content-types-generator -s 2l3j7k267xxx  -t CFPAT-64FtZEIOruksuaE_Td0qBvHdELNWBCC0fZUWq1NFxxx
 ```
 
 
@@ -250,9 +250,3 @@ const stringContent = new CFDefinitionsBuilder()
     })
     .toString();
 ```
-
-# >> Happy typing!
-
-# Inspiration
-- [ts-generators](https://github.com/watermarkchurch/ts-generators)
-- [CLI best practice](https://github.com/lirantal/nodejs-cli-apps-best-practices)

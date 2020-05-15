@@ -1,6 +1,6 @@
 import {Field} from 'contentful';
 import {ImportDeclarationStructure, OptionalKind} from 'ts-morph';
-import {linkContentTypeValidations, moduleName, moduleFieldsName} from './utils';
+import {linkContentTypeValidations, moduleFieldsName, moduleName} from './utils';
 
 const moduleImport = (module: string) => ({
     moduleSpecifier: `./${moduleName(module)}`,

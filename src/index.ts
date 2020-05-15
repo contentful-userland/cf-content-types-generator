@@ -5,7 +5,7 @@ import CFDefinitionsBuilder from './cf-definitions-builder';
 const contentfulExport = require('contentful-export');
 
 class ContentfulMdg extends Command {
-    static description = ' Content Types Generator (TS)';
+    static description = 'Contentful Content Types (TS Definitions) Generator';
 
     static flags = {
         version: flags.version({char: 'v'}),
@@ -29,9 +29,7 @@ class ContentfulMdg extends Command {
 
         if (args.file) {
             content = await fs.readJSON(args.file);
-            if (!content.contentTypes) {
-                this.error(`file ${args.file} is missing "contentTypes" field`);
-            }
+            if (!content.contentTypes) this.error(`file ${args.file} is missing "contentTypes" field`);
         } else {
             if (!flags.spaceId) this.error('Please specify "spaceId".');
             if (!flags.token) this.error('Please specify "token".');

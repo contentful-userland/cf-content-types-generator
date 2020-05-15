@@ -3,16 +3,16 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 import {Field} from 'contentful';
 import {
-    OptionalKind,
+    forEachStructureChild,
+    ImportDeclarationStructure,
     InterfaceDeclaration,
+    OptionalKind,
     Project,
     ScriptTarget,
     SourceFile,
-    forEachStructureChild,
     StructureKind,
-    ImportDeclarationStructure,
 } from 'ts-morph';
-import {moduleName, moduleFieldsName} from './utils';
+import {moduleFieldsName, moduleName} from './utils';
 import {propertyImports} from './cf-property-imports';
 import {renderGenericType} from './renderer/render-generic-type';
 
@@ -116,7 +116,7 @@ export default class CFDefinitionsBuilder {
             name: moduleName(aliasName),
             type: renderGenericType('Contentful.Entry', entryType),
         });
-    }
+    };
 
     private addProperty = (
         file: SourceFile,

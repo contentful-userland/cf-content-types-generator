@@ -1,7 +1,7 @@
 import {test} from '@oclif/test';
 import cmd = require('../src/index');
 
-describe('contentful-ctg cli', () => {
+describe('cf-content-types-generator cli', () => {
     test
         .stdout()
         .do(() => cmd.run(['invalid-file.json']))

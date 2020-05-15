@@ -1,21 +1,21 @@
 {
-  "name": "@contentful/content-types-generator",
+  "name": "cf-content-types-generator",
   "version": "0.0.2",
-  "description": "Contentful (TS) Content Types Generator",
+  "description": "Contentful Content Types (TS Definitions) Generator",
   "author": "Marco Link<marco.link@contentful.com>",
   "license": "MIT",
   "bin": {
-    "contentful-ctg": "./bin/run"
+    "cf-content-types-generator": "./bin/run"
   },
   "main": "lib/index.js",
-  "bugs": "https://github.com/contentful-labs/contentful-ctg/issues",
+  "bugs": "https://github.com/contentful-labs/cf-content-types-generator/issues",
   "engines": {
     "node": ">=10.0.0"
   },
   "oclif": {
-    "bin": "contentful-ctg"
+    "bin": "cf-content-types-generator"
   },
-  "repository": "contentful-labs/contentful-ctg",
+  "repository": "contentful-labs/cf-content-types-generator",
   "files": [
     "/bin",
     "/lib"
