@@ -1,5 +1,6 @@
-import * as fs from 'fs-extra';
 import {Command, flags} from '@oclif/command';
+import * as fs from 'fs-extra';
+import * as path from 'path';
 import CFDefinitionsBuilder from './cf-definitions-builder';
 
 const contentfulExport = require('contentful-export');
@@ -10,7 +11,11 @@ class ContentfulMdg extends Command {
     static flags = {
         version: flags.version({char: 'v'}),
         help: flags.help({char: 'h'}),
+
         out: flags.string({char: 'o', description: 'output directory'}),
+        preserve: flags.boolean({char: 'p', description: 'preserve output folder'}),
+
+        // remote access
         spaceId: flags.string({char: 's', description: 'space id'}),
         token: flags.string({char: 't', description: 'management token'}),
         environment: flags.string({char: 'e', description: 'environment'}),
@@ -50,6 +55,11 @@ class ContentfulMdg extends Command {
         content.contentTypes.forEach(builder.appendType);
 
         if (flags.out) {
+            const outDir = path.resolve(flags.out);
+            if (!flags.preserve && fs.existsSync(outDir)) {
+                await fs.remove(outDir);
+            }
+            await fs.ensureDir(outDir);
             await builder.write(flags.out);
         } else {
             this.log(builder.toString());

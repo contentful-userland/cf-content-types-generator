@@ -41,6 +41,7 @@ OPTIONS
   -e, --environment=environment  environment
   -h, --help                     show CLI help
   -o, --out=out                  output directory
+  -p, --preserve                 preserve output folder
   -s, --spaceId=spaceId          space id
   -t, --token=token              management token
   -v, --version                  show CLI version
