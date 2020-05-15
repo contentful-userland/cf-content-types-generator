@@ -1,7 +1,6 @@
-import {renderProp} from './renderer/cf-render-prop';
+import {Field} from 'contentful';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import {Field} from 'contentful';
 import {
     forEachStructureChild,
     ImportDeclarationStructure,
@@ -12,9 +11,10 @@ import {
     SourceFile,
     StructureKind,
 } from 'ts-morph';
-import {moduleFieldsName, moduleName} from './utils';
 import {propertyImports} from './cf-property-imports';
+import {renderProp} from './renderer/cf-render-prop';
 import {renderGenericType} from './renderer/render-generic-type';
+import {moduleFieldsName, moduleName} from './utils';
 
 export type CFContentType = {
     name: string;
