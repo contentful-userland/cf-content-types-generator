@@ -6,6 +6,7 @@
 [![Version](https://img.shields.io/npm/v/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
 [![Downloads/week](https://img.shields.io/npm/dw/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
 [![License](https://img.shields.io/npm/l/cf-content-types-generator.svg)](https://github.com/contentful-labs/cf-content-types-generator/blob/master/package.json)
+![Tests](https://github.com/contentful-labs/cf-content-types-generator/workflows/Tests/badge.svg)
 
 # Table of Contents
 - [Installation](#installation)
