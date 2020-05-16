@@ -15,8 +15,15 @@ jobs:
         with:
           node-version: '10.x'
       - run: yarn
+        name: Install dependencies
       - run: yarn test
+        name: Run tests
       - run: yarn run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
