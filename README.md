@@ -1,4 +1,4 @@
-# TS contentful content types generator (cf-content-types-generator)
+# TS contentful content types generator
 
 > A CLI to generate Typescript definitions based on [JSON export](https://github.com/contentful/contentful-cli/tree/master/docs/space/export) generated with [contentful CLI](https://github.com/contentful/contentful-cli).
 
@@ -7,6 +7,7 @@
 [![Downloads/week](https://img.shields.io/npm/dw/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
 [![License](https://img.shields.io/npm/l/cf-content-types-generator.svg)](https://github.com/contentful-labs/cf-content-types-generator/blob/master/package.json)
 ![Tests](https://github.com/contentful-labs/cf-content-types-generator/workflows/Tests/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/contentful-labs/cf-content-types-generator/badge.svg?branch=feat/coverage-report)](https://coveralls.io/github/contentful-labs/cf-content-types-generator?branch=feat/coverage-report)
 
 # Table of Contents
 - [Installation](#installation)
