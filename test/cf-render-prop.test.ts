@@ -65,7 +65,7 @@ describe('A renderProp function', () => {
         }
         `);
 
-        expect(renderProp(field)).to.equal('Contentful.Entry<TopicCategoryFields>');
+        expect(renderProp(field)).to.equal('Contentful.Entry<TypeTopicCategoryFields>');
     });
 
     it('can evaluate an "Array" of "Symbol"', () => {
@@ -151,6 +151,6 @@ describe('A renderProp function', () => {
         }
         `);
 
-        expect(renderProp(field)).to.equal('Contentful.Entry<ComponentCtaFields | ComponentFaqFields | WrapperImageFields | WrapperVideoFields>[]');
+        expect(renderProp(field)).to.equal('Contentful.Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]');
     });
 });

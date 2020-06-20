@@ -214,22 +214,22 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
 import * as CFRichTextTypes from "@contentful/rich-text-types";
 import * as Contentful from "contentful";
 
-export interface ArtistFields {
+export interface TypeArtistFields {
     name: Contentful.EntryFields.Symbol;
     profilePicture?: Contentful.Asset;
     bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
 }
 
-export type Artist = Contentful.Entry<ArtistFields>;
+export type TypeArtist = Contentful.Entry<TypeArtistFields>;
 
-export interface ArtworkFields {
+export interface TypeArtworkFields {
     name: Contentful.EntryFields.Symbol;
     type?: "print" | "drawing" | "painting";
     preview?: Contentful.Asset[];
-    artist: Contentful.Entry<ArtistFields>;
+    artist: Contentful.Entry<TypeArtistFields>;
 }
 
-export type Artwork = Contentful.Entry<ArtworkFields>;
+export type TypeArtwork = Contentful.Entry<ArtworkFields>;
 ```
 This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
 

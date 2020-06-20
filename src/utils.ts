@@ -1,6 +1,13 @@
 import {FieldItem, FieldValidation} from 'contentful';
+import {upperFirst} from 'lodash';
+import {pipe} from 'lodash/fp';
 
-export const moduleName = (name: string): string => name.charAt(0).toUpperCase() + name.slice(1);
+export const moduleName = (name: string): string => {
+    const removeSpace = (input: string): string => input.replace(' ', '');
+    const replaceDash = (input: string): string => input.replace('-', '__');
+    const addPrefix = (input: string): string => input.startsWith('Type') ? input : `Type${input}`;
+    return pipe([replaceDash, upperFirst, addPrefix, removeSpace])(name);
+};
 
 export const moduleFieldsName = (name: string): string => moduleName(name) + 'Fields';
 

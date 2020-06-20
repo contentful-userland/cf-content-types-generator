@@ -23,8 +23,8 @@ describe('A typeImports function', () => {
         }
         `);
         expect(propertyImports(field)).to.eql([{
-            moduleSpecifier: './TopicCategory',
-            namedImports: ['TopicCategoryFields'],
+            moduleSpecifier: './TypeTopicCategory',
+            namedImports: ['TypeTopicCategoryFields'],
         }]);
     });
 
