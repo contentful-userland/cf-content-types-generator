@@ -229,7 +229,7 @@ export interface TypeArtworkFields {
     artist: Contentful.Entry<TypeArtistFields>;
 }
 
-export type TypeArtwork = Contentful.Entry<ArtworkFields>;
+export type TypeArtwork = Contentful.Entry<TypeArtworkFields>;
 ```
 This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
 
