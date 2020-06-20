@@ -29,6 +29,7 @@
     "contentful": "^7.14.0",
     "contentful-export": "^7.8.0",
     "fs-extra": "^8.1.0",
+    "lodash": "^4.17.15",
     "ts-morph": "^7.0.0",
     "ts-node": "^8.6.2",
     "tslib": "^1"
@@ -39,6 +40,7 @@
     "@semantic-release/changelog": "^5.0.1",
     "@types/chai": "^4",
     "@types/fs-extra": "^8.1.0",
+    "@types/lodash": "^4.14.155",
     "@types/mocha": "^5",
     "chai": "^4",
     "eslint": "^5.13",
