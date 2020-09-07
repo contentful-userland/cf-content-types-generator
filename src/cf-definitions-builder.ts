@@ -14,7 +14,7 @@ import {
 import {propertyImports} from './cf-property-imports';
 import {renderProp} from './renderer/cf-render-prop';
 import {renderGenericType} from './renderer/render-generic-type';
-import {moduleFieldsName, moduleName} from './utils';
+import {moduleFieldsName, moduleName, filterSelfReference} from './utils';
 
 export type CFContentType = {
     name: string;
@@ -49,8 +49,7 @@ export default class CFDefinitionsBuilder {
         this.addDefaultImports(file);
 
         const interfaceDeclaration = this.createInterfaceDeclaration(file, moduleFieldsName(model.sys.id));
-
-        model.fields.forEach(field => this.addProperty(file, interfaceDeclaration, field));
+        model.fields.forEach(field => this.addProperty(file, interfaceDeclaration, field, moduleName(model.sys.id)));
 
         this.addEntryTypeAlias(file, model.sys.id, moduleFieldsName(model.sys.id));
 
@@ -121,7 +120,8 @@ export default class CFDefinitionsBuilder {
     private addProperty = (
         file: SourceFile,
         declaration: InterfaceDeclaration,
-        field: Field
+        field: Field,
+        modName: string
     ): void => {
         declaration.addProperty({
             name: field.id,
@@ -140,7 +140,7 @@ export default class CFDefinitionsBuilder {
             moduleSpecifier: '@contentful/rich-text-types',
             namespaceImport: 'CFRichTextTypes',
         });
-        file.addImportDeclarations(propertyImports(field));
+        file.addImportDeclarations(propertyImports(filterSelfReference(field, modName)));
     };
 
     private mergeFile = (mergeFileName = 'ContentTypes'): SourceFile => {
