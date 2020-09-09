@@ -402,4 +402,48 @@ describe('A Contentful definitions builder', () => {
             export { TypeSysId, TypeSysIdFields } from "./TypeSysId";
             `));
     });
+
+  it('can self-reference', async () => {
+    builder.appendType(modelType);
+    builder.appendType({
+      id: 'rootId',
+      name: 'Root Name',
+      sys: {
+        id: 'myType',
+        type: 'ContentType',
+      }, fields: [
+        {
+          id: 'linkFieldId',
+          name: 'Linked entry Field',
+          type: 'Link',
+          localized: false,
+          required: false,
+          validations: [
+            {
+              linkContentType: [
+                'myType',
+              ],
+            },
+          ],
+          disabled: false,
+          omitted: false,
+          linkType: 'Entry',
+        },
+      ],
+    });
+
+    await builder.write(fixturesPath);
+
+    const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
+
+    expect('\n' + result2.toString()).to.equal(stripIndent(`
+                import * as Contentful from "contentful";
+                
+                export interface TypeMyTypeFields {
+                    linkFieldId?: Contentful.Entry<TypeMyTypeFields>;
+                }
+
+                export type TypeMyType = Contentful.Entry<TypeMyTypeFields>;
+                `));
+  });
 });

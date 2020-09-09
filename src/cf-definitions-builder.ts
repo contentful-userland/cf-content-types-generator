@@ -140,7 +140,8 @@ export default class CFDefinitionsBuilder {
             moduleSpecifier: '@contentful/rich-text-types',
             namespaceImport: 'CFRichTextTypes',
         });
-        file.addImportDeclarations(propertyImports(field));
+
+        file.addImportDeclarations(propertyImports(field, file.getBaseNameWithoutExtension()));
     };
 
     private mergeFile = (mergeFileName = 'ContentTypes'): SourceFile => {

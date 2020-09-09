@@ -9,12 +9,18 @@ const moduleImport = (module: string) => ({
     ],
 });
 
-export const propertyImports = (field: Field): OptionalKind<ImportDeclarationStructure>[] => {
+export const propertyImports = (field: Field, ignoreModule?: string): OptionalKind<ImportDeclarationStructure>[] => {
+    const filterIgnoredModule = (name: string) => ignoreModule !== moduleName(name);
+
     if (field.type === 'Link' && field.linkType === 'Entry') {
-        return linkContentTypeValidations(field).map(moduleImport);
+        return linkContentTypeValidations(field)
+            .filter(filterIgnoredModule)
+            .map(moduleImport);
     }
     if (field.type === 'Array' && field.items) {
-        return linkContentTypeValidations(field.items).map(moduleImport);
+        return linkContentTypeValidations(field.items)
+            .filter(filterIgnoredModule)
+            .map(moduleImport);
     }
     return [];
 };
