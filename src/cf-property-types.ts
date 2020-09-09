@@ -3,7 +3,7 @@ import {renderUnionType} from './renderer/render-union-type';
 import {Field} from 'contentful';
 
 export const anyType = (field: Field): string => {
-    if (field.validations.length > 0) {
+    if (field.validations?.length > 0) {
         const includesValidation = field.validations.find(validation => validation.in);
         if (includesValidation && includesValidation.in) {
             const mapper = (): (value: string) => string => {

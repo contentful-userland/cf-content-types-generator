@@ -16,7 +16,7 @@ export const renderPropArray = (field: Field): string => {
     if (field.items.type === 'Symbol') {
         const validation = inValidations(field.items);
 
-        if (validation.length > 0) {
+        if (validation?.length > 0) {
             return `(${renderUnionType(validation.map(renderLiteralType))})[]`;
         }
         return 'Contentful.EntryFields.Symbol[]';

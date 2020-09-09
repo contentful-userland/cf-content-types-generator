@@ -14,7 +14,7 @@ export const moduleFieldsName = (name: string): string => moduleName(name) + 'Fi
 type WithValidations = Pick<FieldItem, 'validations'>;
 
 const validation = (node: WithValidations, field: keyof FieldValidation): any => {
-    if (node.validations.length !== 0) {
+    if (node.validations && node.validations.length !== 0) {
         const linkContentValidation = node.validations.find(value => value[field]);
         if (linkContentValidation) {
             return linkContentValidation[field] || [];
