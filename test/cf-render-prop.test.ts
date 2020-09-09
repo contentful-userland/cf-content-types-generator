@@ -2,7 +2,7 @@ import { renderProp } from '../src/renderer/cf-render-prop';
 import {expect} from '@oclif/test';
 
 describe('A renderProp function', () => {
-    it('can evaluate an "Symbol" type', () => {
+    it('can evaluate a "Symbol" type', () => {
         const field = JSON.parse(`
         {
           "id": "internalName",
@@ -20,7 +20,7 @@ describe('A renderProp function', () => {
         expect(renderProp(field)).to.equal('Contentful.EntryFields.Symbol');
     });
 
-    it('can evaluate an "Symbol" type with "in" validation', () => {
+    it('can evaluate a "Symbol" type with "in" validation', () => {
         const field = JSON.parse(`
         {
           "id": "headerAlignment",
@@ -42,6 +42,22 @@ describe('A renderProp function', () => {
         `);
 
         expect(renderProp(field)).to.equal('"Left-aligned" | "Center-aligned"');
+    });
+
+    it('can evaluate a "Symbol" type with missing validations', () => {
+      const field = JSON.parse(`
+      {
+        "id": "internalName",
+        "name": "Internal name",
+        "type": "Symbol",
+        "localized": false,
+        "required": false,
+        "disabled": false,
+        "omitted": false
+      }
+      `);
+
+      expect(renderProp(field)).to.equal('Contentful.EntryFields.Symbol');
     });
 
     it('can evaluate a "Link" type', () => {
