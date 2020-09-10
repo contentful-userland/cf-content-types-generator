@@ -30,7 +30,7 @@
     "contentful-export": "^7.8.0",
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.15",
-    "ts-morph": "^7.0.0",
+    "ts-morph": "^8.1.0",
     "ts-node": "^8.6.2",
     "tslib": "^1"
   },
