@@ -39,7 +39,7 @@
     "@oclif/test": "^1.2.5",
     "@semantic-release/changelog": "^5.0.1",
     "@types/chai": "^4",
-    "@types/fs-extra": "^8.1.0",
+    "@types/fs-extra": "^9.0.1",
     "@types/lodash": "^4.14.155",
     "@types/mocha": "^5",
     "chai": "^4",
