@@ -4187,12 +4187,7 @@ lodash.zip@^4.2.0:
   resolved "https://registry.yarnpkg.com/lodash.zip/-/lodash.zip-4.2.0.tgz#ec6662e4896408ed4ab6c542a3990b72cc080020"
   integrity sha1-7GZi5IlkCO1KtsVCo5kLcswIACA=
 
-lodash@^4.0.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4:
-  version "4.17.19"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
-  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
-
-lodash@^4.17.19:
+lodash@^4.0.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.4:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
@@ -5959,9 +5954,9 @@ safe-regex@^1.1.0:
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
 semantic-release@^17.0.7:
-  version "17.1.1"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.1.1.tgz#d9775968e841b2b7c5020559e4481aea8520ca75"
-  integrity sha512-9H+207eynBJElrQBHySZm+sIEoJeUhPA2zU4cdlY1QSInd2lnE8GRD2ALry9EassE22c9WW+aCREwBhro5AIIg==
+  version "17.1.2"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.1.2.tgz#7d77555185722012b34e3ca74e4d13f813daf3cd"
+  integrity sha512-szYBXm10QjQO5Tb1S2PSkvOBW3MajWJat5EWtx+MzaVT/jquuxf9o+Zn8FC1j157xvJ5p9r1d/MZGslgs7oQQg==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
