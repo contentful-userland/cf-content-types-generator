@@ -32,7 +32,7 @@
     "lodash": "^4.17.15",
     "ts-morph": "^8.1.0",
     "ts-node": "^9.0.0",
-    "tslib": "^1"
+    "tslib": "^2"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
