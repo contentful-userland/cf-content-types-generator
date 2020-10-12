@@ -24,7 +24,7 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/errors": "latest",
-    "@oclif/plugin-help": "^2",
+    "@oclif/plugin-help": "^3",
     "cli-ux": "^5.4.4",
     "contentful": "^7.14.0",
     "contentful-export": "^7.8.0",
