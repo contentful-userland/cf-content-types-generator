@@ -11,13 +11,12 @@ class ContentfulMdg extends Command {
     static flags = {
         version: flags.version({char: 'v'}),
         help: flags.help({char: 'h'}),
-
         out: flags.string({char: 'o', description: 'output directory'}),
         preserve: flags.boolean({char: 'p', description: 'preserve output folder'}),
 
         // remote access
         spaceId: flags.string({char: 's', description: 'space id'}),
-        token: flags.string({char: 't', description: 'management token'}),
+        token: flags.string({char: 't', description: 'management token', default: process.env.CTF_CMA_TOKEN}),
         environment: flags.string({char: 'e', description: 'environment'}),
     };
 
