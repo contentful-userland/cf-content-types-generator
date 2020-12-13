@@ -1,0 +1,38 @@
+import * as Contentful from "contentful";
+
+export interface TypeBrandFields {
+    companyName: Contentful.EntryFields.Text;
+    logo?: Contentful.Asset;
+    companyDescription?: Contentful.EntryFields.Text;
+    website?: Contentful.EntryFields.Symbol;
+    twitter?: Contentful.EntryFields.Symbol;
+    email?: Contentful.EntryFields.Symbol;
+    phone?: Contentful.EntryFields.Symbol[];
+}
+
+export type TypeBrand = Contentful.Entry<TypeBrandFields>;
+
+export interface TypeCategoryFields {
+    title: Contentful.EntryFields.Text;
+    icon?: Contentful.Asset;
+    categoryDescription?: Contentful.EntryFields.Text;
+}
+
+export type TypeCategory = Contentful.Entry<TypeCategoryFields>;
+
+export interface TypeProductFields {
+    productName: Contentful.EntryFields.Text;
+    slug?: Contentful.EntryFields.Symbol;
+    productDescription?: Contentful.EntryFields.Text;
+    sizetypecolor?: Contentful.EntryFields.Symbol;
+    image?: Contentful.Asset[];
+    tags?: Contentful.EntryFields.Symbol[];
+    categories?: Contentful.Entry<TypeCategoryFields>[];
+    price?: Contentful.EntryFields.Number;
+    brand?: Contentful.Entry<TypeBrandFields>;
+    quantity?: Contentful.EntryFields.Integer;
+    sku?: Contentful.EntryFields.Symbol;
+    website?: Contentful.EntryFields.Symbol;
+}
+
+export type TypeProduct = Contentful.Entry<TypeProductFields>;

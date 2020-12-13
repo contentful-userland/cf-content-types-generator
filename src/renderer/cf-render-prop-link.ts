@@ -5,12 +5,11 @@ import {renderUnionType} from './render-union-type';
 
 const linkContentType = (field: Pick<Field, 'id' | 'validations'>): string => {
     const validations = linkContentTypeValidations(field);
-    return renderUnionType(validations?.length > 0 ? validations.map(moduleFieldsName) : ['any']);
+    return renderUnionType(validations?.length > 0 ? validations.map(moduleFieldsName) : [moduleFieldsName(field.id)]);
 };
 
 export const renderPropLink = (field: Pick<Field, 'id' | 'validations' | 'linkType'>) => {
-    const value = field.validations && field.validations.length === 0 ? 'any' : linkContentType(field);
     return field.linkType === 'Entry'
-        ? renderGenericType('Contentful.' + field.linkType, value)
+        ? renderGenericType('Contentful.' + field.linkType, linkContentType(field))
         : 'Contentful.' + field.linkType!;
 };

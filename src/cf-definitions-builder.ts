@@ -121,7 +121,7 @@ export default class CFDefinitionsBuilder {
     private addProperty = (
         file: SourceFile,
         declaration: InterfaceDeclaration,
-        field: Field
+        field: Field,
     ): void => {
         declaration.addProperty({
             name: field.id,
