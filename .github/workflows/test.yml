@@ -15,8 +15,9 @@ jobs:
         name: Install dependencies
       - run: yarn test
         name: Run tests
-      #- uses: romeovs/lcov-reporter-action@v0.2.11
-      #  name: Post code coverage report
-      #  with:
-      #    github-token: ${{ secrets.GITHUB_TOKEN }}
-      #    lcov-file: ./coverage/lcov.info
+      - uses: actions/checkout@master
+      - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+          verbose: true
+
