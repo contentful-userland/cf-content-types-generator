@@ -102,6 +102,7 @@ export default class CFDefinitionsBuilder {
 
         files.forEach(fileName => {
             indexFile.addExportDeclaration({
+                isTypeOnly: true,
                 namedExports: [moduleName(fileName), moduleFieldsName(fileName)],
                 moduleSpecifier: `./${fileName}`,
             });
