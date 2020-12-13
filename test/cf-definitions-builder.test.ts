@@ -399,7 +399,7 @@ describe('A Contentful definitions builder', () => {
 
         const result1 = await fs.readFile(path.resolve(fixturesPath, 'index.ts'));
         expect('\n' + result1.toString()).to.equal(stripIndent(`
-            export { TypeSysId, TypeSysIdFields } from "./TypeSysId";
+            export type { TypeSysId, TypeSysIdFields } from "./TypeSysId";
             `));
     });
 
