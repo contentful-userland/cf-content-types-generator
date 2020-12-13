@@ -13,9 +13,9 @@ export const propertyImports = (field: Field, ignoreModule?: string): OptionalKi
     const filterIgnoredModule = (name: string) => ignoreModule !== moduleName(name);
 
     if (field.type === 'Link' && field.linkType === 'Entry') {
-        return linkContentTypeValidations(field)
+        return field.validations?.length > 0 ? linkContentTypeValidations(field)
             .filter(filterIgnoredModule)
-            .map(moduleImport);
+            .map(moduleImport) : [moduleImport(field.id)];
     }
     if (field.type === 'Array' && field.items) {
         return linkContentTypeValidations(field.items)
