@@ -44,4 +44,23 @@ describe('A typeImports function', () => {
         `);
         expect(propertyImports(field)).to.eql([]);
     });
+    it('returns imports for referenced Entry without validations', () => {
+        const field = JSON.parse(`
+        {
+          "id": "category",
+          "name": "Category",
+          "type": "Link",
+          "localized": false,
+          "required": true,
+          "validations": [],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Entry"
+        }
+        `);
+        expect(propertyImports(field)).to.eql([{
+            moduleSpecifier: './TypeCategory',
+            namedImports: ['TypeCategoryFields'],
+        }]);
+    });
 });
