@@ -26,7 +26,7 @@
     "@oclif/errors": "latest",
     "@oclif/plugin-help": "^3",
     "cli-ux": "^5.4.4",
-    "contentful": "^7.14.0",
+    "contentful": "^8.1.7",
     "contentful-export": "^7.8.0",
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.15",
