@@ -1585,14 +1585,14 @@ contentful-batch-libs@^9.0.1:
     moment "^2.18.1"
 
 contentful-export@^7.8.0:
-  version "7.10.21"
-  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.10.21.tgz#d57f6c05a83f9b75cb565fd51f0e5c39bf462eb8"
-  integrity sha512-a2XLn7YHx7betnmPjnPRkd1cLH33mpDgdBNxd744bBi/3PME05N1LMUduMhtvG2rI/t9ZscRFTFEMBAUKY0btg==
+  version "7.11.4"
+  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.11.4.tgz#cbd2f0e9af30007bf10535251aacd2bc3a8b14bb"
+  integrity sha512-fL4tDTIxMpzhgRbHPTot88XqsruZmq3N/vBl4QLRcrcQ2UHya6EpSOLuhXbXQ1Bu3rykwTrBijgylznjQZ0jAQ==
   dependencies:
     bfj "^7.0.2"
     bluebird "^3.3.3"
     cli-table3 "^0.6.0"
-    contentful "^7.14.0"
+    contentful "^8.1.7"
     contentful-batch-libs "^9.0.1"
     contentful-management "^7.3.1"
     echo-cli "^1.0.8"
@@ -1625,6 +1625,13 @@ contentful-resolve-response@^1.2.2:
   dependencies:
     lodash "^4.17.15"
 
+contentful-resolve-response@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/contentful-resolve-response/-/contentful-resolve-response-1.3.0.tgz#79530897b109d326c47a32c4b327afa04966cbb7"
+  integrity sha512-FFa4it5VXW1YGyim5rhPbnwmN4c8OcmkpLrsylTL2Y1YpoC+6qnZSSU/QZyvHomLdEgwXaSXhGVJkWjpdz5IMg==
+  dependencies:
+    fast-copy "^2.1.0"
+
 contentful-sdk-core@^6.4.5:
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/contentful-sdk-core/-/contentful-sdk-core-6.4.5.tgz#e73f4c5426f354608543fc73e46c17c6730180e9"
@@ -1633,7 +1640,7 @@ contentful-sdk-core@^6.4.5:
     lodash "^4.17.10"
     qs "^6.5.2"
 
-contentful-sdk-core@^6.7.0:
+contentful-sdk-core@^6.5.0, contentful-sdk-core@^6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/contentful-sdk-core/-/contentful-sdk-core-6.7.0.tgz#c014f12d7a716548c248e905dd8e095a6dbf7a0f"
   integrity sha512-+b8UXVE249Z6WzMLXvsu3CIvN/s5xXRZ9o+zY7zDdPkIYBMW15xcs9N2ATI6ncmc+s1uj4XZij/2skflletHiw==
@@ -1651,6 +1658,17 @@ contentful@^7.14.0:
     contentful-sdk-core "^6.4.5"
     json-stringify-safe "^5.0.1"
     lodash "^4.17.11"
+
+contentful@^8.1.7:
+  version "8.1.7"
+  resolved "https://registry.yarnpkg.com/contentful/-/contentful-8.1.7.tgz#24786d5eb98118368cafd2a7bf718de9a1f99bae"
+  integrity sha512-dFlpRjkrTp+TG6kCjERIgzsBRTfjflRnjosE0uQus7dENrz2nrVEYhFO/T3WrKQfAbTyozKcTpWr5pEZiXpm2A==
+  dependencies:
+    axios "^0.21.0"
+    contentful-resolve-response "^1.3.0"
+    contentful-sdk-core "^6.5.0"
+    fast-copy "^2.1.0"
+    json-stringify-safe "^5.0.1"
 
 conventional-changelog-angular@^5.0.0:
   version "5.0.10"
