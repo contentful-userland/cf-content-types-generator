@@ -66,7 +66,12 @@
   "types": "lib/index.d.ts",
   "release": {
     "branches": [
-      "master"
+      "master",
+      {
+        "name": "experimental",
+        "channel": "experimental",
+        "prerelease": true
+      }
     ],
     "plugins": [
       [
