@@ -1,5 +1,4 @@
 import {Field} from 'contentful';
-import * as fs from 'fs-extra';
 import * as path from 'path';
 import {
     forEachStructureChild,
@@ -25,6 +24,8 @@ export type CFContentType = {
     };
     fields: Field[];
 };
+
+export type WriteCallback = (filePath: string, content: string) => Promise<void>
 
 export default class CFDefinitionsBuilder {
     private readonly project: Project;
@@ -61,12 +62,12 @@ export default class CFDefinitionsBuilder {
         return this;
     };
 
-    public write = async (dir: string): Promise<void> => {
+    public write = async (dir: string, writeCallback: WriteCallback): Promise<void> => {
         this.addIndexFile();
 
         const writePromises = this.project.getSourceFiles().map(file => {
             const targetPath = path.resolve(dir, file.getFilePath().slice(1));
-            return fs.writeFile(targetPath, file.getFullText());
+            return writeCallback(targetPath, file.getFullText());
         });
         await Promise.all(writePromises);
     };
