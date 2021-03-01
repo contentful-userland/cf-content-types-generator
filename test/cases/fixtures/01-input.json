@@ -157,7 +157,13 @@
           "type": "Link",
           "localized": false,
           "required": false,
-          "validations": [],
+          "validations": [
+            {
+              "linkContentType": [
+                "brand"
+              ]
+            }
+          ],
           "disabled": false,
           "omitted": false,
           "linkType": "Entry"
