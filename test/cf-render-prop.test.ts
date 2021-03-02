@@ -99,7 +99,7 @@ describe('A renderProp function', () => {
       }
       `);
 
-      expect(renderProp(field)).to.equal('Contentful.Entry');
+      expect(renderProp(field)).to.equal('Contentful.Entry<Record<string, any>>');
     });
 
   it('can evaluate a "Array" of "Link" with no validations', () => {
@@ -121,7 +121,7 @@ describe('A renderProp function', () => {
       }
       `);
 
-      expect(renderProp(field)).to.equal('Contentful.Entry[]');
+      expect(renderProp(field)).to.equal('Contentful.Entry<Record<string, any>>[]');
     });
 
     it('can evaluate an "Array" of "Symbol"', () => {
