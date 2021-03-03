@@ -125,23 +125,19 @@ export default class CFDefinitionsBuilder {
         declaration: InterfaceDeclaration,
         field: Field,
     ): void => {
+        const renderedProp = renderProp(field);
         declaration.addProperty({
             name: field.id,
             hasQuestionToken: field.omitted || (!field.required),
-            type: renderProp(field),
+            type: renderedProp,
         });
 
-        // eslint-disable-next-line no-warning-comments
-        // TODO: dynamically define imports based on usage
-        file.addImportDeclaration({
-            moduleSpecifier: 'contentful',
-            namespaceImport: 'Contentful',
-        });
-
-        file.addImportDeclaration({
-            moduleSpecifier: '@contentful/rich-text-types',
-            namespaceImport: 'CFRichTextTypes',
-        });
+        if (renderedProp.includes('Contentful.')) {
+            file.addImportDeclaration({
+                moduleSpecifier: 'contentful',
+                namespaceImport: 'Contentful',
+            });
+        }
 
         file.addImportDeclarations(propertyImports(field, file.getBaseNameWithoutExtension()));
     };
