@@ -125,14 +125,14 @@ export default class CFDefinitionsBuilder {
         declaration: InterfaceDeclaration,
         field: Field,
     ): void => {
-        const renderedProp = renderProp(field);
+        const type = renderProp(field);
         declaration.addProperty({
             name: field.id,
             hasQuestionToken: field.omitted || (!field.required),
-            type: renderedProp,
+            type,
         });
 
-        if (renderedProp.includes('Contentful.')) {
+        if (type.includes('Contentful.')) {
             file.addImportDeclaration({
                 moduleSpecifier: 'contentful',
                 namespaceImport: 'Contentful',
