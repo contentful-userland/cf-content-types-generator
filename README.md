@@ -13,13 +13,12 @@
 - [Installation](#installation)
 - [Usage](#usage)
     - [Example](#example)
-    - [Example](#example)
         - [Local](#local)
         - [Remote](#remote)
     - [Input](#input)
     - [Output](#output)
     - [Direct Usage](#direct-usage)
-- [Questions](#questions)
+    - [Browser Usage](#browser-usage)
 
 ## Installation
 
@@ -253,3 +252,8 @@ const stringContent = new CFDefinitionsBuilder()
     })
     .toString();
 ```
+
+### Browser Usage
+You can use `CFDefinitionsBuilder` also in a browser environment.
+> Example: [TS Content Types Generator App](https://github.com/marcolink/cf-content-types-generator-app)
+

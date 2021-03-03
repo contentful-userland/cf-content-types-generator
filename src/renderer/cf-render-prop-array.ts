@@ -10,7 +10,7 @@ export const renderPropArray = (field: Field): string => {
     }
 
     if (field.items.type === 'Link') {
-        return renderPropLink({...field.items, ...{id: field.id}}) + '[]';
+        return renderPropLink(field.items) + '[]';
     }
 
     if (field.items.type === 'Symbol') {

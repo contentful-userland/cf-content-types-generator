@@ -1,4 +1,5 @@
 import {expect} from '@oclif/test';
+import {writeFile} from "fs-extra";
 import * as fs from 'fs-extra';
 import * as path from 'path';
 //@ts-ignore
@@ -289,7 +290,7 @@ describe('A Contentful definitions builder', () => {
     it('can write an interface to output file', async () => {
         builder.appendType(modelType);
 
-        await builder.write(fixturesPath);
+        await builder.write(fixturesPath, writeFile);
 
         const result = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
 
@@ -314,7 +315,7 @@ describe('A Contentful definitions builder', () => {
             }, fields: [],
         });
 
-        await builder.write(fixturesPath);
+        await builder.write(fixturesPath, writeFile);
 
         const result1 = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
         const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
@@ -367,7 +368,7 @@ describe('A Contentful definitions builder', () => {
             ],
         });
 
-        await builder.write(fixturesPath);
+        await builder.write(fixturesPath, writeFile);
 
         const result1 = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
         const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
@@ -395,7 +396,7 @@ describe('A Contentful definitions builder', () => {
 
     it('can create index file', async () => {
         builder.appendType(modelType);
-        await builder.write(fixturesPath);
+        await builder.write(fixturesPath, writeFile);
 
         const result1 = await fs.readFile(path.resolve(fixturesPath, 'index.ts'));
         expect('\n' + result1.toString()).to.equal(stripIndent(`
@@ -432,7 +433,7 @@ describe('A Contentful definitions builder', () => {
       ],
     });
 
-    await builder.write(fixturesPath);
+    await builder.write(fixturesPath, writeFile);
 
     const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 

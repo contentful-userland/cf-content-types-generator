@@ -1,5 +1,6 @@
 import {Command, flags} from '@oclif/command';
 import * as fs from 'fs-extra';
+import {writeFile} from 'fs-extra';
 import * as path from 'path';
 import CFDefinitionsBuilder from './cf-definitions-builder';
 
@@ -59,7 +60,7 @@ class ContentfulMdg extends Command {
                 await fs.remove(outDir);
             }
             await fs.ensureDir(outDir);
-            await builder.write(flags.out);
+            await builder.write(flags.out, writeFile);
         } else {
             this.log(builder.toString());
         }
