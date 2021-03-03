@@ -84,6 +84,46 @@ describe('A renderProp function', () => {
         expect(renderProp(field)).to.equal('Contentful.Entry<TypeTopicCategoryFields>');
     });
 
+    it('can evaluate a "Link" type with no validations', () => {
+      const field = JSON.parse(`
+      {
+        "id": "components",
+        "name": "Components",
+        "type": "Link",
+        "localized": false,
+        "required": true,
+        "validations": [],
+        "disabled": false,
+        "omitted": false,
+        "linkType": "Entry"
+      }
+      `);
+
+      expect(renderProp(field)).to.equal('Contentful.Entry<Record<string, any>>');
+    });
+
+  it('can evaluate a "Array" of "Link" with no validations', () => {
+    const field = JSON.parse(`
+      {
+        "id": "components",
+        "name": "Components",
+        "type": "Array",
+        "localized": false,
+        "required": true,
+        "validations": [],
+        "disabled": false,
+        "omitted": false,
+        "items": {
+          "type": "Link",
+          "validations": [],
+          "linkType": "Entry"
+        }
+      }
+      `);
+
+      expect(renderProp(field)).to.equal('Contentful.Entry<Record<string, any>>[]');
+    });
+
     it('can evaluate an "Array" of "Symbol"', () => {
         const field = JSON.parse(`
         {
