@@ -404,40 +404,40 @@ describe('A Contentful definitions builder', () => {
             `));
     });
 
-  it('can self-reference', async () => {
-    builder.appendType(modelType);
-    builder.appendType({
-      id: 'rootId',
-      name: 'Root Name',
-      sys: {
-        id: 'myType',
-        type: 'ContentType',
-      }, fields: [
-        {
-          id: 'linkFieldId',
-          name: 'Linked entry Field',
-          type: 'Link',
-          localized: false,
-          required: false,
-          validations: [
-            {
-              linkContentType: [
-                'myType',
-              ],
-            },
-          ],
-          disabled: false,
-          omitted: false,
-          linkType: 'Entry',
-        },
-      ],
-    });
+    it('can self-reference', async () => {
+        builder.appendType(modelType);
+        builder.appendType({
+            id: 'rootId',
+            name: 'Root Name',
+            sys: {
+                id: 'myType',
+                type: 'ContentType',
+            }, fields: [
+                {
+                    id: 'linkFieldId',
+                    name: 'Linked entry Field',
+                    type: 'Link',
+                    localized: false,
+                    required: false,
+                    validations: [
+                        {
+                            linkContentType: [
+                                'myType',
+                            ],
+                        },
+                    ],
+                    disabled: false,
+                    omitted: false,
+                    linkType: 'Entry',
+                },
+            ],
+        });
 
-    await builder.write(fixturesPath, writeFile);
+        await builder.write(fixturesPath, writeFile);
 
-    const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
+        const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 
-    expect('\n' + result2.toString()).to.equal(stripIndent(`
+        expect('\n' + result2.toString()).to.equal(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeMyTypeFields {
@@ -446,5 +446,52 @@ describe('A Contentful definitions builder', () => {
 
                 export type TypeMyType = Contentful.Entry<TypeMyTypeFields>;
                 `));
-  });
+    });
+
+    it('is not changing source project on export', async () => {
+        builder.appendType(modelType);
+        builder.appendType({
+            id: 'rootId',
+            name: 'Root Name',
+            sys: {
+                id: 'myType',
+                type: 'ContentType',
+            }, fields: [
+                {
+                    id: 'linkFieldId',
+                    name: 'Linked entry Field',
+                    type: 'Link',
+                    localized: false,
+                    required: false,
+                    validations: [
+                        {
+                            linkContentType: [
+                                'myType',
+                            ],
+                        },
+                    ],
+                    disabled: false,
+                    omitted: false,
+                    linkType: 'Entry',
+                },
+            ],
+        });
+
+        let beforeWriteResult: Record<string, string> = {}
+        let afterWriteResult: Record<string, string> = {}
+
+        const write = (result: Record<string, string>) => {
+            return async (filePath: string, content: string) => {
+                result = {[filePath]: content, ...result};
+            }
+        }
+
+        const beforeResult = builder.toString();
+        await builder.write(fixturesPath, write(beforeWriteResult));
+        const afterResult = builder.toString();
+        await builder.write(fixturesPath, write(afterWriteResult));
+
+        expect(beforeResult).eql(afterResult);
+        expect(beforeWriteResult).eql(afterWriteResult);
+    });
 });

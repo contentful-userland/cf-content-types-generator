@@ -70,83 +70,11 @@ export default class CFDefinitionsBuilder {
             return writeCallback(targetPath, file.getFullText());
         });
         await Promise.all(writePromises);
+        this.removeIndexFile();
     };
 
-    public toString = (): string => this.mergeFile().getFullText();
-
-    private addFile = (name: string): SourceFile => {
-        return this.project.createSourceFile(`${name}.ts`,
-            undefined,
-            {
-                overwrite: true,
-            });
-    };
-
-    private createInterfaceDeclaration = (file: SourceFile, name: string): InterfaceDeclaration => {
-        return file.addInterface({name, isExported: true});
-    };
-
-    private addIndexFile = (): void => {
-        const oldIndexFile = this.project.getSourceFile(file => {
-            return file.getBaseNameWithoutExtension() === 'index';
-        });
-
-        if (oldIndexFile) {
-            this.project.removeSourceFile(oldIndexFile);
-        }
-
-        const files = this.project
-            .getSourceFiles()
-            .map(file => file.getBaseNameWithoutExtension());
-
-        const indexFile = this.addFile('index');
-
-        files.forEach(fileName => {
-            indexFile.addExportDeclaration({
-                isTypeOnly: true,
-                namedExports: [moduleName(fileName), moduleFieldsName(fileName)],
-                moduleSpecifier: `./${fileName}`,
-            });
-        });
-
-        indexFile.organizeImports();
-    };
-
-    private addEntryTypeAlias = (file: SourceFile, aliasName: string, entryType: string) => {
-        file.addTypeAlias({
-            isExported: true,
-            name: moduleName(aliasName),
-            type: renderGenericType('Contentful.Entry', entryType),
-        });
-    };
-
-    private addProperty = (
-        file: SourceFile,
-        declaration: InterfaceDeclaration,
-        field: Field,
-    ): void => {
-        declaration.addProperty({
-            name: field.id,
-            hasQuestionToken: field.omitted || (!field.required),
-            type: renderProp(field),
-        });
-
-        // eslint-disable-next-line no-warning-comments
-        // TODO: dynamically define imports based on usage
-        file.addImportDeclaration({
-            moduleSpecifier: 'contentful',
-            namespaceImport: 'Contentful',
-        });
-
-        file.addImportDeclaration({
-            moduleSpecifier: '@contentful/rich-text-types',
-            namespaceImport: 'CFRichTextTypes',
-        });
-
-        file.addImportDeclarations(propertyImports(field, file.getBaseNameWithoutExtension()));
-    };
-
-    private mergeFile = (mergeFileName = 'ContentTypes'): SourceFile => {
+    public toString = (): string => {
+        const mergeFileName = 'ContentTypes';
         const mergeFile = this.addFile(mergeFileName);
 
         const imports: OptionalKind<ImportDeclarationStructure>[] = [];
@@ -185,7 +113,89 @@ export default class CFDefinitionsBuilder {
             ensureNewLineAtEndOfFile: true,
         });
 
-        return mergeFile;
+        const fullText = mergeFile.getFullText();
+        this.project.removeSourceFile(mergeFile);
+
+        return fullText;
+    }
+
+    private addFile = (name: string): SourceFile => {
+        return this.project.createSourceFile(`${name}.ts`,
+            undefined,
+            {
+                overwrite: true,
+            });
+    };
+
+    private createInterfaceDeclaration = (file: SourceFile, name: string): InterfaceDeclaration => {
+        return file.addInterface({name, isExported: true});
+    };
+
+    private getIndexFile = (): SourceFile | undefined => {
+        return this.project.getSourceFile(file => {
+            return file.getBaseNameWithoutExtension() === 'index';
+        });
+    }
+
+    private addIndexFile = (): void => {
+        this.removeIndexFile();
+
+        const files = this.project
+            .getSourceFiles()
+            .map(file => file.getBaseNameWithoutExtension());
+
+        const indexFile = this.addFile('index');
+
+        files.forEach(fileName => {
+            indexFile.addExportDeclaration({
+                isTypeOnly: true,
+                namedExports: [moduleName(fileName), moduleFieldsName(fileName)],
+                moduleSpecifier: `./${fileName}`,
+            });
+        });
+
+        indexFile.organizeImports();
+    };
+
+    private removeIndexFile = () => {
+        const indexFile = this.getIndexFile();
+        if (indexFile) {
+            this.project.removeSourceFile(indexFile);
+        }
+    }
+
+    private addEntryTypeAlias = (file: SourceFile, aliasName: string, entryType: string) => {
+        file.addTypeAlias({
+            isExported: true,
+            name: moduleName(aliasName),
+            type: renderGenericType('Contentful.Entry', entryType),
+        });
+    };
+
+    private addProperty = (
+        file: SourceFile,
+        declaration: InterfaceDeclaration,
+        field: Field,
+    ): void => {
+        declaration.addProperty({
+            name: field.id,
+            hasQuestionToken: field.omitted || (!field.required),
+            type: renderProp(field),
+        });
+
+        // eslint-disable-next-line no-warning-comments
+        // TODO: dynamically define imports based on usage
+        file.addImportDeclaration({
+            moduleSpecifier: 'contentful',
+            namespaceImport: 'Contentful',
+        });
+
+        file.addImportDeclaration({
+            moduleSpecifier: '@contentful/rich-text-types',
+            namespaceImport: 'CFRichTextTypes',
+        });
+
+        file.addImportDeclarations(propertyImports(field, file.getBaseNameWithoutExtension()));
     };
 
     private addDefaultImports(file: SourceFile) {
