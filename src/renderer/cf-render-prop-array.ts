@@ -1,7 +1,7 @@
 import {Field} from 'contentful';
 import {renderPropLink} from './cf-render-prop-link';
-import {renderUnionType} from './render-union-type';
-import {renderLiteralType} from './render-literal-type';
+import {renderTypeUnion} from './render-type-union';
+import {renderTypeLiteral} from './render-type-literal';
 import {inValidations} from '../utils';
 
 export const renderPropArray = (field: Field): string => {
@@ -17,7 +17,7 @@ export const renderPropArray = (field: Field): string => {
         const validation = inValidations(field.items);
 
         if (validation?.length > 0) {
-            return `(${renderUnionType(validation.map(renderLiteralType))})[]`;
+            return `(${renderTypeUnion(validation.map(renderTypeLiteral))})[]`;
         }
         return 'Contentful.EntryFields.Symbol[]';
     }

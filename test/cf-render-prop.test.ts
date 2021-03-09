@@ -1,7 +1,7 @@
 import { renderProp } from '../src/renderer/cf-render-prop';
 import {expect} from '@oclif/test';
 
-describe('A renderProp function', () => {
+describe.skip('A renderProp function', () => {
     it('can evaluate a "Symbol" type', () => {
         const field = JSON.parse(`
         {

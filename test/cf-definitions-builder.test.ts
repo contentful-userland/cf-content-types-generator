@@ -6,7 +6,7 @@ import * as path from 'path';
 import {cleanupTempDirs, createTempDir} from 'jest-fixtures';
 
 import CFDefinitionsBuilder from '../src/cf-definitions-builder';
-import stripIndent = require('strip-indent');
+import stripIndent from 'strip-indent';
 
 describe('A Contentful definitions builder', () => {
     let builder: CFDefinitionsBuilder;

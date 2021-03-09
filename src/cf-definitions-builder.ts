@@ -1,4 +1,4 @@
-import {Field} from 'contentful';
+import {Field, FieldType} from 'contentful';
 import * as path from 'path';
 import {
     forEachStructureChild,
@@ -11,8 +11,11 @@ import {
     StructureKind,
 } from 'ts-morph';
 import {propertyImports} from './cf-property-imports';
-import {renderProp} from './renderer/cf-render-prop';
-import {renderGenericType} from './renderer/render-generic-type';
+import {anyType} from './cf-property-types';
+import {renderPropArray} from './renderer/cf-render-prop-array';
+import {renderPropLink} from './renderer/cf-render-prop-link';
+import {renderRichText} from './renderer/cf-render-prop-richtext';
+import {renderTypeGeneric} from './renderer/render-type-generic';
 import {moduleFieldsName, moduleName} from './utils';
 
 export type CFContentType = {
@@ -27,10 +30,37 @@ export type CFContentType = {
 
 export type WriteCallback = (filePath: string, content: string) => Promise<void>
 
+type FieldRenderers = {
+    [K in FieldType]?: Function
+}
+
+type CFDefinitionsBuilderConfig = {
+    fieldRenderers?: FieldRenderers;
+}
+
+const defaultRenderers: FieldRenderers = {
+    RichText: renderRichText,
+    Link: renderPropLink,
+    Array: renderPropArray,
+    Text: anyType,
+    Symbol: anyType,
+    Object: anyType,
+    Date: anyType,
+    Number: anyType,
+    Integer: anyType,
+    Boolean: anyType,
+    Location: anyType,
+};
+
 export default class CFDefinitionsBuilder {
     private readonly project: Project;
 
-    constructor() {
+    private readonly config: Required<CFDefinitionsBuilderConfig>;
+
+    constructor(config: CFDefinitionsBuilderConfig = {}) {
+        this.config = {...{fieldRenderers: {}}, ...config};
+        this.config.fieldRenderers = {...defaultRenderers, ...config.fieldRenderers};
+
         this.project = new Project({
             useInMemoryFileSystem: true,
             compilerOptions: {
@@ -168,7 +198,7 @@ export default class CFDefinitionsBuilder {
         file.addTypeAlias({
             isExported: true,
             name: moduleName(aliasName),
-            type: renderGenericType('Contentful.Entry', entryType),
+            type: renderTypeGeneric('Contentful.Entry', entryType),
         });
     };
 
@@ -180,7 +210,7 @@ export default class CFDefinitionsBuilder {
         declaration.addProperty({
             name: field.id,
             hasQuestionToken: field.omitted || (!field.required),
-            type: renderProp(field),
+            type: this.config.fieldRenderers[field.type]!(field),
         });
 
         // eslint-disable-next-line no-warning-comments

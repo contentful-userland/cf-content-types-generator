@@ -1,5 +1,5 @@
-import {renderLiteralType} from './renderer/render-literal-type';
-import {renderUnionType} from './renderer/render-union-type';
+import {renderTypeLiteral} from './renderer/render-type-literal';
+import {renderTypeUnion} from './renderer/render-type-union';
 import {Field} from 'contentful';
 
 export const anyType = (field: Field): string => {
@@ -12,11 +12,11 @@ export const anyType = (field: Field): string => {
                     field.type === 'Text' ||
                     field.type === 'RichText'
                 ) {
-                    return renderLiteralType;
+                    return renderTypeLiteral;
                 }
                 return (value: string) => value.toString();
             };
-            return renderUnionType(includesValidation.in.map(mapper()));
+            return renderTypeUnion(includesValidation.in.map(type => mapper()(type)));
         }
     }
 
