@@ -1582,9 +1582,9 @@ contentful-batch-libs@^9.0.1:
     moment "^2.18.1"
 
 contentful-export@^7.11.6:
-  version "7.11.7"
-  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.11.7.tgz#3b2be573598069d50930aefc7ee295004dba48f6"
-  integrity sha512-jSnNDAQgMe9yHJ+KUch6idxumawFx48PQoEvmLmMhc9Clixj8J+UsfUyH6PkAvBHanPaxM80+Te1nwbkQSEQeA==
+  version "7.11.11"
+  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.11.11.tgz#46587d30d02ab6c248b0f63c3d483ac58374ae21"
+  integrity sha512-SkX8R+YfJMV1I4P//kMH2FCCQrrhgX7Phu8DZEQr+H0Y9QbQUxALUqVtSHV/Waf2y7otmvRpOrFBBe4pTDUhsg==
   dependencies:
     bfj "^7.0.2"
     bluebird "^3.3.3"
