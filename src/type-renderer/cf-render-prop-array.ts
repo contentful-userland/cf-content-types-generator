@@ -1,8 +1,7 @@
 import {Field} from 'contentful';
 import {renderPropLink} from './cf-render-prop-link';
-import {renderTypeUnion} from './render-type-union';
-import {renderTypeLiteral} from './render-type-literal';
 import {inValidations} from '../utils';
+import {renderTypeArray, renderTypeLiteral, renderTypeUnion} from '../renderer';
 
 export const renderPropArray = (field: Field): string => {
     if (!field.items) {
@@ -10,16 +9,16 @@ export const renderPropArray = (field: Field): string => {
     }
 
     if (field.items.type === 'Link') {
-        return renderPropLink(field.items) + '[]';
+        return renderTypeArray(renderPropLink(field.items));
     }
 
     if (field.items.type === 'Symbol') {
         const validation = inValidations(field.items);
 
         if (validation?.length > 0) {
-            return `(${renderTypeUnion(validation.map(renderTypeLiteral))})[]`;
+            return renderTypeArray(`(${renderTypeUnion(validation.map(renderTypeLiteral))})`);
         }
-        return 'Contentful.EntryFields.Symbol[]';
+        return renderTypeArray('Contentful.EntryFields.Symbol');
     }
 
     throw new Error('unhandled array type "' + field.items.type + '"');

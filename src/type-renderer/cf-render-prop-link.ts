@@ -1,7 +1,6 @@
 import {Field} from 'contentful';
-import {renderTypeGeneric} from './render-type-generic';
+import {renderTypeGeneric, renderTypeUnion} from '../renderer';
 import {linkContentTypeValidations, moduleFieldsName} from '../utils';
-import {renderTypeUnion} from './render-type-union';
 
 const linkContentType = (field: Pick<Field, 'validations'>): string => {
     const validations = linkContentTypeValidations(field);

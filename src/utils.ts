@@ -24,4 +24,5 @@ const validation = (node: WithValidations, field: keyof FieldValidation): any =>
 };
 
 export const linkContentTypeValidations = (node: WithValidations): string[] => validation(node, 'linkContentType');
+
 export const inValidations = (node: WithValidations): string[] => validation(node, 'in');

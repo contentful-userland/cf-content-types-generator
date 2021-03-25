@@ -1,21 +1,17 @@
-import {Field, FieldType} from 'contentful';
+import {Field} from 'contentful';
 import * as path from 'path';
 import {
     forEachStructureChild,
     ImportDeclarationStructure,
-    InterfaceDeclaration,
     OptionalKind,
     Project,
     ScriptTarget,
     SourceFile,
     StructureKind,
 } from 'ts-morph';
-import {propertyImports} from './cf-property-imports';
-import {anyType} from './cf-property-types';
-import {renderPropArray} from './renderer/cf-render-prop-array';
-import {renderPropLink} from './renderer/cf-render-prop-link';
-import {renderRichText} from './renderer/cf-render-prop-richtext';
-import {renderTypeGeneric} from './renderer/render-type-generic';
+import {Class} from 'type-fest';
+import {ContentTypeRenderer} from './content-type-renderer';
+import {WriteCallback} from './types';
 import {moduleFieldsName, moduleName} from './utils';
 
 export type CFContentType = {
@@ -28,38 +24,17 @@ export type CFContentType = {
     fields: Field[];
 };
 
-export type WriteCallback = (filePath: string, content: string) => Promise<void>
-
-type FieldRenderers = {
-    [K in FieldType]?: Function
-}
-
-type CFDefinitionsBuilderConfig = {
-    fieldRenderers?: FieldRenderers;
-}
-
-const defaultRenderers: FieldRenderers = {
-    RichText: renderRichText,
-    Link: renderPropLink,
-    Array: renderPropArray,
-    Text: anyType,
-    Symbol: anyType,
-    Object: anyType,
-    Date: anyType,
-    Number: anyType,
-    Integer: anyType,
-    Boolean: anyType,
-    Location: anyType,
-};
-
 export default class CFDefinitionsBuilder {
     private readonly project: Project;
 
-    private readonly config: Required<CFDefinitionsBuilderConfig>;
+    private renderer: ContentTypeRenderer;
 
-    constructor(config: CFDefinitionsBuilderConfig = {}) {
-        this.config = {...{fieldRenderers: {}}, ...config};
-        this.config.fieldRenderers = {...defaultRenderers, ...config.fieldRenderers};
+    constructor(ContentTypeRendererClass?: Class<ContentTypeRenderer>) {
+        if (ContentTypeRendererClass) {
+            this.renderer = new ContentTypeRendererClass();
+        } else {
+            this.renderer = new ContentTypeRenderer();
+        }
 
         this.project = new Project({
             useInMemoryFileSystem: true,
@@ -76,14 +51,7 @@ export default class CFDefinitionsBuilder {
         }
 
         const file = this.addFile(moduleName(model.sys.id));
-
-        this.addDefaultImports(file);
-
-        const interfaceDeclaration = this.createInterfaceDeclaration(file, moduleFieldsName(model.sys.id));
-
-        model.fields.forEach(field => this.addProperty(file, interfaceDeclaration, field));
-
-        this.addEntryTypeAlias(file, model.sys.id, moduleFieldsName(model.sys.id));
+        this.renderer.render(model, file);
 
         file.organizeImports({
             ensureNewLineAtEndOfFile: true,
@@ -157,10 +125,6 @@ export default class CFDefinitionsBuilder {
             });
     };
 
-    private createInterfaceDeclaration = (file: SourceFile, name: string): InterfaceDeclaration => {
-        return file.addInterface({name, isExported: true});
-    };
-
     private getIndexFile = (): SourceFile | undefined => {
         return this.project.getSourceFile(file => {
             return file.getBaseNameWithoutExtension() === 'index';
@@ -192,47 +156,6 @@ export default class CFDefinitionsBuilder {
         if (indexFile) {
             this.project.removeSourceFile(indexFile);
         }
-    }
-
-    private addEntryTypeAlias = (file: SourceFile, aliasName: string, entryType: string) => {
-        file.addTypeAlias({
-            isExported: true,
-            name: moduleName(aliasName),
-            type: renderTypeGeneric('Contentful.Entry', entryType),
-        });
-    };
-
-    private addProperty = (
-        file: SourceFile,
-        declaration: InterfaceDeclaration,
-        field: Field,
-    ): void => {
-        declaration.addProperty({
-            name: field.id,
-            hasQuestionToken: field.omitted || (!field.required),
-            type: this.config.fieldRenderers[field.type]!(field),
-        });
-
-        // eslint-disable-next-line no-warning-comments
-        // TODO: dynamically define imports based on usage
-        file.addImportDeclaration({
-            moduleSpecifier: 'contentful',
-            namespaceImport: 'Contentful',
-        });
-
-        file.addImportDeclaration({
-            moduleSpecifier: '@contentful/rich-text-types',
-            namespaceImport: 'CFRichTextTypes',
-        });
-
-        file.addImportDeclarations(propertyImports(field, file.getBaseNameWithoutExtension()));
-    };
-
-    private addDefaultImports(file: SourceFile) {
-        file.addImportDeclaration({
-            moduleSpecifier: 'contentful',
-            namespaceImport: 'Contentful',
-        });
     }
 }
 
