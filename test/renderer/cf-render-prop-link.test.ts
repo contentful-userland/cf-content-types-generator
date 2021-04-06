@@ -1,5 +1,14 @@
-import { renderPropLink } from '../../src/type-renderer';
+import { defaultRenderers, renderPropLink } from '../../src/type-renderer';
 import {expect} from '@oclif/test';
+import {moduleFieldsName, moduleName} from '../../src/utils';
+import { FieldType } from 'contentful';
+import { FieldRenderer } from '../../src/renderer/render-types';
+
+const defaultContext = {
+  moduleName,
+  moduleFieldsName,
+  getRenderer: <FType extends FieldType>(fieldType: FType) => defaultRenderers[fieldType] as FieldRenderer<FType>,
+}
 
 describe('A renderPropLink function', () => {
     it('can evaluate a "Link" type', () => {
@@ -23,7 +32,7 @@ describe('A renderPropLink function', () => {
         }
         `);
 
-        expect(renderPropLink(field)).to.equal('Contentful.Entry<TypeTopicCategoryFields>');
+        expect(renderPropLink(field, defaultContext)).to.equal('Contentful.Entry<TypeTopicCategoryFields>');
     });
 
     it('can evaluate a "Link" type with no validations', () => {
@@ -41,7 +50,7 @@ describe('A renderPropLink function', () => {
       }
       `);
 
-      expect(renderPropLink(field)).to.equal('Contentful.Entry<Record<string, any>>');
+      expect(renderPropLink(field, defaultContext)).to.equal('Contentful.Entry<Record<string, any>>');
     });
 
 });
