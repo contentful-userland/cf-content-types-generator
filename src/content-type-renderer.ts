@@ -7,7 +7,7 @@ import {FieldRenderers} from './renderer/render-types';
 import {moduleFieldsName, moduleName} from './utils';
 import {renderTypeGeneric} from './renderer';
 
-const defaultRenderers: FieldRenderers = {
+export const defaultRenderers: FieldRenderers = {
     RichText: renderRichText,
     Link: renderPropLink,
     Array: renderPropArray,
@@ -21,9 +21,10 @@ const defaultRenderers: FieldRenderers = {
     Location: renderPropAny,
 };
 
-export class ContentTypeRenderer {
-    public static fieldRenderers: Partial<FieldRenderers>;
+type RenderContext = {
 
+}
+export class ContentTypeRenderer {
     public render(contentType: CFContentType, file: SourceFile) {
         file.addImportDeclaration({
             moduleSpecifier: 'contentful',
@@ -63,8 +64,13 @@ export class ContentTypeRenderer {
         });
     }
 
-    private getRenderer(fieldType: FieldType): Function {
-        const RendererClass = Object.getPrototypeOf(this).constructor;
-        return RendererClass.fieldRenderers?.getProperty(fieldType) || defaultRenderers[fieldType];
+    protected getRenderer(fieldType: FieldType): Function {
+        return defaultRenderers[fieldType];
+    }
+
+    protected getContext(): RenderContext {
+        return {
+
+        };
     }
 }

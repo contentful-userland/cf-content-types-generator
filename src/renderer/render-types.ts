@@ -1,16 +1,17 @@
-import {renderRichText, renderPropLink, renderPropArray} from '../type-renderer';
-import {renderPropAny} from '../type-renderer/cf-render-prop-any';
+import {Field} from 'contentful';
+
+export type FieldRenderer = (field: Field) => string;
 
 export type FieldRenderers = {
-    RichText: typeof renderRichText;
-    Link: typeof renderPropLink;
-    Array: typeof renderPropArray;
-    Text: typeof renderPropAny;
-    Symbol: typeof renderPropAny;
-    Object: typeof renderPropAny;
-    Date: typeof renderPropAny;
-    Number: typeof renderPropAny;
-    Integer: typeof renderPropAny;
-    Boolean: typeof renderPropAny;
-    Location: typeof renderPropAny;
+    RichText: FieldRenderer;
+    Link: (field: Pick<Field, 'validations' | 'linkType'>) => string;
+    Array: FieldRenderer;
+    Text: FieldRenderer;
+    Symbol: FieldRenderer;
+    Object: FieldRenderer;
+    Date: FieldRenderer;
+    Number: FieldRenderer;
+    Integer: FieldRenderer;
+    Boolean: FieldRenderer;
+    Location: FieldRenderer;
 };
