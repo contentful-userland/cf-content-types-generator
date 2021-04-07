@@ -1,26 +1,29 @@
 import {Field} from 'contentful';
 import {ImportDeclarationStructure, OptionalKind} from 'ts-morph';
-import {linkContentTypeValidations, moduleFieldsName, moduleName} from './utils';
+import {RenderContext} from './type-renderer';
+import {linkContentTypeValidations} from './utils';
 
-const moduleImport = (module: string) => ({
-    moduleSpecifier: `./${moduleName(module)}`,
+const moduleImport = (module: string, context: RenderContext) => ({
+    moduleSpecifier: `./${context.moduleName(module)}`,
     namedImports: [
-        moduleFieldsName(module),
+        context.moduleFieldsName(module),
     ],
 });
 
-export const propertyImports = (field: Field, ignoreModule?: string): OptionalKind<ImportDeclarationStructure>[] => {
-    const filterIgnoredModule = (name: string) => ignoreModule !== moduleName(name);
+export const propertyImports = (field: Field, context: RenderContext, ignoreModule?: string): OptionalKind<ImportDeclarationStructure>[] => {
+    const filterIgnoredModule = (name: string) => ignoreModule !== context.moduleName(name);
 
     if (field.type === 'Link' && field.linkType === 'Entry') {
-        return field.validations?.length > 0 ? linkContentTypeValidations(field)
-            .filter(filterIgnoredModule)
-            .map(moduleImport) : [moduleImport(field.id)];
+        return field.validations?.length > 0
+            ? linkContentTypeValidations(field)
+                .filter(filterIgnoredModule)
+                .map((contentType: string) => moduleImport(contentType, context))
+            : [moduleImport(field.id, context)];
     }
     if (field.type === 'Array' && field.items) {
         return linkContentTypeValidations(field.items)
             .filter(filterIgnoredModule)
-            .map(moduleImport);
+            .map((contentType: string) => moduleImport(contentType, context));
     }
     return [];
 };

@@ -1,4 +1,5 @@
 import {Field, FieldType} from 'contentful';
+import {ImportDeclarationStructure, OptionalKind} from 'ts-morph';
 
 export type FieldRenderer<FType extends FieldType> = (field: FType extends 'Link' ? Pick<Field, 'validations' | 'linkType'> : Field, context: RenderContext) => string;
 
@@ -20,4 +21,5 @@ export type RenderContext = {
     getRenderer: <FType extends FieldType>(fieldType: FType) => FieldRenderer<FType>;
     moduleName: (id: string) => string;
     moduleFieldsName: (id: string) => string;
+    imports: Set<OptionalKind<ImportDeclarationStructure>>;
 }

@@ -1,4 +1,3 @@
-import {Field} from 'contentful';
 import * as path from 'path';
 import {
     forEachStructureChild,
@@ -9,33 +8,16 @@ import {
     SourceFile,
     StructureKind,
 } from 'ts-morph';
-import {Class} from 'type-fest';
-import {ContentTypeRenderer} from './content-type-renderer';
-import {WriteCallback} from './types';
-import {moduleFieldsName, moduleName} from './utils';
-
-export type CFContentType = {
-    name: string;
-    id: string;
-    sys: {
-        id: string;
-        type: string;
-    };
-    fields: Field[];
-};
+import {ContentTypeRenderer} from './type-renderer';
+import {CFContentType, WriteCallback} from './types';
 
 export default class CFDefinitionsBuilder {
     private readonly project: Project;
 
     private renderer: ContentTypeRenderer;
 
-    constructor(ContentTypeRendererClass?: Class<ContentTypeRenderer>) {
-        if (ContentTypeRendererClass) {
-            this.renderer = new ContentTypeRendererClass();
-        } else {
-            this.renderer = new ContentTypeRenderer();
-        }
-
+    constructor(contentTypeRenderer?: ContentTypeRenderer) {
+        this.renderer = contentTypeRenderer || new ContentTypeRenderer();
         this.project = new Project({
             useInMemoryFileSystem: true,
             compilerOptions: {
@@ -50,7 +32,7 @@ export default class CFDefinitionsBuilder {
             throw new Error('given data is not describing a ContentType');
         }
 
-        const file = this.addFile(moduleName(model.sys.id));
+        const file = this.addFile(this.renderer.getContext().moduleName(model.sys.id));
         this.renderer.render(model, file);
 
         file.organizeImports({
@@ -143,7 +125,10 @@ export default class CFDefinitionsBuilder {
         files.forEach(fileName => {
             indexFile.addExportDeclaration({
                 isTypeOnly: true,
-                namedExports: [moduleName(fileName), moduleFieldsName(fileName)],
+                namedExports: [
+                    this.renderer.getContext().moduleName(fileName),
+                    this.renderer.getContext().moduleFieldsName(fileName),
+                ],
                 moduleSpecifier: `./${fileName}`,
             });
         });

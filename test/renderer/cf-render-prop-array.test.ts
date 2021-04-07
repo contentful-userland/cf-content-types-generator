@@ -1,17 +1,8 @@
-import {moduleFieldsName, moduleName} from '../../src/utils';
-import { defaultRenderers, renderPropArray } from '../../src/type-renderer';
-import {expect} from '@oclif/test';
-import { FieldType } from 'contentful';
-import { FieldRenderer } from '../../src/renderer/render-types';
-
-const defaultContext = {
-  moduleName,
-  moduleFieldsName,
-  getRenderer: <FType extends FieldType>(fieldType: FType) => defaultRenderers[fieldType] as FieldRenderer<FType>,
-}
+import { renderPropArray, createDefaultContext} from '../../src/type-renderer';
+import { expect } from '@oclif/test';
 
 describe('A renderPropArray function', () => {
-    
+
   it('can evaluate a "Array" of "Link" with no validations', () => {
     const field = JSON.parse(`
       {
@@ -31,11 +22,11 @@ describe('A renderPropArray function', () => {
       }
       `);
 
-      expect(renderPropArray(field, defaultContext)).to.equal('Contentful.Entry<Record<string, any>>[]');
-    });
+    expect(renderPropArray(field, createDefaultContext())).to.equal('Contentful.Entry<Record<string, any>>[]');
+  });
 
-    it('can evaluate an "Array" of "Symbol"', () => {
-        const field = JSON.parse(`
+  it('can evaluate an "Array" of "Symbol"', () => {
+    const field = JSON.parse(`
         {
           "id": "tags",
           "name": "Tags (optional)",
@@ -54,11 +45,11 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-        expect(renderPropArray(field, defaultContext)).to.equal('Contentful.EntryFields.Symbol[]');
-    });
+    expect(renderPropArray(field, createDefaultContext())).to.equal('Contentful.EntryFields.Symbol[]');
+  });
 
-    it('can evaluate an "Array" of "Symbol" with "in" validation', () => {
-        const field = JSON.parse(`
+  it('can evaluate an "Array" of "Symbol" with "in" validation', () => {
+    const field = JSON.parse(`
         {
           "id": "category",
           "name": "Category (optional)",
@@ -85,11 +76,11 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-        expect(renderPropArray(field, defaultContext)).to.equal('("Feature" | "Benefit" | "Tech spec" | "Other")[]');
-    });
+    expect(renderPropArray(field, createDefaultContext())).to.equal('("Feature" | "Benefit" | "Tech spec" | "Other")[]');
+  });
 
-    it('can evaluate an "Array" of "Link" with "linkContentType" validation', () => {
-        const field = JSON.parse(`
+  it('can evaluate an "Array" of "Link" with "linkContentType" validation', () => {
+    const field = JSON.parse(`
         {
           "id": "extraSections",
           "name": "Extra sections (optional)",
@@ -117,6 +108,6 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-        expect(renderPropArray(field, defaultContext)).to.equal('Contentful.Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]');
-    });
+    expect(renderPropArray(field, createDefaultContext())).to.equal('Contentful.Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]');
+  });
 });

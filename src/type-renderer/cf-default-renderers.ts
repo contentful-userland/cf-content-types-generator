@@ -1,5 +1,5 @@
 import {renderRichText, renderPropLink, renderPropArray, renderPropAny} from '.';
-import {FieldRenderers} from '../renderer/render-types';
+import {FieldRenderers} from './render-types';
 
 export const defaultRenderers: FieldRenderers = {
     RichText: renderRichText,

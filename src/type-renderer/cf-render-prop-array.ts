@@ -1,7 +1,7 @@
 import {Field} from 'contentful';
 import {inValidations} from '../utils';
 import {renderTypeArray, renderTypeLiteral, renderTypeUnion} from '../renderer';
-import {RenderContext} from '../renderer/render-types';
+import {RenderContext} from './render-types';
 
 export const renderPropArray = (field: Field, context: RenderContext): string => {
     if (!field.items) {
