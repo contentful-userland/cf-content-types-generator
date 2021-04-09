@@ -1,12 +1,12 @@
 import {Field} from 'contentful';
 import {OptionalKind, PropertySignatureStructure, SourceFile, TypeAliasDeclarationStructure} from 'ts-morph';
 import {propertyImports} from '../cf-property-imports';
-import {renderTypeGeneric} from '../renderer';
-import {RenderContext} from './render-types';
+import {ContentTypeRenderer, RenderContext} from './render-types';
 import {CFContentType} from '../types';
 import {createDefaultContext} from './default-context';
+import {renderTypeGeneric} from '../renderer';
 
-export class ContentTypeRenderer {
+export class DefaultContentTypeRenderer implements ContentTypeRenderer {
     public render(contentType: CFContentType, file: SourceFile): void {
         const context = this.getContext();
 
@@ -55,12 +55,12 @@ export class ContentTypeRenderer {
         return {
             name: context.moduleName(contentType.sys.id),
             isExported: true,
-            type: this.renderEntryType(contentType, context, context.moduleFieldsName(contentType.sys.id)),
+            type: this.renderEntryType(contentType, context),
         };
     }
 
-    protected renderEntryType(contentType: CFContentType, context: RenderContext, fieldsModuleName: string): string {
-        return renderTypeGeneric('Contentful.Entry', fieldsModuleName);
+    protected renderEntryType(contentType: CFContentType, context: RenderContext): string {
+        return renderTypeGeneric('Contentful.Entry', context.moduleFieldsName(contentType.sys.id));
     }
 
     public getContext(): RenderContext {

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import { CFContentType } from '../src/types';
 import { Field, FieldType } from 'contentful';
-import { FieldRenderer, ContentTypeRenderer, RenderContext, defaultRenderers } from '../src/type-renderer';
+import { FieldRenderer, DefaultContentTypeRenderer, RenderContext, defaultRenderers } from '../src/type-renderer';
 import { moduleFieldsName, moduleName } from '../src/utils';
 import { renderTypeGeneric } from '../src/renderer';
 
@@ -28,7 +28,7 @@ describe('A derived content type renderer class', () => {
         const symbolTypeRenderer = (field: Field, context: RenderContext) => {
             return 'Test.Symbol'
         }
-        class DerivedContentTypeRenderer extends ContentTypeRenderer {
+        class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
 
             public getContext(): RenderContext {
                 return {
@@ -80,7 +80,7 @@ describe('A derived content type renderer class', () => {
     })
 
     it('can return a custom field renderer with docs support', () => {
-        class DerivedContentTypeRenderer extends ContentTypeRenderer {
+        class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
             protected renderField(field: Field, context: RenderContext) {
                 return {
                     docs: [{ description: `Field of type "${field.type}"` }],
@@ -94,7 +94,7 @@ describe('A derived content type renderer class', () => {
                     docs: [{ description: `content type "${contentType.name}" with id: ${contentType.sys.id}` }],
                     name: context.moduleName(contentType.sys.id),
                     isExported: true,
-                    type: super.renderEntryType(contentType, context, context.moduleFieldsName(contentType.sys.id)),
+                    type: super.renderEntryType(contentType, context),
                 };
             }
         }
@@ -136,13 +136,13 @@ describe('A derived content type renderer class', () => {
     })
 
     it('can render custom entries', () => {
-        class DerivedContentTypeRenderer extends ContentTypeRenderer {
-            protected renderEntryType(contentType: CFContentType, context: RenderContext, fieldsModuleName: string): string {
+        class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
+            protected renderEntryType(contentType: CFContentType, context: RenderContext): string {
                 context.imports.add({
                     moduleSpecifier: '@custom',
                     namedImports: ['IdScopedEntry'],
                 });
-                return renderTypeGeneric('IdScopedEntry', `'${contentType.sys.id}', ${fieldsModuleName}`);
+                return renderTypeGeneric('IdScopedEntry', `'${contentType.sys.id}', ${context.moduleFieldsName(contentType.sys.id)}`);
             }
         }
 

@@ -1,5 +1,11 @@
 import {Field, FieldType} from 'contentful';
-import {ImportDeclarationStructure, OptionalKind} from 'ts-morph';
+import {ImportDeclarationStructure, OptionalKind, SourceFile} from 'ts-morph';
+import {CFContentType} from '../types';
+
+export interface ContentTypeRenderer {
+    render(contentType: CFContentType, file: SourceFile): void;
+    getContext(): RenderContext;
+}
 
 export type FieldRenderer<FType extends FieldType> = (field: FType extends 'Link' ? Pick<Field, 'validations' | 'linkType'> : Field, context: RenderContext) => string;
 

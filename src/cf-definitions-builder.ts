@@ -8,7 +8,7 @@ import {
     SourceFile,
     StructureKind,
 } from 'ts-morph';
-import {ContentTypeRenderer} from './type-renderer';
+import {ContentTypeRenderer, DefaultContentTypeRenderer} from './type-renderer';
 import {CFContentType, WriteCallback} from './types';
 
 export default class CFDefinitionsBuilder {
@@ -17,7 +17,7 @@ export default class CFDefinitionsBuilder {
     private renderer: ContentTypeRenderer;
 
     constructor(contentTypeRenderer?: ContentTypeRenderer) {
-        this.renderer = contentTypeRenderer || new ContentTypeRenderer();
+        this.renderer = contentTypeRenderer || new DefaultContentTypeRenderer();
         this.project = new Project({
             useInMemoryFileSystem: true,
             compilerOptions: {
