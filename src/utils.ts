@@ -9,7 +9,9 @@ export const moduleName = (name: string): string => {
     return pipe([replaceDash, upperFirst, addPrefix, removeSpace])(name);
 };
 
-export const moduleFieldsName = (name: string): string => moduleName(name) + 'Fields';
+export const moduleFieldsName = (name: string): string => {
+    return moduleName(name) + 'Fields';
+};
 
 type WithValidations = Pick<FieldItem, 'validations'>;
 
@@ -23,6 +25,10 @@ const validation = (node: WithValidations, field: keyof FieldValidation): any =>
     return [];
 };
 
-export const linkContentTypeValidations = (node: WithValidations): string[] => validation(node, 'linkContentType');
+export const linkContentTypeValidations = (node: WithValidations): string[] => {
+    return validation(node, 'linkContentType');
+};
 
-export const inValidations = (node: WithValidations): string[] => validation(node, 'in');
+export const inValidations = (node: WithValidations): string[] => {
+    return validation(node, 'in');
+};

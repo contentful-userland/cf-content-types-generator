@@ -3,12 +3,14 @@ import {ImportDeclarationStructure, OptionalKind} from 'ts-morph';
 import {RenderContext} from './type-renderer';
 import {linkContentTypeValidations} from './utils';
 
-const moduleImport = (module: string, context: RenderContext) => ({
-    moduleSpecifier: `./${context.moduleName(module)}`,
-    namedImports: [
-        context.moduleFieldsName(module),
-    ],
-});
+const moduleImport = (module: string, context: RenderContext) => {
+    return {
+        moduleSpecifier: `./${context.moduleName(module)}`,
+        namedImports: [
+            context.moduleFieldsName(module),
+        ],
+    };
+};
 
 export const propertyImports = (field: Field, context: RenderContext, ignoreModule?: string): OptionalKind<ImportDeclarationStructure>[] => {
     const filterIgnoredModule = (name: string) => ignoreModule !== context.moduleName(name);

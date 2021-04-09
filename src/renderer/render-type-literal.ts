@@ -1,1 +1,3 @@
-export const renderTypeLiteral = (value: string): string => `"${value}"`;
+export const renderTypeLiteral = (value: string): string => {
+    return `"${value}"`;
+};

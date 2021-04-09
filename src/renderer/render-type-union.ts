@@ -1,1 +1,3 @@
-export const renderTypeUnion = (types: string[]): string => types.join(' | ');
+export const renderTypeUnion = (types: string[]): string => {
+    return types.join(' | ');
+};

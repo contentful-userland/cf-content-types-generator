@@ -1,1 +1,3 @@
-export const renderTypeArray = (type: string): string => `${type}[]`;
+export const renderTypeArray = (type: string): string => {
+    return `${type}[]`;
+};
