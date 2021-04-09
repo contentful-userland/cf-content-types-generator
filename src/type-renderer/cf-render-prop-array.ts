@@ -1,5 +1,5 @@
 import {Field} from 'contentful';
-import {inValidations} from '../utils';
+import {inValidations} from '../cf-extract-validation';
 import {renderTypeArray, renderTypeLiteral, renderTypeUnion} from '../renderer';
 import {RenderContext} from './render-types';
 

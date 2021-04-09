@@ -1,6 +1,6 @@
 import {FieldType} from 'contentful';
 import {defaultRenderers, FieldRenderer, RenderContext} from '.';
-import {moduleFieldsName, moduleName} from '../utils';
+import {moduleFieldsName, moduleName} from '../cf-module-name';
 
 export const createDefaultContext = (): RenderContext => {
     return {

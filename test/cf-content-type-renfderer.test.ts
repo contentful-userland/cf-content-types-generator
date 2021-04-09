@@ -3,7 +3,7 @@ import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import { CFContentType } from '../src/types';
 import { Field, FieldType } from 'contentful';
 import { FieldRenderer, DefaultContentTypeRenderer, RenderContext, defaultRenderers } from '../src/type-renderer';
-import { moduleFieldsName, moduleName } from '../src/utils';
+import { moduleFieldsName, moduleName } from '../src/cf-module-name';
 import { renderTypeGeneric } from '../src/renderer';
 
 import stripIndent = require('strip-indent');
