@@ -14,10 +14,10 @@ import {CFContentType, WriteCallback} from './types';
 export default class CFDefinitionsBuilder {
     private readonly project: Project;
 
-    private renderer: ContentTypeRenderer;
+    private contentTypeRenderer: ContentTypeRenderer;
 
     constructor(contentTypeRenderer?: ContentTypeRenderer) {
-        this.renderer = contentTypeRenderer || new DefaultContentTypeRenderer();
+        this.contentTypeRenderer = contentTypeRenderer || new DefaultContentTypeRenderer();
         this.project = new Project({
             useInMemoryFileSystem: true,
             compilerOptions: {
@@ -32,8 +32,8 @@ export default class CFDefinitionsBuilder {
             throw new Error('given data is not describing a ContentType');
         }
 
-        const file = this.addFile(this.renderer.getContext().moduleName(model.sys.id));
-        this.renderer.render(model, file);
+        const file = this.addFile(this.contentTypeRenderer.getContext().moduleName(model.sys.id));
+        this.contentTypeRenderer.render(model, file);
 
         file.organizeImports({
             ensureNewLineAtEndOfFile: true,
@@ -126,8 +126,8 @@ export default class CFDefinitionsBuilder {
             indexFile.addExportDeclaration({
                 isTypeOnly: true,
                 namedExports: [
-                    this.renderer.getContext().moduleName(fileName),
-                    this.renderer.getContext().moduleFieldsName(fileName),
+                    this.contentTypeRenderer.getContext().moduleName(fileName),
+                    this.contentTypeRenderer.getContext().moduleFieldsName(fileName),
                 ],
                 moduleSpecifier: `./${fileName}`,
             });
