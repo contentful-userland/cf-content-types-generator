@@ -32,7 +32,7 @@ export default class CFDefinitionsBuilder {
             throw new Error('given data is not describing a ContentType');
         }
 
-        const file = this.addFile(this.contentTypeRenderer.getContext().moduleName(model.sys.id));
+        const file = this.addFile(this.contentTypeRenderer.createContext().moduleName(model.sys.id));
         this.contentTypeRenderer.render(model, file);
 
         file.organizeImports({
@@ -126,8 +126,8 @@ export default class CFDefinitionsBuilder {
             indexFile.addExportDeclaration({
                 isTypeOnly: true,
                 namedExports: [
-                    this.contentTypeRenderer.getContext().moduleName(fileName),
-                    this.contentTypeRenderer.getContext().moduleFieldsName(fileName),
+                    this.contentTypeRenderer.createContext().moduleName(fileName),
+                    this.contentTypeRenderer.createContext().moduleFieldsName(fileName),
                 ],
                 moduleSpecifier: `./${fileName}`,
             });

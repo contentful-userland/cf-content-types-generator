@@ -9,7 +9,7 @@ export const renderPropArray = (field: Field, context: RenderContext): string =>
     }
 
     if (field.items.type === 'Link') {
-        return renderTypeArray(context.getRenderer('Link')(field.items, context));
+        return renderTypeArray(context.getFieldRenderer('Link')(field.items, context));
     }
 
     if (field.items.type === 'Symbol') {

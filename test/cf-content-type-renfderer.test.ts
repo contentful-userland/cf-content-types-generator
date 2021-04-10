@@ -30,11 +30,11 @@ describe('A derived content type renderer class', () => {
         }
         class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
 
-            public getContext(): RenderContext {
+            public createContext(): RenderContext {
                 return {
                     moduleName,
                     moduleFieldsName,
-                    getRenderer: <FType extends FieldType>(fieldType: FType) => {
+                    getFieldRenderer: <FType extends FieldType>(fieldType: FType) => {
                         if (fieldType === 'Symbol') {
                             return symbolTypeRenderer as FieldRenderer<FType>;
                         }

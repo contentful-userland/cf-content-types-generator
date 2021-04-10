@@ -1,14 +1,14 @@
 import {Field} from 'contentful';
 import {OptionalKind, PropertySignatureStructure, SourceFile, TypeAliasDeclarationStructure} from 'ts-morph';
 import {propertyImports} from '../cf-property-imports';
-import {ContentTypeRenderer, RenderContext} from './render-types';
-import {CFContentType} from '../types';
-import {createDefaultContext} from './default-context';
 import {renderTypeGeneric} from '../renderer';
+import {CFContentType} from '../types';
+import {createDefaultContext} from './create-default-context';
+import {ContentTypeRenderer, RenderContext} from './render-types';
 
 export class DefaultContentTypeRenderer implements ContentTypeRenderer {
     public render(contentType: CFContentType, file: SourceFile): void {
-        const context = this.getContext();
+        const context = this.createContext();
 
         this.addDefaultImports(context);
         this.renderFieldsInterface(contentType, file, context);
@@ -20,9 +20,15 @@ export class DefaultContentTypeRenderer implements ContentTypeRenderer {
         });
     }
 
-    protected renderFieldsInterface(contentType: CFContentType, file: SourceFile, context: RenderContext) {
+    protected renderFieldsInterface(
+        contentType: CFContentType,
+        file: SourceFile,
+        context: RenderContext) {
         const fieldsInterfaceName = context.moduleFieldsName(contentType.sys.id);
-        const interfaceDeclaration = file.addInterface({name: fieldsInterfaceName, isExported: true});
+        const interfaceDeclaration = file.addInterface({
+            name: fieldsInterfaceName,
+            isExported: true,
+        });
 
         contentType.fields.forEach(field => {
             interfaceDeclaration.addProperty(this.renderField(field, context));
@@ -39,7 +45,9 @@ export class DefaultContentTypeRenderer implements ContentTypeRenderer {
         });
     }
 
-    protected renderField(field: Field, context: RenderContext): OptionalKind<PropertySignatureStructure> {
+    protected renderField(
+        field: Field,
+        context: RenderContext): OptionalKind<PropertySignatureStructure> {
         return {
             name: field.id,
             hasQuestionToken: field.omitted || (!field.required),
@@ -48,10 +56,12 @@ export class DefaultContentTypeRenderer implements ContentTypeRenderer {
     }
 
     protected renderFieldType(field: Field, context: RenderContext): string {
-        return context.getRenderer(field.type)(field, context);
+        return context.getFieldRenderer(field.type)(field, context);
     }
 
-    protected renderEntry(contentType: CFContentType, context: RenderContext): OptionalKind<TypeAliasDeclarationStructure> {
+    protected renderEntry(
+        contentType: CFContentType,
+        context: RenderContext): OptionalKind<TypeAliasDeclarationStructure> {
         return {
             name: context.moduleName(contentType.sys.id),
             isExported: true,
@@ -63,7 +73,7 @@ export class DefaultContentTypeRenderer implements ContentTypeRenderer {
         return renderTypeGeneric('Contentful.Entry', context.moduleFieldsName(contentType.sys.id));
     }
 
-    public getContext(): RenderContext {
+    public createContext(): RenderContext {
         return createDefaultContext();
     }
 }

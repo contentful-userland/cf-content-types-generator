@@ -4,10 +4,15 @@ import {CFContentType} from '../types';
 
 export interface ContentTypeRenderer {
     render(contentType: CFContentType, file: SourceFile): void;
-    getContext(): RenderContext;
+
+    createContext(): RenderContext;
 }
 
-export type FieldRenderer<FType extends FieldType> = (field: FType extends 'Link' ? Pick<Field, 'validations' | 'linkType'> : Field, context: RenderContext) => string;
+export type FieldRenderer<FType extends FieldType> = (
+    field: FType extends 'Link'
+        ? Pick<Field, 'validations' | 'linkType'>
+        : Field,
+    context: RenderContext) => string;
 
 export type FieldRenderers = {
     RichText: FieldRenderer<'RichText'>;
@@ -24,7 +29,7 @@ export type FieldRenderers = {
 };
 
 export type RenderContext = {
-    getRenderer: <FType extends FieldType>(fieldType: FType) => FieldRenderer<FType>;
+    getFieldRenderer: <FType extends FieldType>(fieldType: FType) => FieldRenderer<FType>;
     moduleName: (id: string) => string;
     moduleFieldsName: (id: string) => string;
     imports: Set<OptionalKind<ImportDeclarationStructure>>;
