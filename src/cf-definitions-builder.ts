@@ -8,16 +8,21 @@ import {
     SourceFile,
     StructureKind,
 } from 'ts-morph';
+import {moduleName} from './cf-module-name';
 import {ContentTypeRenderer, DefaultContentTypeRenderer} from './type-renderer';
 import {CFContentType, WriteCallback} from './types';
 
 export default class CFDefinitionsBuilder {
     private readonly project: Project;
 
-    private contentTypeRenderer: ContentTypeRenderer;
+    private contentTypeRenderers: ContentTypeRenderer[];
 
-    constructor(contentTypeRenderer?: ContentTypeRenderer) {
-        this.contentTypeRenderer = contentTypeRenderer || new DefaultContentTypeRenderer();
+    constructor(contentTypeRenderers: ContentTypeRenderer[] = []) {
+        if (contentTypeRenderers.length === 0) {
+            contentTypeRenderers.push(new DefaultContentTypeRenderer());
+        }
+
+        this.contentTypeRenderers = contentTypeRenderers;
         this.project = new Project({
             useInMemoryFileSystem: true,
             compilerOptions: {
@@ -25,6 +30,8 @@ export default class CFDefinitionsBuilder {
                 declaration: true,
             },
         });
+
+        this.contentTypeRenderers.forEach(renderer => renderer.setup(this.project));
     }
 
     public appendType = (model: CFContentType): CFDefinitionsBuilder => {
@@ -32,8 +39,8 @@ export default class CFDefinitionsBuilder {
             throw new Error('given data is not describing a ContentType');
         }
 
-        const file = this.addFile(this.contentTypeRenderer.createContext().moduleName(model.sys.id));
-        this.contentTypeRenderer.render(model, file);
+        const file = this.addFile(moduleName(model.sys.id));
+        this.contentTypeRenderers.forEach(renderer => renderer.render(model, file));
 
         file.organizeImports({
             ensureNewLineAtEndOfFile: true,
@@ -50,6 +57,7 @@ export default class CFDefinitionsBuilder {
             return writeCallback(targetPath, file.getFullText());
         });
         await Promise.all(writePromises);
+
         this.removeIndexFile();
     };
 
@@ -116,21 +124,19 @@ export default class CFDefinitionsBuilder {
     private addIndexFile = (): void => {
         this.removeIndexFile();
 
-        const files = this.project
-            .getSourceFiles()
-            .map(file => file.getBaseNameWithoutExtension());
-
         const indexFile = this.addFile('index');
 
-        files.forEach(fileName => {
-            indexFile.addExportDeclaration({
-                isTypeOnly: true,
-                namedExports: [
-                    this.contentTypeRenderer.createContext().moduleName(fileName),
-                    this.contentTypeRenderer.createContext().moduleFieldsName(fileName),
-                ],
-                moduleSpecifier: `./${fileName}`,
-            });
+        // this assumes all things are named export
+        // maybe use https://github.com/dsherret/ts-morph/issues/165#issuecomment-350522329
+        this.project.getSourceFiles().forEach(sourceFile => {
+            const exportDeclarations = sourceFile.getExportSymbols();
+            if (sourceFile.getBaseNameWithoutExtension() !== 'index') {
+                indexFile.addExportDeclaration({
+                    isTypeOnly: true,
+                    namedExports: exportDeclarations.map(declaration => declaration.getExportSymbol().getEscapedName()),
+                    moduleSpecifier: `./${sourceFile.getBaseNameWithoutExtension()}`,
+                });
+            }
         });
 
         indexFile.organizeImports();

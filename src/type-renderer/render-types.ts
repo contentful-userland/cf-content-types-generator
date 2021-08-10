@@ -1,8 +1,11 @@
 import {Field, FieldType} from 'contentful';
-import {ImportDeclarationStructure, OptionalKind, SourceFile} from 'ts-morph';
+import {ImportDeclarationStructure, OptionalKind, Project, SourceFile} from 'ts-morph';
 import {CFContentType} from '../types';
 
 export interface ContentTypeRenderer {
+
+    setup(project: Project): void;
+
     render(contentType: CFContentType, file: SourceFile): void;
 
     createContext(): RenderContext;

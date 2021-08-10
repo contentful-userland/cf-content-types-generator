@@ -3,6 +3,8 @@ import * as fs from 'fs-extra';
 import {writeFile} from 'fs-extra';
 import * as path from 'path';
 import CFDefinitionsBuilder from './cf-definitions-builder';
+import {ContentTypeRenderer, DefaultContentTypeRenderer} from './type-renderer';
+import {LocalizedContentTypeRenderer} from './type-renderer/cf-localized-content-type-renderer';
 
 const contentfulExport = require('contentful-export');
 
@@ -14,6 +16,7 @@ class ContentfulMdg extends Command {
         help: flags.help({char: 'h'}),
         out: flags.string({char: 'o', description: 'output directory'}),
         preserve: flags.boolean({char: 'p', description: 'preserve output folder'}),
+        localized: flags.boolean({char: 'l', description: 'add localized types'}),
 
         // remote access
         spaceId: flags.string({char: 's', description: 'space id'}),
@@ -51,7 +54,12 @@ class ContentfulMdg extends Command {
             });
         }
 
-        const builder = new CFDefinitionsBuilder();
+        const renderers: ContentTypeRenderer[] = [new DefaultContentTypeRenderer()];
+        if (flags.localized) {
+            renderers.push(new LocalizedContentTypeRenderer());
+        }
+
+        const builder = new CFDefinitionsBuilder(renderers);
         content.contentTypes.forEach(builder.appendType);
 
         if (flags.out) {

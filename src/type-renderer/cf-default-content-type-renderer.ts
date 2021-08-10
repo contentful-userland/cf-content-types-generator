@@ -3,10 +3,10 @@ import {OptionalKind, PropertySignatureStructure, SourceFile, TypeAliasDeclarati
 import {propertyImports} from '../cf-property-imports';
 import {renderTypeGeneric} from '../renderer';
 import {CFContentType} from '../types';
-import {createDefaultContext} from './create-default-context';
-import {ContentTypeRenderer, RenderContext} from './render-types';
+import {BaseContentTypeRenderer} from './cf-base-content-type-renderer';
+import {RenderContext} from './render-types';
 
-export class DefaultContentTypeRenderer implements ContentTypeRenderer {
+export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
     public render(contentType: CFContentType, file: SourceFile): void {
         const context = this.createContext();
 
@@ -71,9 +71,5 @@ export class DefaultContentTypeRenderer implements ContentTypeRenderer {
 
     protected renderEntryType(contentType: CFContentType, context: RenderContext): string {
         return renderTypeGeneric('Contentful.Entry', context.moduleFieldsName(contentType.sys.id));
-    }
-
-    public createContext(): RenderContext {
-        return createDefaultContext();
     }
 }
