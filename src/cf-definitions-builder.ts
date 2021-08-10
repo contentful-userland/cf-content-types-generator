@@ -11,6 +11,7 @@ import {
 import {moduleName} from './module-name';
 import {ContentTypeRenderer, DefaultContentTypeRenderer} from './renderer/type';
 import {CFContentType, WriteCallback} from './types';
+import {flatten} from 'lodash';
 
 export default class CFDefinitionsBuilder {
     private readonly project: Project;
@@ -69,7 +70,9 @@ export default class CFDefinitionsBuilder {
         const types: string[] = [];
 
         this.project.getSourceFiles()
-            .filter(sourceFile => sourceFile.getBaseNameWithoutExtension() !== mergeFileName)
+            .filter(sourceFile => {
+                return sourceFile.getBaseNameWithoutExtension() !== mergeFileName;
+            })
             .forEach(sourceFile => forEachStructureChild(sourceFile.getStructure(),
                 childStructure => {
                     switch (childStructure.kind) {
@@ -89,10 +92,15 @@ export default class CFDefinitionsBuilder {
                     }
                 }));
 
-        // only import modules not present in merge file
+        const additionalFiles = flatten(this.contentTypeRenderers.map(renderer => {
+            return renderer.additionalFiles();
+        }));
+        const additionalFileNames = additionalFiles.map(file => file.getBaseNameWithoutExtension());
+
+        // only import modules not present in merge file and not present in additional files
         imports.forEach(importD => {
             const name = importD.moduleSpecifier.slice(2);
-            if (!types.includes(name)) {
+            if (!types.includes(name) && !additionalFileNames.includes(name)) {
                 mergeFile.addImportDeclaration(importD);
             }
         });
@@ -105,7 +113,7 @@ export default class CFDefinitionsBuilder {
         this.project.removeSourceFile(mergeFile);
 
         return fullText;
-    }
+    };
 
     private addFile = (name: string): SourceFile => {
         return this.project.createSourceFile(`${name}.ts`,
@@ -119,14 +127,14 @@ export default class CFDefinitionsBuilder {
         return this.project.getSourceFile(file => {
             return file.getBaseNameWithoutExtension() === 'index';
         });
-    }
+    };
 
     private addIndexFile = (): void => {
         this.removeIndexFile();
 
         const indexFile = this.addFile('index');
 
-        // this assumes all things are named export
+        // this assumes all things are named exports
         // maybe use https://github.com/dsherret/ts-morph/issues/165#issuecomment-350522329
         this.project.getSourceFiles().forEach(sourceFile => {
             const exportDeclarations = sourceFile.getExportSymbols();
@@ -147,6 +155,6 @@ export default class CFDefinitionsBuilder {
         if (indexFile) {
             this.project.removeSourceFile(indexFile);
         }
-    }
+    };
 }
 

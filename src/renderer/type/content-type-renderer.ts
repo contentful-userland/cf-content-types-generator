@@ -9,4 +9,6 @@ export interface ContentTypeRenderer {
     render(contentType: CFContentType, file: SourceFile): void;
 
     createContext(): RenderContext;
+
+    additionalFiles(): SourceFile[];
 }

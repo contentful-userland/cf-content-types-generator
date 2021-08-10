@@ -28,7 +28,7 @@ describe('A localized content type renderer class', () => {
         const file = project.getSourceFile('Localized.ts')
 
         expect(file?.getFullText()).to.equal(stripIndent(`
-        /* utility types for localized entries */
+        /* Utility types for localized entries */
         export type LocalizedFields<Fields, Locales extends keyof any> = {
             [FieldName in keyof Fields]?: {
                 [LocaleName in Locales]?: Fields[FieldName];
@@ -70,8 +70,8 @@ describe('A localized content type renderer class', () => {
         expect('\n' + testFile.getFullText()).to.equal(stripIndent(`
         import { LocalizedFields, LocalizedEntry } from "./Localized";
         
-        export type LocalizedTypeTestFields<Locale extends string | string[]> = LocalizedFields<TypeTestFields, Locale>;
-        export type LocalizedTypeTest<Locale extends string | string[]> = LocalizedEntry<TypeTest, Locale>;
+        export type LocalizedTypeTestFields<Locales extends keyof any> = LocalizedFields<TypeTestFields, Locales>;
+        export type LocalizedTypeTest<Locales extends keyof any> = LocalizedEntry<TypeTest, Locales>;
         `));
     })
 
