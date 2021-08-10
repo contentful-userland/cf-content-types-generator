@@ -1,4 +1,8 @@
 {
+  "extends": [
+    "oclif",
+    "oclif-typescript"
+  ],
   "rules": {
     "operator-linebreak": [
       "error",
@@ -19,8 +23,14 @@
       4
     ]
   },
-  "extends": [
-    "oclif",
-    "oclif-typescript"
+  "overrides": [
+    {
+      "files": [
+        "src/renderer/type/base-content-type-renderer.ts"
+      ],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [0]
+      }
+    }
   ]
 }
