@@ -1,6 +1,6 @@
 import {expect} from '@oclif/test';
-import {propertyImports} from '../src/cf-property-imports';
-import { createDefaultContext } from '../src/type-renderer';
+import {propertyImports} from '../src/property-imports';
+import { createDefaultContext } from '../src/renderer/type';
 
 describe('A typeImports function', () => {
     it('returns imports for referenced Entry', () => {

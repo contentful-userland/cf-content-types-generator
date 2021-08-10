@@ -8,8 +8,8 @@ import {
     SourceFile,
     StructureKind,
 } from 'ts-morph';
-import {moduleName} from './cf-module-name';
-import {ContentTypeRenderer, DefaultContentTypeRenderer} from './type-renderer';
+import {moduleName} from './module-name';
+import {ContentTypeRenderer, DefaultContentTypeRenderer} from './renderer/type';
 import {CFContentType, WriteCallback} from './types';
 
 export default class CFDefinitionsBuilder {

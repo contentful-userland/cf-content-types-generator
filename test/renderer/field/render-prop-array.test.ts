@@ -1,5 +1,6 @@
-import { renderPropArray, createDefaultContext} from '../../src/type-renderer';
+import { renderPropArray} from '../../../src/renderer/field';
 import { expect } from '@oclif/test';
+import {createDefaultContext} from "../../../src/renderer/type";
 
 describe('A renderPropArray function', () => {
 

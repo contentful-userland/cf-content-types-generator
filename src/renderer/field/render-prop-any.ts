@@ -1,4 +1,4 @@
-import {renderTypeLiteral, renderTypeUnion} from '../renderer';
+import {renderTypeLiteral, renderTypeUnion} from '../generic';
 import {Field} from 'contentful';
 
 export const renderPropAny = (field: Field): string => {

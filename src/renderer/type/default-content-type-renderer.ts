@@ -1,10 +1,10 @@
 import {Field} from 'contentful';
 import {OptionalKind, PropertySignatureStructure, SourceFile, TypeAliasDeclarationStructure} from 'ts-morph';
-import {propertyImports} from '../cf-property-imports';
-import {renderTypeGeneric} from '../renderer';
-import {CFContentType} from '../types';
-import {BaseContentTypeRenderer} from './cf-base-content-type-renderer';
-import {RenderContext} from './render-types';
+import {propertyImports} from '../../property-imports';
+import {renderTypeGeneric} from '../generic';
+import {CFContentType} from '../../types';
+import {BaseContentTypeRenderer} from './base-content-type-renderer';
+import {RenderContext} from './create-default-context';
 
 export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
     public render(contentType: CFContentType, file: SourceFile): void {

@@ -3,8 +3,7 @@ import * as fs from 'fs-extra';
 import {writeFile} from 'fs-extra';
 import * as path from 'path';
 import CFDefinitionsBuilder from './cf-definitions-builder';
-import {ContentTypeRenderer, DefaultContentTypeRenderer} from './type-renderer';
-import {LocalizedContentTypeRenderer} from './type-renderer/cf-localized-content-type-renderer';
+import {ContentTypeRenderer, DefaultContentTypeRenderer, LocalizedContentTypeRenderer} from './renderer/type';
 
 const contentfulExport = require('contentful-export');
 

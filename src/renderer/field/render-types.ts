@@ -1,15 +1,5 @@
 import {Field, FieldType} from 'contentful';
-import {ImportDeclarationStructure, OptionalKind, Project, SourceFile} from 'ts-morph';
-import {CFContentType} from '../types';
-
-export interface ContentTypeRenderer {
-
-    setup(project: Project): void;
-
-    render(contentType: CFContentType, file: SourceFile): void;
-
-    createContext(): RenderContext;
-}
+import {RenderContext} from '../type';
 
 export type FieldRenderer<FType extends FieldType> = (
     field: FType extends 'Link'
@@ -30,10 +20,3 @@ export type FieldRenderers = {
     Boolean: FieldRenderer<'Boolean'>;
     Location: FieldRenderer<'Location'>;
 };
-
-export type RenderContext = {
-    getFieldRenderer: <FType extends FieldType>(fieldType: FType) => FieldRenderer<FType>;
-    moduleName: (id: string) => string;
-    moduleFieldsName: (id: string) => string;
-    imports: Set<OptionalKind<ImportDeclarationStructure>>;
-}

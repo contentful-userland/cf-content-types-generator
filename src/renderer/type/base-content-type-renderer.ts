@@ -1,7 +1,7 @@
 import {Project, SourceFile} from 'ts-morph';
-import {CFContentType} from '../types';
-import {createDefaultContext} from './create-default-context';
-import {ContentTypeRenderer, RenderContext} from './render-types';
+import {CFContentType} from '../../types';
+import {ContentTypeRenderer} from './content-type-renderer';
+import {createDefaultContext, RenderContext} from './create-default-context';
 
 export class BaseContentTypeRenderer implements ContentTypeRenderer {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function

@@ -1,7 +1,7 @@
 import {Field} from 'contentful';
-import {inValidations} from '../cf-extract-validation';
-import {renderTypeArray, renderTypeLiteral, renderTypeUnion} from '../renderer';
-import {RenderContext} from './render-types';
+import {inValidations} from '../../extract-validation';
+import {renderTypeArray, renderTypeLiteral, renderTypeUnion} from '../generic';
+import {RenderContext} from '../type';
 
 export const renderPropArray = (field: Field, context: RenderContext): string => {
     if (!field.items) {

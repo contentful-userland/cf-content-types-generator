@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
-import { CFContentType } from '../src/types';
+import {DefaultContentTypeRenderer, RenderContext} from "../../../src/renderer/type";
+import { CFContentType } from '../../../src/types';
 import { Field, FieldType } from 'contentful';
-import { FieldRenderer, DefaultContentTypeRenderer, RenderContext, defaultRenderers } from '../src/type-renderer';
-import { moduleFieldsName, moduleName } from '../src/cf-module-name';
-import { renderTypeGeneric } from '../src/renderer';
+import { FieldRenderer, defaultRenderers } from '../../../src/renderer/field';
+import { moduleFieldsName, moduleName } from '../../../src/module-name';
+import { renderTypeGeneric } from '../../../src/renderer/generic';
 
 import stripIndent = require('strip-indent');
 

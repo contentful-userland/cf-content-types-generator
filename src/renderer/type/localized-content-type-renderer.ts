@@ -1,7 +1,7 @@
 import {Project, SourceFile} from 'ts-morph';
-import {renderTypeGeneric} from '../renderer';
-import {CFContentType} from '../types';
-import {BaseContentTypeRenderer} from './cf-base-content-type-renderer';
+import {renderTypeGeneric} from '../generic';
+import {CFContentType} from '../../types';
+import {BaseContentTypeRenderer} from './base-content-type-renderer';
 
 export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
     private readonly FILE_BASE_NAME = 'Localized'

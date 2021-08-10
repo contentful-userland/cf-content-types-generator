@@ -1,5 +1,5 @@
 import { expect } from "@oclif/test";
-import { linkContentTypeValidations } from "../src/cf-extract-validation";
+import { linkContentTypeValidations } from "../src/extract-validation";
 
 describe('A linkContentTypeValidations function', () => {
     it('parses empty validations', () => {

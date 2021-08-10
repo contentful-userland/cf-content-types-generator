@@ -1,12 +1,7 @@
 import {expect} from 'chai';
 import {Project, ScriptTarget, SourceFile} from 'ts-morph';
-import {LocalizedContentTypeRenderer} from "../src/type-renderer/cf-localized-content-type-renderer";
-import {CFContentType} from '../src/types';
-import {Field, FieldType} from 'contentful';
-import {FieldRenderer, DefaultContentTypeRenderer, RenderContext, defaultRenderers} from '../src/type-renderer';
-import {moduleFieldsName, moduleName} from '../src/cf-module-name';
-import {renderTypeGeneric} from '../src/renderer';
-
+import {LocalizedContentTypeRenderer} from "../../../src/renderer/type";
+import {CFContentType} from '../../../src/types';
 import stripIndent = require('strip-indent');
 
 describe('A localized content type renderer class', () => {

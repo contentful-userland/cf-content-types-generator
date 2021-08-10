@@ -1,7 +1,7 @@
 import {Field} from 'contentful';
-import {renderTypeGeneric, renderTypeUnion} from '../renderer';
-import {RenderContext} from './render-types';
-import {linkContentTypeValidations} from '../cf-extract-validation';
+import {linkContentTypeValidations} from '../../extract-validation';
+import {renderTypeGeneric, renderTypeUnion} from '../generic';
+import {RenderContext} from '../type';
 
 export const renderPropLink = (field: Pick<Field, 'validations' | 'linkType'>, context: RenderContext) => {
     const linkContentType = (field: Pick<Field, 'validations'>, context: RenderContext): string => {

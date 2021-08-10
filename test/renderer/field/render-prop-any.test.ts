@@ -1,4 +1,4 @@
-import { renderPropAny } from '../../src/type-renderer';
+import { renderPropAny } from '../../../src/renderer/field';
 import {expect} from '@oclif/test';
 
 describe('A renderPropAny function', () => {

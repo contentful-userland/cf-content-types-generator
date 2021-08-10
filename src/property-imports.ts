@@ -1,7 +1,7 @@
 import {Field} from 'contentful';
 import {ImportDeclarationStructure, OptionalKind} from 'ts-morph';
-import {RenderContext} from './type-renderer';
-import {linkContentTypeValidations} from './cf-extract-validation';
+import {linkContentTypeValidations} from './extract-validation';
+import {RenderContext} from './renderer/type';
 
 export const propertyImports = (field: Field, context: RenderContext, ignoreModule?: string): OptionalKind<ImportDeclarationStructure>[] => {
     const filterIgnoredModule = (name: string) => ignoreModule !== context.moduleName(name);

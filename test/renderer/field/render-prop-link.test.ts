@@ -1,5 +1,6 @@
-import {createDefaultContext, renderPropLink} from '../../src/type-renderer';
+import {renderPropLink} from '../../../src/renderer/field';
 import {expect} from '@oclif/test';
+import {createDefaultContext} from "../../../src/renderer/type";
 
 describe('A renderPropLink function', () => {
     it('can evaluate a "Link" type', () => {

@@ -1,5 +1,6 @@
-import {createDefaultContext, renderRichText} from '../../src/type-renderer';
+import {renderRichText} from '../../../src/renderer/field';
 import {expect} from '@oclif/test';
+import {createDefaultContext} from "../../../src/renderer/type";
 
 describe('A renderPropRichText function', () => {
     it('can evaluate a "RichText" type', () => {
@@ -17,10 +18,10 @@ describe('A renderPropRichText function', () => {
         `);
 
         const context = createDefaultContext();
-        const result = renderRichText(field, context); 
-        
+        const result = renderRichText(field, context);
+
         expect(result).to.equal('CFRichTextTypes.Block | CFRichTextTypes.Inline');
-        
+
         expect([...context.imports.values()]).to.eql([{
             moduleSpecifier: '@contentful/rich-text-types',
             namespaceImport: 'CFRichTextTypes',

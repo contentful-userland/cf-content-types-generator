@@ -1,5 +1,5 @@
 import { expect } from "@oclif/test";
-import { moduleName } from "../src/cf-module-name";
+import { moduleName } from "../src/module-name";
 
 describe('A moduleName function', () => {
 
