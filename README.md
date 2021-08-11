@@ -17,9 +17,11 @@
         - [Remote](#remote)
     - [Input](#input)
     - [Output](#output)
-    - [Custom Renderer](#custom-renderer)
-    - [Direct Usage](#direct-usage)
-    - [Browser Usage](#browser-usage)
+- [Renderer](#custom-renderer)
+  - [Default Renderer](#DefaultContentTypeRenderer)
+  - [Localized Renderer](#LocalizedContentTypeRenderer)
+- [Direct Usage](#direct-usage)
+- [Browser Usage](#browser-usage)
 
 ## Installation
 
@@ -234,9 +236,9 @@ export type TypeArtwork = Contentful.Entry<TypeArtworkFields>;
 ```
 This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
 
-### Custom Renderer
+# Renderer
 
-Extend the default `ContentTypeRenderer` class for custom rendering.
+Extend the default `BaseContentTypeRenderer` class, or implement the `ContentTypeRenderer` interface for custom rendering.
 
 Relevant methods to override:
 
@@ -252,17 +254,57 @@ Relevant methods to override:
 
 > Table represents order of execution
 
-Set content type renderer:
+Set content type renderers:
 
 ```typescript
 import CFDefinitionsBuilder from "cf-content-types-generator/lib/cf-definitions-builder";
-import {ContentTypeRenderer} from 'cf-content-types-generator/lib/type-renderer';
+import {DefaultContentTypeRenderer, LocalizedContentTypeRenderer} from 'cf-content-types-generator/lib/renderer/type';
 
-const renderer = new ContentTypeRenderer();
-const builder = new CFDefinitionsBuilder(renderer); 
+const builder = new CFDefinitionsBuilder([
+    new DefaultContentTypeRenderer(),
+    new LocalizedContentTypeRenderer()
+]); 
 ```
 
-### Direct Usage
+## DefaultContentTypeRenderer
+A renderer to render type fields and entry definitions. For most scenarios, this renderer is sufficient. 
+If no custom renderers given, `CFDefinitionsBuilder` creates a `DefaultContentTypeRenderer` by default.
+
+## LocalizedContentTypeRenderer
+Add additional types for localized fields. It adds utility types to transform fields into localized fields for given locales
+More details on the utility types can be found here: [Issue 121](https://github.com/contentful-userland/cf-content-types-generator/issues/121)
+
+#### Example output
+
+```typescript
+export interface TypeCategoryFields {
+    title: Contentful.EntryFields.Text;
+    icon?: Contentful.Asset;
+    categoryDescription?: Contentful.EntryFields.Text;
+}
+
+export type TypeCategory = Contentful.Entry<TypeCategoryFields>;
+
+export type LocalizedTypeCategoryFields<Locales extends keyof any> = LocalizedFields<TypeCategoryFields, Locales>;
+
+export type LocalizedTypeCategory<Locales extends keyof any> = LocalizedEntry<TypeCategory, Locales>;
+```
+
+#### Example usage
+
+```typescript
+const localizedCategory: LocalizedTypeCategory<'DE-de' | 'En-en'> = {
+    fields: {
+        categoryDescription: {
+            "DE-de": 'german description',
+            "En-en": 'english description'
+        }
+    }
+}
+```
+
+
+# Direct Usage
 
 If you're not a CLI person, or you want to integrate it with your tooling workflow, you can also directly use the `CFDefinitionsBuilder` from `cf-definitions-builder.ts`
 
@@ -286,7 +328,7 @@ const stringContent = new CFDefinitionsBuilder()
     .toString();
 ```
 
-### Browser Usage
+# Browser Usage
 You can use `CFDefinitionsBuilder` also in a browser environment.
 > Example: [TS Content Types Generator App](https://github.com/marcolink/cf-content-types-generator-app)
 

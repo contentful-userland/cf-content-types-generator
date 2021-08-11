@@ -13,4 +13,8 @@ export class BaseContentTypeRenderer implements ContentTypeRenderer {
     public createContext(): RenderContext {
         return createDefaultContext();
     }
+
+    additionalFiles(): SourceFile[] {
+        return [];
+    }
 }
