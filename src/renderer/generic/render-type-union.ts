@@ -1,3 +1,3 @@
 export const renderTypeUnion = (types: string[]): string => {
-    return types.join(' | ');
+    return types.sort().join(' | ');
 };
