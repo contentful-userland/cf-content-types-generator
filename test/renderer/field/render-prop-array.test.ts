@@ -77,7 +77,7 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).to.equal('("Feature" | "Benefit" | "Tech spec" | "Other")[]');
+    expect(renderPropArray(field, createDefaultContext())).to.equal('("Benefit" | "Feature" | "Other" | "Tech spec")[]');
   });
 
   it('can evaluate an "Array" of "Link" with "linkContentType" validation', () => {

@@ -41,7 +41,7 @@ describe('A renderPropAny function', () => {
         }
         `);
 
-        expect(renderPropAny(field)).to.equal('"Left-aligned" | "Center-aligned"');
+        expect(renderPropAny(field)).to.equal('"Center-aligned" | "Left-aligned"');
     });
 
     it('can evaluate a "Symbol" type with missing validations', () => {
