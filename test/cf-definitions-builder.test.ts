@@ -1,9 +1,8 @@
-import {expect} from '@oclif/test';
-import {writeFile} from "fs-extra";
 import * as fs from 'fs-extra';
-import * as path from 'path';
+import {writeFile} from 'fs-extra';
 //@ts-ignore
 import {cleanupTempDirs, createTempDir} from 'jest-fixtures';
+import * as path from 'path';
 
 import CFDefinitionsBuilder from '../src/cf-definitions-builder';
 import stripIndent = require('strip-indent');
@@ -39,12 +38,12 @@ describe('A Contentful definitions builder', () => {
                     type: 'UnknownType',
                 },
             },
-        })).to.throw('given data is not describing a ContentType');
+        })).toThrow('given data is not describing a ContentType');
     });
 
     it('can create a definition with empty fields', () => {
         builder.appendType(modelType);
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
 
                 export interface TypeSysIdFields {
@@ -71,7 +70,7 @@ describe('A Contentful definitions builder', () => {
                 ],
             },
         });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeSysIdFields {
@@ -99,7 +98,7 @@ describe('A Contentful definitions builder', () => {
                 ],
             },
         });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeSysIdFields {
@@ -127,7 +126,7 @@ describe('A Contentful definitions builder', () => {
                 ],
             },
         });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeSysIdFields {
@@ -162,7 +161,7 @@ describe('A Contentful definitions builder', () => {
                 ],
             },
         });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 import { TypeLinkedTypeFields } from "./TypeLinkedType";
 
@@ -203,7 +202,7 @@ describe('A Contentful definitions builder', () => {
                 ],
             },
         });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 import { TypeArtistFields } from "./TypeArtist";
                 import { TypeArtworkFields } from "./TypeArtwork";
@@ -240,7 +239,7 @@ describe('A Contentful definitions builder', () => {
                 ],
             },
         });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
 
                 export interface TypeSysIdFields {
@@ -276,7 +275,7 @@ describe('A Contentful definitions builder', () => {
                 ],
             },
         });
-        expect('\n' + builder.toString()).to.equal(stripIndent(`
+        expect('\n' + builder.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeSysIdFields {
@@ -294,7 +293,7 @@ describe('A Contentful definitions builder', () => {
 
         const result = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
 
-        expect('\n' + result.toString()).to.equal(stripIndent(`
+        expect('\n' + result.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeSysIdFields {
@@ -320,7 +319,7 @@ describe('A Contentful definitions builder', () => {
         const result1 = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
         const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 
-        expect('\n' + result1.toString()).to.equal(stripIndent(`
+        expect('\n' + result1.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeSysIdFields {
@@ -329,7 +328,7 @@ describe('A Contentful definitions builder', () => {
                 export type TypeSysId = Contentful.Entry<TypeSysIdFields>;
                 `));
 
-        expect('\n' + result2.toString()).to.equal(stripIndent(`
+        expect('\n' + result2.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeMyTypeFields {
@@ -373,7 +372,7 @@ describe('A Contentful definitions builder', () => {
         const result1 = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
         const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 
-        expect('\n' + result1.toString()).to.equal(stripIndent(`
+        expect('\n' + result1.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeSysIdFields {
@@ -382,7 +381,7 @@ describe('A Contentful definitions builder', () => {
                 export type TypeSysId = Contentful.Entry<TypeSysIdFields>;
                 `));
 
-        expect('\n' + result2.toString()).to.equal(stripIndent(`
+        expect('\n' + result2.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 import { TypeSysIdFields } from "./TypeSysId";
                 
@@ -399,7 +398,7 @@ describe('A Contentful definitions builder', () => {
         await builder.write(fixturesPath, writeFile);
 
         const result1 = await fs.readFile(path.resolve(fixturesPath, 'index.ts'));
-        expect('\n' + result1.toString()).to.equal(stripIndent(`
+        expect('\n' + result1.toString()).toEqual(stripIndent(`
             export type { TypeSysId, TypeSysIdFields } from "./TypeSysId";
             `));
     });
@@ -437,7 +436,7 @@ describe('A Contentful definitions builder', () => {
 
         const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 
-        expect('\n' + result2.toString()).to.equal(stripIndent(`
+        expect('\n' + result2.toString()).toEqual(stripIndent(`
                 import * as Contentful from "contentful";
                 
                 export interface TypeMyTypeFields {
@@ -491,7 +490,7 @@ describe('A Contentful definitions builder', () => {
         const afterResult = builder.toString();
         await builder.write(fixturesPath, write(afterWriteResult));
 
-        expect(beforeResult).eql(afterResult);
-        expect(beforeWriteResult).eql(afterWriteResult);
+        expect(beforeResult).toEqual(afterResult);
+        expect(beforeWriteResult).toEqual(afterWriteResult);
     });
 });

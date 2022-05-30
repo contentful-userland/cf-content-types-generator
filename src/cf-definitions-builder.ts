@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from 'node:path';
 import {
     forEachStructureChild,
     ImportDeclarationStructure,
@@ -32,7 +32,7 @@ export default class CFDefinitionsBuilder {
             },
         });
 
-        this.contentTypeRenderers.forEach(renderer => renderer.setup(this.project));
+        for (const renderer of this.contentTypeRenderers)  renderer.setup(this.project);
     }
 
     public appendType = (model: CFContentType): CFDefinitionsBuilder => {
@@ -41,7 +41,7 @@ export default class CFDefinitionsBuilder {
         }
 
         const file = this.addFile(moduleName(model.sys.id));
-        this.contentTypeRenderers.forEach(renderer => renderer.render(model, file));
+        for (const renderer of this.contentTypeRenderers)  renderer.render(model, file);
 
         file.organizeImports({
             ensureNewLineAtEndOfFile: true,
@@ -69,41 +69,40 @@ export default class CFDefinitionsBuilder {
         const imports: OptionalKind<ImportDeclarationStructure>[] = [];
         const types: string[] = [];
 
-        this.project.getSourceFiles()
+        for (const sourceFile of this.project.getSourceFiles()
             .filter(sourceFile => {
                 return sourceFile.getBaseNameWithoutExtension() !== mergeFileName;
-            })
-            .forEach(sourceFile => forEachStructureChild(sourceFile.getStructure(),
-                childStructure => {
-                    switch (childStructure.kind) {
-                    case StructureKind.ImportDeclaration:
-                        imports.push(childStructure);
-                        break;
-                    case StructureKind.Interface:
-                        types.push(childStructure.name);
-                        mergeFile.addInterface(childStructure);
-                        break;
-                    case StructureKind.TypeAlias:
-                        types.push(childStructure.name);
-                        mergeFile.addTypeAlias(childStructure);
-                        break;
-                    default:
-                        throw new Error(`Unhandled node type '${StructureKind[childStructure.kind]}'.`);
-                    }
-                }));
+            }))  forEachStructureChild(sourceFile.getStructure(),
+            childStructure => {
+                switch (childStructure.kind) {
+                case StructureKind.ImportDeclaration:
+                    imports.push(childStructure);
+                    break;
+                case StructureKind.Interface:
+                    types.push(childStructure.name);
+                    mergeFile.addInterface(childStructure);
+                    break;
+                case StructureKind.TypeAlias:
+                    types.push(childStructure.name);
+                    mergeFile.addTypeAlias(childStructure);
+                    break;
+                default:
+                    throw new Error(`Unhandled node type '${StructureKind[childStructure.kind]}'.`);
+                }
+            });
 
         const additionalFiles = flatten(this.contentTypeRenderers.map(renderer => {
             return renderer.additionalFiles();
         }));
-        const additionalFileNames = additionalFiles.map(file => file.getBaseNameWithoutExtension());
+        const additionalFileNames = new Set(additionalFiles.map(file => file.getBaseNameWithoutExtension()));
 
         // only import modules not present in merge file and not present in additional files
-        imports.forEach(importD => {
+        for (const importD of imports) {
             const name = importD.moduleSpecifier.slice(2);
-            if (!types.includes(name) && !additionalFileNames.includes(name)) {
+            if (!types.includes(name) && !additionalFileNames.has(name)) {
                 mergeFile.addImportDeclaration(importD);
             }
-        });
+        }
 
         mergeFile.organizeImports({
             ensureNewLineAtEndOfFile: true,
@@ -136,7 +135,7 @@ export default class CFDefinitionsBuilder {
 
         // this assumes all things are named exports
         // maybe use https://github.com/dsherret/ts-morph/issues/165#issuecomment-350522329
-        this.project.getSourceFiles().forEach(sourceFile => {
+        for (const sourceFile of this.project.getSourceFiles()) {
             const exportDeclarations = sourceFile.getExportSymbols();
             if (sourceFile.getBaseNameWithoutExtension() !== 'index') {
                 indexFile.addExportDeclaration({
@@ -145,7 +144,7 @@ export default class CFDefinitionsBuilder {
                     moduleSpecifier: `./${sourceFile.getBaseNameWithoutExtension()}`,
                 });
             }
-        });
+        }
 
         indexFile.organizeImports();
     };

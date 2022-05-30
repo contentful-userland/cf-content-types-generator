@@ -1,5 +1,4 @@
 import { renderPropArray} from '../../../src/renderer/field';
-import { expect } from '@oclif/test';
 import {createDefaultContext} from "../../../src/renderer/type";
 
 describe('A renderPropArray function', () => {
@@ -23,7 +22,7 @@ describe('A renderPropArray function', () => {
       }
       `);
 
-    expect(renderPropArray(field, createDefaultContext())).to.equal('Contentful.Entry<Record<string, any>>[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual('Contentful.Entry<Record<string, any>>[]');
   });
 
   it('can evaluate an "Array" of "Symbol"', () => {
@@ -46,7 +45,7 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).to.equal('Contentful.EntryFields.Symbol[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual('Contentful.EntryFields.Symbol[]');
   });
 
   it('can evaluate an "Array" of "Symbol" with "in" validation', () => {
@@ -77,7 +76,7 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).to.equal('("Benefit" | "Feature" | "Other" | "Tech spec")[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual('("Benefit" | "Feature" | "Other" | "Tech spec")[]');
   });
 
   it('can evaluate an "Array" of "Link" with "linkContentType" validation', () => {
@@ -109,6 +108,6 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).to.equal('Contentful.Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual('Contentful.Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]');
   });
 });

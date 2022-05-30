@@ -66,9 +66,9 @@ export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
             namedImports: ['LocalizedFields', 'LocalizedEntry'],
         });
 
-        context.imports.forEach(structure => {
+        for (const structure of context.imports) {
             file.addImportDeclaration(structure);
-        });
+        }
     }
 
     public additionalFiles(): SourceFile[] {

@@ -1,11 +1,10 @@
 import {Command, flags} from '@oclif/command';
 import * as fs from 'fs-extra';
 import {writeFile} from 'fs-extra';
-import * as path from 'path';
+import * as path from 'node:path';
 import CFDefinitionsBuilder from './cf-definitions-builder';
 import {ContentTypeRenderer, DefaultContentTypeRenderer, LocalizedContentTypeRenderer} from './renderer/type';
-
-const contentfulExport = require('contentful-export');
+import contentfulExport from 'contentful-export';
 
 class ContentfulMdg extends Command {
     static description = 'Contentful Content Types (TS Definitions) Generator';
@@ -25,7 +24,7 @@ class ContentfulMdg extends Command {
 
     static args = [{name: 'file', description: 'local export (.json)'}];
 
-    async run() {
+    async run(): Promise<string | void> {
         const {args, flags} = this.parse(ContentfulMdg);
 
         if (args.file && !fs.existsSync(args.file)) {
@@ -59,13 +58,16 @@ class ContentfulMdg extends Command {
         }
 
         const builder = new CFDefinitionsBuilder(renderers);
-        content.contentTypes.forEach(builder.appendType);
+        for (const model of content.contentTypes) {
+            builder.appendType(model);
+        }
 
         if (flags.out) {
             const outDir = path.resolve(flags.out);
             if (!flags.preserve && fs.existsSync(outDir)) {
                 await fs.remove(outDir);
             }
+
             await fs.ensureDir(outDir);
             await builder.write(flags.out, writeFile);
         } else {
