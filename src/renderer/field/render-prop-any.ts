@@ -13,8 +13,10 @@ export const renderPropAny = (field: Field): string => {
                 ) {
                     return renderTypeLiteral;
                 }
+
                 return (value: string) => value.toString();
             };
+
             return renderTypeUnion(includesValidation.in.map(type => mapper()(type)));
         }
     }

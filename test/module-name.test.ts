@@ -1,4 +1,3 @@
-import { expect } from "@oclif/test";
 import { moduleName } from "../src/module-name";
 
 describe('A moduleName function', () => {
@@ -16,7 +15,7 @@ describe('A moduleName function', () => {
 
     specs.forEach(spec => {
         it('transforms \'' + spec.input + '\' to valid module name \'' + spec.expect + '\'', () => {
-            expect(moduleName(spec.input)).to.equal(spec.expect);
+            expect(moduleName(spec.input)).toEqual(spec.expect);
         });
     })
 });

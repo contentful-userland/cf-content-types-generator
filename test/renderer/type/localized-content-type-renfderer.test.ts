@@ -1,8 +1,7 @@
-import {expect} from 'chai';
-import {Project, ScriptTarget, SourceFile} from 'ts-morph';
-import {LocalizedContentTypeRenderer} from "../../../src/renderer/type";
-import {CFContentType} from '../../../src/types';
 import stripIndent = require('strip-indent');
+import {Project, ScriptTarget, SourceFile} from 'ts-morph';
+import {LocalizedContentTypeRenderer} from '../../../src/renderer/type';
+import {CFContentType} from '../../../src/types';
 
 describe('A localized content type renderer class', () => {
 
@@ -27,7 +26,7 @@ describe('A localized content type renderer class', () => {
 
         const file = project.getSourceFile('Localized.ts')
 
-        expect(file?.getFullText()).to.equal(stripIndent(`
+        expect(file?.getFullText()).toEqual(stripIndent(`
         /* Utility types for localized entries */
         export type LocalizedFields<Fields, Locales extends keyof any> = {
             [FieldName in keyof Fields]?: {
@@ -67,7 +66,7 @@ describe('A localized content type renderer class', () => {
 
         renderer.render(contentType, testFile);
 
-        expect('\n' + testFile.getFullText()).to.equal(stripIndent(`
+        expect('\n' + testFile.getFullText()).toEqual(stripIndent(`
         import { LocalizedFields, LocalizedEntry } from "./Localized";
         
         export type LocalizedTypeTestFields<Locales extends keyof any> = LocalizedFields<TypeTestFields, Locales>;

@@ -18,6 +18,7 @@ export const renderPropArray = (field: Field, context: RenderContext): string =>
         if (validation?.length > 0) {
             return renderTypeArray(`(${renderTypeUnion(validation.map((val: string) => renderTypeLiteral(val)))})`);
         }
+
         return renderTypeArray('Contentful.EntryFields.Symbol');
     }
 

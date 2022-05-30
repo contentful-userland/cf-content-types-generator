@@ -15,27 +15,27 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
 
         file.addTypeAlias(this.renderEntry(contentType, context));
 
-        context.imports.forEach(structure => {
+        for (const structure of context.imports) {
             file.addImportDeclaration(structure);
-        });
+        }
     }
 
     protected renderFieldsInterface(
         contentType: CFContentType,
         file: SourceFile,
-        context: RenderContext) {
+        context: RenderContext):void {
         const fieldsInterfaceName = context.moduleFieldsName(contentType.sys.id);
         const interfaceDeclaration = file.addInterface({
             name: fieldsInterfaceName,
             isExported: true,
         });
 
-        contentType.fields.forEach(field => {
+        for (const field of contentType.fields) {
             interfaceDeclaration.addProperty(this.renderField(field, context));
-            propertyImports(field, context, file.getBaseNameWithoutExtension()).forEach(pImport => {
+            for (const pImport of propertyImports(field, context, file.getBaseNameWithoutExtension())) {
                 context.imports.add(pImport);
-            });
-        });
+            }
+        }
     }
 
     protected addDefaultImports(context: RenderContext): void {

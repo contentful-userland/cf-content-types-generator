@@ -3,7 +3,7 @@ import {linkContentTypeValidations} from '../../extract-validation';
 import {renderTypeGeneric, renderTypeUnion} from '../generic';
 import {RenderContext} from '../type';
 
-export const renderPropLink = (field: Pick<Field, 'validations' | 'linkType'>, context: RenderContext) => {
+export const renderPropLink = (field: Pick<Field, 'validations' | 'linkType'>, context: RenderContext): string => {
     const linkContentType = (field: Pick<Field, 'validations'>, context: RenderContext): string => {
         const validations = linkContentTypeValidations(field);
         return validations?.length > 0

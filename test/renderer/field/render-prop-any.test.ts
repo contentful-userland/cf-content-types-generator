@@ -1,5 +1,4 @@
 import { renderPropAny } from '../../../src/renderer/field';
-import {expect} from '@oclif/test';
 
 describe('A renderPropAny function', () => {
     it('can evaluate a "Symbol" type', () => {
@@ -17,7 +16,7 @@ describe('A renderPropAny function', () => {
         }
         `);
 
-        expect(renderPropAny(field)).to.equal('Contentful.EntryFields.Symbol');
+        expect(renderPropAny(field)).toEqual('Contentful.EntryFields.Symbol');
     });
 
     it('can evaluate a "Symbol" type with "in" validation', () => {
@@ -41,7 +40,7 @@ describe('A renderPropAny function', () => {
         }
         `);
 
-        expect(renderPropAny(field)).to.equal('"Center-aligned" | "Left-aligned"');
+        expect(renderPropAny(field)).toEqual('"Center-aligned" | "Left-aligned"');
     });
 
     it('can evaluate a "Symbol" type with missing validations', () => {
@@ -57,7 +56,7 @@ describe('A renderPropAny function', () => {
       }
       `);
 
-      expect(renderPropAny(field)).to.equal('Contentful.EntryFields.Symbol');
+      expect(renderPropAny(field)).toEqual('Contentful.EntryFields.Symbol');
     });
 
 });

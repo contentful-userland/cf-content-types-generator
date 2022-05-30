@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { Project, ScriptTarget, SourceFile } from 'ts-morph';
-import {DefaultContentTypeRenderer, RenderContext} from "../../../src/renderer/type";
-import { CFContentType } from '../../../src/types';
-import { Field, FieldType } from 'contentful';
-import { FieldRenderer, defaultRenderers } from '../../../src/renderer/field';
-import { moduleFieldsName, moduleName } from '../../../src/module-name';
-import { renderTypeGeneric } from '../../../src/renderer/generic';
+import {Field, FieldType} from 'contentful';
 
+import {Project, ScriptTarget, SourceFile} from 'ts-morph';
+import {moduleFieldsName, moduleName} from '../../../src/module-name';
+import {defaultRenderers, FieldRenderer} from '../../../src/renderer/field';
+import {renderTypeGeneric} from '../../../src/renderer/generic';
+import {DefaultContentTypeRenderer, RenderContext} from '../../../src/renderer/type';
+import {CFContentType} from '../../../src/types';
 import stripIndent = require('strip-indent');
 
 describe('A derived content type renderer class', () => {
@@ -26,7 +25,7 @@ describe('A derived content type renderer class', () => {
     })
 
     it('can return a custom field type renderer', () => {
-        const symbolTypeRenderer = (field: Field, context: RenderContext) => {
+        const symbolTypeRenderer = () => {
             return 'Test.Symbol'
         }
         class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
@@ -69,7 +68,7 @@ describe('A derived content type renderer class', () => {
 
         renderer.render(contentType, testFile);
 
-        expect('\n' + testFile.getFullText()).to.equal(stripIndent(`
+        expect('\n' + testFile.getFullText()).toEqual(stripIndent(`
         import * as Contentful from "contentful";
         
         export interface TypeTestFields {
@@ -123,7 +122,7 @@ describe('A derived content type renderer class', () => {
 
         renderer.render(contentType, testFile);
 
-        expect('\n' + testFile.getFullText()).to.equal(stripIndent(`
+        expect('\n' + testFile.getFullText()).toEqual(stripIndent(`
         import * as Contentful from "contentful";
         
         export interface TypeTestFields {
@@ -170,7 +169,7 @@ describe('A derived content type renderer class', () => {
 
         renderer.render(contentType, testFile);
 
-        expect('\n' + testFile.getFullText()).to.equal(stripIndent(`
+        expect('\n' + testFile.getFullText()).toEqual(stripIndent(`
         import * as Contentful from "contentful";
         import { IdScopedEntry } from "@custom";
         

@@ -18,14 +18,16 @@ export const propertyImports = (field: Field, context: RenderContext, ignoreModu
     if (field.type === 'Link' && field.linkType === 'Entry') {
         return field.validations?.length > 0
             ? linkContentTypeValidations(field)
-                .filter(filterIgnoredModule)
+                .filter((name:string) => filterIgnoredModule(name))
                 .map((contentType: string) => moduleImport(contentType))
             : [moduleImport(field.id)];
     }
+
     if (field.type === 'Array' && field.items) {
         return linkContentTypeValidations(field.items)
-            .filter(filterIgnoredModule)
+            .filter((name:string) => filterIgnoredModule(name))
             .map((contentType: string) => moduleImport(contentType));
     }
+
     return [];
 };

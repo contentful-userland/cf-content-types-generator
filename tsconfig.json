@@ -4,7 +4,6 @@
     "importHelpers": true,
     "module": "commonjs",
     "outDir": "lib",
-    "rootDir": "src",
     "strict": true,
     "target": "es2017",
     "allowSyntheticDefaultImports": true
@@ -14,6 +13,7 @@
   ],
   "exclude": [
     "**/*.test.ts",
-    "lib"
+    "lib",
+    "test"
   ]
 }

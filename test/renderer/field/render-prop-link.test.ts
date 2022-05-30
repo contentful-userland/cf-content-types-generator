@@ -1,5 +1,4 @@
 import {renderPropLink} from '../../../src/renderer/field';
-import {expect} from '@oclif/test';
 import {createDefaultContext} from "../../../src/renderer/type";
 
 describe('A renderPropLink function', () => {
@@ -24,7 +23,7 @@ describe('A renderPropLink function', () => {
         }
         `);
 
-        expect(renderPropLink(field, createDefaultContext())).to.equal('Contentful.Entry<TypeTopicCategoryFields>');
+        expect(renderPropLink(field, createDefaultContext())).toEqual('Contentful.Entry<TypeTopicCategoryFields>');
     });
 
     it('can evaluate a "Link" type with no validations', () => {
@@ -42,7 +41,7 @@ describe('A renderPropLink function', () => {
       }
       `);
 
-      expect(renderPropLink(field, createDefaultContext())).to.equal('Contentful.Entry<Record<string, any>>');
+      expect(renderPropLink(field, createDefaultContext())).toEqual('Contentful.Entry<Record<string, any>>');
     });
 
 });
