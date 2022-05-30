@@ -36,6 +36,7 @@
     "type-fest": "^1.0.1"
   },
   "devDependencies": {
+    "@oclif/dev-cli": "^1.26.10",
     "@oclif/test": "^2.1.0",
     "@semantic-release/changelog": "^6.0.1",
     "@types/fs-extra": "^9.0.1",
