@@ -53,7 +53,7 @@
   },
   "scripts": {
     "posttest": "eslint . --ext .ts --config .eslintrc --fix",
-    "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
+    "prepack": "rm -rf lib && tsc -b && oclif readme",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
