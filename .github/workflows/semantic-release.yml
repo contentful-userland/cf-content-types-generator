@@ -17,7 +17,7 @@ jobs:
           node-version: '16.x'
       - run: yarn
         name: Install dependencies
-      - run: yarn test
+      - run: yarn test:coverage
         name: Run tests
       - run: yarn run semantic-release
         env:
