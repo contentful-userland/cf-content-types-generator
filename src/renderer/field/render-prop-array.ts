@@ -16,7 +16,13 @@ export const renderPropArray = (field: Field, context: RenderContext): string =>
         const validation = inValidations(field.items);
 
         if (validation?.length > 0) {
-            return renderTypeArray(`(${renderTypeUnion(validation.map((val: string) => renderTypeLiteral(val)))})`);
+            const validationsTypes = validation.map((val: string) => renderTypeLiteral(val));
+
+            if (validationsTypes.length > 1) {
+                return renderTypeArray(`(${renderTypeUnion(validationsTypes)})`);
+            }
+
+            return renderTypeArray(`${renderTypeUnion(validationsTypes)}`);
         }
 
         return renderTypeArray('Contentful.EntryFields.Symbol');
