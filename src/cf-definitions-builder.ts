@@ -50,6 +50,12 @@ export default class CFDefinitionsBuilder {
         return this;
     };
 
+    public appendTypes = (models: CFContentType[]): CFDefinitionsBuilder => {
+        for (const model of models)  this.appendType(model);
+
+        return this;
+    };
+
     public write = async (dir: string, writeCallback: WriteCallback): Promise<void> => {
         this.addIndexFile();
 
