@@ -5,7 +5,8 @@
   "author": "Marco Link<marco.link@contentful.com>",
   "license": "MIT",
   "bin": {
-    "cf-content-types-generator": "./bin/run"
+    "cf-content-types-generator": "./bin/run",
+    "cf-content-types-generator-dev": "./bin/run-dev"
   },
   "main": "lib/index.js",
   "bugs": "https://github.com/contentful-labs/cf-content-types-generator/issues",
@@ -17,7 +18,8 @@
   },
   "repository": "contentful-labs/cf-content-types-generator",
   "files": [
-    "/bin",
+    "/bin/run",
+    "/bin/run.cmd",
     "/lib"
   ],
   "dependencies": {
