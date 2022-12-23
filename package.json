@@ -52,14 +52,16 @@
     "typescript": "^4.7.2"
   },
   "scripts": {
-    "posttest": "eslint . --ext .ts --config .eslintrc --fix",
+    "posttest": "yarn lint:fix",
+    "lint": "eslint . --ext .ts --config .eslintrc",
+    "lint:fix": "yarn lint --fix",
     "prepack": "rm -rf lib && tsc -b && oclif readme",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "build": "./node_modules/.bin/tsc",
     "version": "oclif readme && git add README.md",
-    "presemantic-release": "yarn run build",
+    "presemantic-release": "yarn build",
     "semantic-release": "semantic-release"
   },
   "types": "lib/index.d.ts",
