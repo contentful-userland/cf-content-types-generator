@@ -8,12 +8,6 @@
     "target": "es2017",
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "**/*.test.ts",
-    "lib",
-    "test"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["**/*.test.ts", "lib", "test"]
 }

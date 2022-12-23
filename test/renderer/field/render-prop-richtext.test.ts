@@ -1,9 +1,9 @@
-import {renderRichText} from '../../../src/renderer/field';
-import {createDefaultContext} from "../../../src/renderer/type";
+import { renderRichText } from '../../../src/renderer/field';
+import { createDefaultContext } from '../../../src/renderer/type';
 
 describe('A renderPropRichText function', () => {
-    it('can evaluate a "RichText" type', () => {
-        const field = JSON.parse(`
+  it('can evaluate a "RichText" type', () => {
+    const field = JSON.parse(`
         {
           "id": "info",
           "name": "Info",
@@ -16,14 +16,16 @@ describe('A renderPropRichText function', () => {
         }
         `);
 
-        const context = createDefaultContext();
-        const result = renderRichText(field, context);
+    const context = createDefaultContext();
+    const result = renderRichText(field, context);
 
-        expect(result).toEqual('CFRichTextTypes.Block | CFRichTextTypes.Inline');
+    expect(result).toEqual('CFRichTextTypes.Block | CFRichTextTypes.Inline');
 
-        expect([...context.imports.values()]).toEqual([{
-            moduleSpecifier: '@contentful/rich-text-types',
-            namespaceImport: 'CFRichTextTypes',
-        }])
-    });
+    expect([...context.imports.values()]).toEqual([
+      {
+        moduleSpecifier: '@contentful/rich-text-types',
+        namespaceImport: 'CFRichTextTypes',
+      },
+    ]);
+  });
 });

@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "oclif",
-    "oclif-typescript"
-  ],
+  "extends": ["oclif", "oclif-typescript"],
   "rules": {
     "operator-linebreak": [
       "error",
@@ -14,20 +11,12 @@
         }
       }
     ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "indent": [
-      "error",
-      4
-    ]
+    "semi": ["error", "always"],
+    "indent": ["error", 4]
   },
   "overrides": [
     {
-      "files": [
-        "src/renderer/type/base-content-type-renderer.ts"
-      ],
+      "files": ["src/renderer/type/base-content-type-renderer.ts"],
       "rules": {
         "@typescript-eslint/no-unused-vars": [0]
       }
