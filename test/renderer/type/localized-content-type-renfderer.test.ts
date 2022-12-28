@@ -46,7 +46,6 @@ describe('A localized content type renderer class', () => {
         const renderer = new LocalizedContentTypeRenderer();
 
         const contentType: CFContentType = {
-            id: 'unused-id',
             name: 'display name',
             sys: {
                 id: 'test',

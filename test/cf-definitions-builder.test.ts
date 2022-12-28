@@ -22,7 +22,6 @@ describe('A Contentful definitions builder', () => {
     });
 
     const modelType = {
-        id: 'rootId',
         name: 'Root Name',
         sys: {
             id: 'sysId',
@@ -306,7 +305,6 @@ describe('A Contentful definitions builder', () => {
     it('can write multiple interfaces to output files', async () => {
         builder.appendType(modelType);
         builder.appendType({
-            id: 'rootId',
             name: 'Root Name',
             sys: {
                 id: 'myType',
@@ -341,7 +339,6 @@ describe('A Contentful definitions builder', () => {
     it('can reference one type to the other', async () => {
         builder.appendType(modelType);
         builder.appendType({
-            id: 'rootId',
             name: 'Root Name',
             sys: {
                 id: 'myType',
@@ -406,7 +403,6 @@ describe('A Contentful definitions builder', () => {
     it('can self-reference', async () => {
         builder.appendType(modelType);
         builder.appendType({
-            id: 'rootId',
             name: 'Root Name',
             sys: {
                 id: 'myType',
@@ -450,7 +446,6 @@ describe('A Contentful definitions builder', () => {
     it('is not changing source project on export', async () => {
         builder.appendType(modelType);
         builder.appendType({
-            id: 'rootId',
             name: 'Root Name',
             sys: {
                 id: 'myType',
