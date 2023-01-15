@@ -1,5 +1,5 @@
-import {Field, FieldType} from 'contentful';
-import {RenderContext} from '../type';
+import { Field, FieldType } from 'contentful';
+import { RenderContext } from '../type';
 
 export type FieldRenderer<FType extends FieldType> = (
   field: FType extends 'Link' ? Pick<Field, 'validations' | 'linkType'> : Field,

@@ -1,5 +1,5 @@
 {
-  "extends": ["oclif", "oclif-typescript"],
+  "extends": ["oclif", "oclif-typescript", "prettier"],
   "rules": {
     "operator-linebreak": [
       "error",
@@ -11,8 +11,7 @@
         }
       }
     ],
-    "semi": ["error", "always"],
-    "indent": ["error", 4]
+    "semi": ["error", "always"]
   },
   "overrides": [
     {

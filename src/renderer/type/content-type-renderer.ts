@@ -1,6 +1,6 @@
-import {Project, SourceFile} from 'ts-morph';
-import {CFContentType} from '../../types';
-import {RenderContext} from './create-default-context';
+import { Project, SourceFile } from 'ts-morph';
+import { CFContentType } from '../../types';
+import { RenderContext } from './create-default-context';
 
 export interface ContentTypeRenderer {
   setup(project: Project): void;
