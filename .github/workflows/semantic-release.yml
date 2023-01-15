@@ -8,21 +8,32 @@ on:
 
 jobs:
   build:
+    name: Build & Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      - run: yarn
-        name: Install dependencies
-      - run: yarn test:coverage
-        name: Run tests
-      - run: yarn run semantic-release
+
+      - name: Install Dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Run Lint
+        run: yarn lint
+
+      - name: Run Tests
+        run: yarn run test:coverage
+
+      - name: Release
+        run: yarn run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
