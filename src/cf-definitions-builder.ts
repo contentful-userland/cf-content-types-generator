@@ -1,4 +1,3 @@
-import * as path from 'node:path';
 import {
   forEachStructureChild,
   ImportDeclarationStructure,
@@ -59,8 +58,12 @@ export default class CFDefinitionsBuilder {
   public write = async (dir: string, writeCallback: WriteCallback): Promise<void> => {
     this.addIndexFile();
 
+    if (dir.endsWith('/')) {
+      dir = dir.slice(0, -1);
+    }
+
     const writePromises = this.project.getSourceFiles().map((file) => {
-      const targetPath = path.resolve(dir, file.getFilePath().slice(1));
+      const targetPath = `${dir}${file.getFilePath()}`;
       return writeCallback(targetPath, file.getFullText());
     });
     await Promise.all(writePromises);
