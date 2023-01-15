@@ -133,9 +133,7 @@
             "type": "Link",
             "validations": [
               {
-                "linkContentType": [
-                  "category"
-                ]
+                "linkContentType": ["category"]
               }
             ],
             "linkType": "Entry"
@@ -159,9 +157,7 @@
           "required": false,
           "validations": [
             {
-              "linkContentType": [
-                "brand"
-              ]
+              "linkContentType": ["brand"]
             }
           ],
           "disabled": false,

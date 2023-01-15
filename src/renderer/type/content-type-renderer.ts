@@ -3,12 +3,11 @@ import {CFContentType} from '../../types';
 import {RenderContext} from './create-default-context';
 
 export interface ContentTypeRenderer {
+  setup(project: Project): void;
 
-    setup(project: Project): void;
+  render(contentType: CFContentType, file: SourceFile): void;
 
-    render(contentType: CFContentType, file: SourceFile): void;
+  createContext(): RenderContext;
 
-    createContext(): RenderContext;
-
-    additionalFiles(): SourceFile[];
+  additionalFiles(): SourceFile[];
 }

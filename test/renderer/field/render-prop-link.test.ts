@@ -1,9 +1,9 @@
-import {renderPropLink} from '../../../src/renderer/field';
-import {createDefaultContext} from "../../../src/renderer/type";
+import { renderPropLink } from '../../../src/renderer/field';
+import { createDefaultContext } from '../../../src/renderer/type';
 
 describe('A renderPropLink function', () => {
-    it('can evaluate a "Link" type', () => {
-        const field = JSON.parse(`
+  it('can evaluate a "Link" type', () => {
+    const field = JSON.parse(`
         {
           "id": "category",
           "name": "Category",
@@ -23,11 +23,13 @@ describe('A renderPropLink function', () => {
         }
         `);
 
-        expect(renderPropLink(field, createDefaultContext())).toEqual('Contentful.Entry<TypeTopicCategoryFields>');
-    });
+    expect(renderPropLink(field, createDefaultContext())).toEqual(
+      'Contentful.Entry<TypeTopicCategoryFields>',
+    );
+  });
 
-    it('can evaluate a "Link" type with no validations', () => {
-      const field = JSON.parse(`
+  it('can evaluate a "Link" type with no validations', () => {
+    const field = JSON.parse(`
       {
         "id": "components",
         "name": "Components",
@@ -41,7 +43,8 @@ describe('A renderPropLink function', () => {
       }
       `);
 
-      expect(renderPropLink(field, createDefaultContext())).toEqual('Contentful.Entry<Record<string, any>>');
-    });
-
+    expect(renderPropLink(field, createDefaultContext())).toEqual(
+      'Contentful.Entry<Record<string, any>>',
+    );
+  });
 });
