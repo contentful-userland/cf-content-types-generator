@@ -46,6 +46,7 @@
     "jest": "^28.1.0",
     "jest-fixtures": "^0.6.0",
     "oclif": "^3.0.1",
+    "prettier": "^2.8.1",
     "semantic-release": "^19.0.2",
     "strip-indent": "^3.0.0",
     "ts-jest": "^28.0.3",
@@ -55,6 +56,9 @@
   "scripts": {
     "posttest": "eslint . --ext .ts --config .eslintrc --fix",
     "prepack": "rm -rf lib && tsc -b && oclif readme",
+    "lint": "eslint . --ext .ts --config .eslintrc",
+    "lint:fix": "yarn lint --fix",
+    "prettier": "prettier . --write",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
