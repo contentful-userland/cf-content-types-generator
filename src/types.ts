@@ -1,4 +1,4 @@
-import {Field} from 'contentful';
+import { Field } from 'contentful';
 
 export type WriteCallback = (filePath: string, content: string) => Promise<void>;
 

@@ -93,7 +93,9 @@ describe('A derived content type renderer class', () => {
       protected renderEntry(contentType: CFContentType, context: RenderContext) {
         return {
           docs: [
-            { description: `content type "${contentType.name}" with id: ${contentType.sys.id}` },
+            {
+              description: `content type "${contentType.name}" with id: ${contentType.sys.id}`,
+            },
           ],
           name: context.moduleName(contentType.sys.id),
           isExported: true,
