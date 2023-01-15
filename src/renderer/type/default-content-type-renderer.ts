@@ -1,5 +1,10 @@
 import {Field} from 'contentful';
-import {OptionalKind, PropertySignatureStructure, SourceFile, TypeAliasDeclarationStructure} from 'ts-morph';
+import {
+    OptionalKind,
+    PropertySignatureStructure,
+    SourceFile,
+    TypeAliasDeclarationStructure,
+} from 'ts-morph';
 import {propertyImports} from '../../property-imports';
 import {renderTypeGeneric} from '../generic';
 import {CFContentType} from '../../types';
@@ -23,7 +28,8 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
     protected renderFieldsInterface(
         contentType: CFContentType,
         file: SourceFile,
-        context: RenderContext):void {
+        context: RenderContext,
+    ): void {
         const fieldsInterfaceName = context.moduleFieldsName(contentType.sys.id);
         const interfaceDeclaration = file.addInterface({
             name: fieldsInterfaceName,
@@ -47,10 +53,11 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
 
     protected renderField(
         field: Field,
-        context: RenderContext): OptionalKind<PropertySignatureStructure> {
+        context: RenderContext,
+    ): OptionalKind<PropertySignatureStructure> {
         return {
             name: field.id,
-            hasQuestionToken: field.omitted || (!field.required),
+            hasQuestionToken: field.omitted || !field.required,
             type: this.renderFieldType(field, context),
         };
     }
@@ -61,7 +68,8 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
 
     protected renderEntry(
         contentType: CFContentType,
-        context: RenderContext): OptionalKind<TypeAliasDeclarationStructure> {
+        context: RenderContext,
+    ): OptionalKind<TypeAliasDeclarationStructure> {
         return {
             name: context.moduleName(contentType.sys.id),
             isExported: true,

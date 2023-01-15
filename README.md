@@ -9,13 +9,14 @@
 [![Coverage Status](https://coveralls.io/repos/github/contentful-labs/cf-content-types-generator/badge.svg)](https://coveralls.io/github/contentful-labs/cf-content-types-generator)
 
 # Table of Contents
+
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Example](#example)
-        - [Local](#local)
-        - [Remote](#remote)
-    - [Input](#input)
-    - [Output](#output)
+  - [Example](#example)
+    - [Local](#local)
+    - [Remote](#remote)
+  - [Input](#input)
+  - [Output](#output)
 - [Renderer](#custom-renderer)
   - [Default Renderer](#DefaultContentTypeRenderer)
   - [Localized Renderer](#LocalizedContentTypeRenderer)
@@ -53,28 +54,34 @@ OPTIONS
 ### Example
 
 #### Local
+
 Use a local `JSON` file to load `contentTypes`. Flags for `spaceId`, `token` and `environement` will be ignored.
 
 **Will print result to console**
+
 ```bash
 cf-content-types-generator path/to/exported/file.json
 ```
+
 > in a real world scenario, you would pipe the result to a file.
 
 **Will store resulting files in target directory**
+
 ```bash
-cf-content-types-generator path/to/exported/file.json path/to/target/out/directory 
+cf-content-types-generator path/to/exported/file.json path/to/target/out/directory
 ```
+
 #### Remote
-If no `file` arg provided, remote mode es enabled. 
+
+If no `file` arg provided, remote mode es enabled.
 `spaceId` and `token` flags need to be set.
 
 ```bash
 cf-content-types-generator -s 2l3j7k267xxx  -t CFPAT-64FtZEIOruksuaE_Td0qBvHdELNWBCC0fZUWq1NFxxx
 ```
 
-
 ### Input
+
 As input a [json file](https://github.com/contentful/contentful-cli/tree/master/docs/space/export#exported-data) with a `contentTypes` field is expected:
 
 ```json
@@ -106,9 +113,7 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
           "required": false,
           "validations": [
             {
-              "linkMimetypeGroup": [
-                "image"
-              ]
+              "linkMimetypeGroup": ["image"]
             }
           ],
           "linkType": "Asset"
@@ -120,17 +125,14 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
           "required": false,
           "validations": [
             {
-              "nodes": {
-              }
+              "nodes": {}
             },
             {
-              "enabledMarks": [
-              ],
+              "enabledMarks": [],
               "message": "Marks are not allowed"
             },
             {
-              "enabledNodeTypes": [
-              ],
+              "enabledNodeTypes": [],
               "message": "Nodes are not allowed"
             }
           ]
@@ -150,8 +152,7 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
           "name": "Name",
           "type": "Symbol",
           "required": true,
-          "validations": [
-          ]
+          "validations": []
         },
         {
           "id": "type",
@@ -160,11 +161,7 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
           "required": false,
           "validations": [
             {
-              "in": [
-                "print",
-                "drawing",
-                "painting"
-              ],
+              "in": ["print", "drawing", "painting"],
               "message": "Hello - this is a custom error message."
             }
           ]
@@ -174,17 +171,12 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
           "name": "Preview",
           "type": "Array",
           "required": false,
-          "validations": [
-          ],
+          "validations": [],
           "items": {
             "type": "Link",
             "validations": [
               {
-                "linkMimetypeGroup": [
-                  "image",
-                  "audio",
-                  "video"
-                ]
+                "linkMimetypeGroup": ["image", "audio", "video"]
               }
             ],
             "linkType": "Asset"
@@ -197,9 +189,7 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
           "required": true,
           "validations": [
             {
-              "linkContentType": [
-                "artist"
-              ]
+              "linkContentType": ["artist"]
             }
           ],
           "linkType": "Entry"
@@ -209,30 +199,33 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
   ]
 }
 ```
+
 > This example shows a subset of the actual payload provided by contentful's cli export command.
 
-### Output 
+### Output
+
 ```typescript
-import * as CFRichTextTypes from "@contentful/rich-text-types";
-import * as Contentful from "contentful";
+import * as CFRichTextTypes from '@contentful/rich-text-types';
+import * as Contentful from 'contentful';
 
 export interface TypeArtistFields {
-    name: Contentful.EntryFields.Symbol;
-    profilePicture?: Contentful.Asset;
-    bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
+  name: Contentful.EntryFields.Symbol;
+  profilePicture?: Contentful.Asset;
+  bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
 }
 
 export type TypeArtist = Contentful.Entry<TypeArtistFields>;
 
 export interface TypeArtworkFields {
-    name: Contentful.EntryFields.Symbol;
-    type?: "print" | "drawing" | "painting";
-    preview?: Contentful.Asset[];
-    artist: Contentful.Entry<TypeArtistFields>;
+  name: Contentful.EntryFields.Symbol;
+  type?: 'print' | 'drawing' | 'painting';
+  preview?: Contentful.Asset[];
+  artist: Contentful.Entry<TypeArtistFields>;
 }
 
 export type TypeArtwork = Contentful.Entry<TypeArtworkFields>;
 ```
+
 This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
 
 # Renderer
@@ -241,35 +234,40 @@ Extend the default `BaseContentTypeRenderer` class, or implement the `ContentTyp
 
 Relevant methods to override:
 
-| Methods             | Description                                                  | Override                                                     |
-| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `render`            | Enriches a `SourceFile` with all relevant nodes              | To control content type rendering (you should know what you're doing) |
-| `getContext`        | Returns new render context object                            | To define custom type renderer and custom module name function |
-| `addDefaultImports` | Define set of default imports added to every file            | To control default imported modules                          |
-| `renderField`       | Returns a `PropertySignatureStructure` representing a field property | To control Field property rendering                          |
-| `renderFieldType`   | Returns a `string` representing a field type                 | To control field type rendering (recommended)                |
-| `renderEntry`       | Returns a `TypeAliasDeclarationStructure` representing an entry type alias | To control entry type alias rendering                        |
-| `renderEntryType`   | Returns a `string` representing an entry type                | To control entry type rendering (recommended)                |
+| Methods             | Description                                                                | Override                                                              |
+| ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `render`            | Enriches a `SourceFile` with all relevant nodes                            | To control content type rendering (you should know what you're doing) |
+| `getContext`        | Returns new render context object                                          | To define custom type renderer and custom module name function        |
+| `addDefaultImports` | Define set of default imports added to every file                          | To control default imported modules                                   |
+| `renderField`       | Returns a `PropertySignatureStructure` representing a field property       | To control Field property rendering                                   |
+| `renderFieldType`   | Returns a `string` representing a field type                               | To control field type rendering (recommended)                         |
+| `renderEntry`       | Returns a `TypeAliasDeclarationStructure` representing an entry type alias | To control entry type alias rendering                                 |
+| `renderEntryType`   | Returns a `string` representing an entry type                              | To control entry type rendering (recommended)                         |
 
 > Table represents order of execution
 
 Set content type renderers:
 
 ```typescript
-import CFDefinitionsBuilder from "cf-content-types-generator/lib/cf-definitions-builder";
-import {DefaultContentTypeRenderer, LocalizedContentTypeRenderer} from 'cf-content-types-generator/lib/renderer/type';
+import CFDefinitionsBuilder from 'cf-content-types-generator/lib/cf-definitions-builder';
+import {
+  DefaultContentTypeRenderer,
+  LocalizedContentTypeRenderer,
+} from 'cf-content-types-generator/lib/renderer/type';
 
 const builder = new CFDefinitionsBuilder([
-    new DefaultContentTypeRenderer(),
-    new LocalizedContentTypeRenderer()
-]); 
+  new DefaultContentTypeRenderer(),
+  new LocalizedContentTypeRenderer(),
+]);
 ```
 
 ## DefaultContentTypeRenderer
-A renderer to render type fields and entry definitions. For most scenarios, this renderer is sufficient. 
+
+A renderer to render type fields and entry definitions. For most scenarios, this renderer is sufficient.
 If no custom renderers given, `CFDefinitionsBuilder` creates a `DefaultContentTypeRenderer` by default.
 
 ## LocalizedContentTypeRenderer
+
 Add additional types for localized fields. It adds utility types to transform fields into localized fields for given locales
 More details on the utility types can be found here: [Issue 121](https://github.com/contentful-userland/cf-content-types-generator/issues/121)
 
@@ -277,57 +275,66 @@ More details on the utility types can be found here: [Issue 121](https://github.
 
 ```typescript
 export interface TypeCategoryFields {
-    title: Contentful.EntryFields.Text;
-    icon?: Contentful.Asset;
-    categoryDescription?: Contentful.EntryFields.Text;
+  title: Contentful.EntryFields.Text;
+  icon?: Contentful.Asset;
+  categoryDescription?: Contentful.EntryFields.Text;
 }
 
 export type TypeCategory = Contentful.Entry<TypeCategoryFields>;
 
-export type LocalizedTypeCategoryFields<Locales extends keyof any> = LocalizedFields<TypeCategoryFields, Locales>;
+export type LocalizedTypeCategoryFields<Locales extends keyof any> = LocalizedFields<
+  TypeCategoryFields,
+  Locales
+>;
 
-export type LocalizedTypeCategory<Locales extends keyof any> = LocalizedEntry<TypeCategory, Locales>;
+export type LocalizedTypeCategory<Locales extends keyof any> = LocalizedEntry<
+  TypeCategory,
+  Locales
+>;
 ```
 
 #### Example usage
 
 ```typescript
 const localizedCategory: LocalizedTypeCategory<'DE-de' | 'En-en'> = {
-    fields: {
-        categoryDescription: {
-            "DE-de": 'german description',
-            "En-en": 'english description'
-        }
-    }
-}
+  fields: {
+    categoryDescription: {
+      'DE-de': 'german description',
+      'En-en': 'english description',
+    },
+  },
+};
 ```
-
 
 # Direct Usage
 
 If you're not a CLI person, or you want to integrate it with your tooling workflow, you can also directly use the `CFDefinitionsBuilder` from `cf-definitions-builder.ts`
 
 ```typescript
-import CFDefinitionsBuilder from "cf-content-types-generator/lib/cf-definitions-builder";
+import CFDefinitionsBuilder from 'cf-content-types-generator/lib/cf-definitions-builder';
 
 const stringContent = new CFDefinitionsBuilder()
-    .appendType({
-        id: "rootId",
-        name: "Root Name",
-        sys: {
-            id: "sysId",
-            type: "ContentType",
-        }, fields: [{
-            id: "myFieldId",
-            type: "Symbol",
-            required: true,
-            validations: []            
-        }]
-    })
-    .toString();
+  .appendType({
+    id: 'rootId',
+    name: 'Root Name',
+    sys: {
+      id: 'sysId',
+      type: 'ContentType',
+    },
+    fields: [
+      {
+        id: 'myFieldId',
+        type: 'Symbol',
+        required: true,
+        validations: [],
+      },
+    ],
+  })
+  .toString();
 ```
 
 # Browser Usage
-You can use `CFDefinitionsBuilder` also in a browser environment.
-> Example: [TS Content Types Generator App](https://github.com/marcolink/cf-content-types-generator-app)
 
+You can use `CFDefinitionsBuilder` also in a browser environment.
+
+> Example: [TS Content Types Generator App](https://github.com/marcolink/cf-content-types-generator-app)

@@ -1,8 +1,7 @@
-import { renderPropArray} from '../../../src/renderer/field';
-import {createDefaultContext} from "../../../src/renderer/type";
+import { renderPropArray } from '../../../src/renderer/field';
+import { createDefaultContext } from '../../../src/renderer/type';
 
 describe('A renderPropArray function', () => {
-
   it('can evaluate a "Array" of "Link" with no validations', () => {
     const field = JSON.parse(`
       {
@@ -22,7 +21,9 @@ describe('A renderPropArray function', () => {
       }
       `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual('Contentful.Entry<Record<string, any>>[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual(
+      'Contentful.Entry<Record<string, any>>[]',
+    );
   });
 
   it('can evaluate an "Array" of "Symbol"', () => {
@@ -45,7 +46,9 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual('Contentful.EntryFields.Symbol[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual(
+      'Contentful.EntryFields.Symbol[]',
+    );
   });
 
   it('can evaluate an "Array" of "Symbol" with "in" validation', () => {
@@ -76,7 +79,9 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual('("Benefit" | "Feature" | "Other" | "Tech spec")[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual(
+      '("Benefit" | "Feature" | "Other" | "Tech spec")[]',
+    );
   });
 
   it('can evaluate an "Array" of "Link" with "linkContentType" validation', () => {
@@ -108,6 +113,8 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual('Contentful.Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]');
+    expect(renderPropArray(field, createDefaultContext())).toEqual(
+      'Contentful.Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]',
+    );
   });
 });
