@@ -25,14 +25,11 @@
     "@oclif/config": "^1.18.3",
     "@oclif/errors": "^1.3.5",
     "@oclif/plugin-help": "^5.1.12",
-    "cli-ux": "^6.0.9",
     "contentful": "^9.1.29",
     "contentful-export": "^7.17.13",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
-    "ts-morph": "^15.0.0",
-    "tslib": "^2",
-    "type-fest": "^1.0.1"
+    "ts-morph": "^15.0.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
@@ -53,7 +50,7 @@
     "strip-indent": "^3.0.0",
     "ts-jest": "^28.0.3",
     "ts-node": "^10.8.0",
-    "typescript": "^4.7.2"
+    "typescript": "4.7.2"
   },
   "scripts": {
     "posttest": "eslint . --ext .ts --config .eslintrc --fix",
@@ -65,7 +62,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "build": "./node_modules/.bin/tsc",
+    "build": "tsc",
     "version": "oclif readme && git add README.md",
     "presemantic-release": "yarn run build",
     "semantic-release": "semantic-release",
