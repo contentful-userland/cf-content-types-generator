@@ -1,17 +1,40 @@
-name: Test & Coverage
+name: CI
 
 on: [push]
 
 jobs:
-  build:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-      - run: yarn
-        name: Install dependencies
-      - run: yarn test:coverage
-        name: Run tests
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Run Lint
+        run: yarn lint
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Run Tests
+        run: yarn test:coverage
