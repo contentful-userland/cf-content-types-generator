@@ -8,7 +8,7 @@ import {
   DefaultContentTypeRenderer,
   LocalizedContentTypeRenderer,
 } from './renderer/type';
-const contentfulExport = require('contentful-export');
+import contentfulExport from 'contentful-export';
 
 class ContentfulMdg extends Command {
   static description = 'Contentful Content Types (TS Definitions) Generator';

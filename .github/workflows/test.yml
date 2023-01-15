@@ -37,7 +37,10 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Run Lint
-        run: yarn lint
+        run: yarn run lint
+
+      - name: Run Prettier
+        run: yarn run prettier
 
   test:
     name: Test

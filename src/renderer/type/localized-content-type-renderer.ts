@@ -16,6 +16,7 @@ export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
   setup(project: Project): void {
     const file = project.createSourceFile(
       `${this.FILE_BASE_NAME}.ts`,
+      // eslint-disable-next-line no-warning-comments
       // TODO: read from template file
       undefined,
       {
