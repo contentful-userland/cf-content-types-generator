@@ -8,8 +8,9 @@ import {
   DefaultContentTypeRenderer,
   LocalizedContentTypeRenderer,
 } from './renderer/type';
-import contentfulExport from 'contentful-export';
 
+// eslint-disable-next-line unicorn/prefer-module
+const contentfulExport = require('contentful-export');
 class ContentfulMdg extends Command {
   static description = 'Contentful Content Types (TS Definitions) Generator';
 
