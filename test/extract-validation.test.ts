@@ -1,4 +1,4 @@
-import { linkContentTypeValidations } from '../src/extract-validation';
+import { linkContentTypeValidations } from '../src';
 
 describe('A linkContentTypeValidations function', () => {
   it('parses empty validations', () => {

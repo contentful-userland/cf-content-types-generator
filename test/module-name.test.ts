@@ -1,4 +1,4 @@
-import { moduleName } from '../src/module-name';
+import { moduleName } from '../src';
 
 describe('A moduleName function', () => {
   const specs = [

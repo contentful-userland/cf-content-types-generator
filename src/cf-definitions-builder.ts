@@ -8,14 +8,14 @@ import {
   StructureKind,
 } from 'ts-morph';
 import { moduleName } from './module-name';
-import { ContentTypeRenderer, DefaultContentTypeRenderer } from './renderer/type';
+import { ContentTypeRenderer, DefaultContentTypeRenderer } from './renderer';
 import { CFContentType, WriteCallback } from './types';
 import { flatten } from 'lodash';
 
 export default class CFDefinitionsBuilder {
   private readonly project: Project;
 
-  private contentTypeRenderers: ContentTypeRenderer[];
+  private readonly contentTypeRenderers: ContentTypeRenderer[];
 
   constructor(contentTypeRenderers: ContentTypeRenderer[] = []) {
     if (contentTypeRenderers.length === 0) {
@@ -31,7 +31,9 @@ export default class CFDefinitionsBuilder {
       },
     });
 
-    for (const renderer of this.contentTypeRenderers) renderer.setup(this.project);
+    for (const renderer of this.contentTypeRenderers) {
+      renderer.setup(this.project);
+    }
   }
 
   public appendType = (model: CFContentType): CFDefinitionsBuilder => {
@@ -40,7 +42,9 @@ export default class CFDefinitionsBuilder {
     }
 
     const file = this.addFile(moduleName(model.sys.id));
-    for (const renderer of this.contentTypeRenderers) renderer.render(model, file);
+    for (const renderer of this.contentTypeRenderers) {
+      renderer.render(model, file);
+    }
 
     file.organizeImports({
       ensureNewLineAtEndOfFile: true,
@@ -50,7 +54,9 @@ export default class CFDefinitionsBuilder {
   };
 
   public appendTypes = (models: CFContentType[]): CFDefinitionsBuilder => {
-    for (const model of models) this.appendType(model);
+    for (const model of models) {
+      this.appendType(model);
+    }
 
     return this;
   };

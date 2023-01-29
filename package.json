@@ -8,6 +8,7 @@
     "cf-content-types-generator": "./bin/run"
   },
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "bugs": "https://github.com/contentful-labs/cf-content-types-generator/issues",
   "engines": {
     "node": ">=12.0.0"
@@ -70,7 +71,6 @@
     "semantic-release": "semantic-release",
     "prepare": "husky install"
   },
-  "types": "lib/index.d.ts",
   "release": {
     "branches": [
       "master",
