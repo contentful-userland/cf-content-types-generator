@@ -17,7 +17,7 @@
     - [Remote](#remote)
   - [Input](#input)
   - [Output](#output)
-- [Renderer](#custom-renderer)
+- [Renderer](#renderer)
   - [Default Renderer](#DefaultContentTypeRenderer)
   - [Localized Renderer](#LocalizedContentTypeRenderer)
 - [Direct Usage](#direct-usage)
@@ -235,7 +235,7 @@ Extend the default `BaseContentTypeRenderer` class, or implement the `ContentTyp
 Relevant methods to override:
 
 | Methods             | Description                                                                | Override                                                              |
-| ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+|---------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------|
 | `render`            | Enriches a `SourceFile` with all relevant nodes                            | To control content type rendering (you should know what you're doing) |
 | `getContext`        | Returns new render context object                                          | To define custom type renderer and custom module name function        |
 | `addDefaultImports` | Define set of default imports added to every file                          | To control default imported modules                                   |
@@ -249,11 +249,11 @@ Relevant methods to override:
 Set content type renderers:
 
 ```typescript
-import CFDefinitionsBuilder from 'cf-content-types-generator/lib/cf-definitions-builder';
+import CFDefinitionsBuilder from 'cf-content-types-generator';
 import {
   DefaultContentTypeRenderer,
   LocalizedContentTypeRenderer,
-} from 'cf-content-types-generator/lib/renderer/type';
+} from 'cf-content-types-generator';
 
 const builder = new CFDefinitionsBuilder([
   new DefaultContentTypeRenderer(),
@@ -311,26 +311,39 @@ const localizedCategory: LocalizedTypeCategory<'DE-de' | 'En-en'> = {
 If you're not a CLI person, or you want to integrate it with your tooling workflow, you can also directly use the `CFDefinitionsBuilder` from `cf-definitions-builder.ts`
 
 ```typescript
-import CFDefinitionsBuilder from 'cf-content-types-generator/lib/cf-definitions-builder';
+import CFDefinitionsBuilder from 'cf-content-types-generator';
 
 const stringContent = new CFDefinitionsBuilder()
   .appendType({
-    id: 'rootId',
-    name: 'Root Name',
+    name: 'My Entry',
     sys: {
-      id: 'sysId',
+      id: 'myEntry',
       type: 'ContentType',
     },
     fields: [
       {
-        id: 'myFieldId',
+        id: 'myField',
+        name: 'My Field',
         type: 'Symbol',
         required: true,
         validations: [],
+        disabled: false,
+        localized: false,
+        omitted: false
       },
     ],
   })
   .toString();
+
+console.log(stringContent)
+
+// import * as Contentful from "contentful";
+// 
+// export interface TypeMyEntryFields {
+//   myField: Contentful.EntryFields.Symbol;
+// }
+// 
+// export type TypeMyEntry = Contentful.Entry<TypeMyEntryFields>;
 ```
 
 # Browser Usage

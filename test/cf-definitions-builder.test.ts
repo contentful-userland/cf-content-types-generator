@@ -4,7 +4,7 @@ import { writeFile } from 'fs-extra';
 import { cleanupTempDirs, createTempDir } from 'jest-fixtures';
 import * as path from 'path';
 
-import CFDefinitionsBuilder from '../src/cf-definitions-builder';
+import CFDefinitionsBuilder from '../src';
 import stripIndent = require('strip-indent');
 
 describe('A Contentful definitions builder', () => {

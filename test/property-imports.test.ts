@@ -1,5 +1,5 @@
-import { propertyImports } from '../src/property-imports';
-import { createDefaultContext } from '../src/renderer/type';
+import { propertyImports } from '../src';
+import { createDefaultContext } from '../src';
 
 describe('A typeImports function', () => {
   it('returns imports for referenced Entry', () => {
