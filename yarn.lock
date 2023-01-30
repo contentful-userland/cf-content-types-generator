@@ -955,7 +955,7 @@
     is-wsl "^2.1.1"
     tslib "^2.3.1"
 
-"@oclif/core@^1.20.4", "@oclif/core@^1.24.0":
+"@oclif/core@^1.24.0":
   version "1.24.0"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-1.24.0.tgz#e94e2f3a1259ebb3cc867d04b12c5bfc31c21f50"
   integrity sha512-J41suyV4fLfLcRRySZdtgFYSjIlpYqD90SY01Fm4+ZJUMcfDh/eQAD4sogyYOsIT0bfEzYOyYCjmfHmgcoX5aA==
@@ -989,10 +989,10 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^2.0.2-beta.6":
-  version "2.0.2-beta.10"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.0.2-beta.10.tgz#5b459a91d653b8d5aa234e4324a4cc483747abd2"
-  integrity sha512-FgJ5XHE6MjE7DOyQAcOZPD5Xs5cNOzP91zAQBkut8xhOkZA1NRQjv+7BczJqOTerXccohhTlu09pd7OAyDuitw==
+"@oclif/core@^2.0.2-beta.6", "@oclif/core@^2.0.3":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.0.7.tgz#a17a85dfa105dda120fbc5647432010feaa97a9e"
+  integrity sha512-pj7hIH8SBeH3qha47fmyqdaBdNVEqesRgnKFh8Ytdb4S41/4BYOiQuyQGuvnKgvicH6DMxp4FbM9EQEW46V9xw==
   dependencies:
     "@types/cli-progress" "^3.11.0"
     ansi-escapes "^4.3.2"
@@ -6226,11 +6226,11 @@ object-treeify@^1.1.33:
   integrity sha512-EFVjAYfzWqWsBMRHPMAXLCDIJnpMhdWAqR7xG6M6a2cs6PMFpl/+Z20w9zDW4vkxOFfddegBKq9Rehd0bxWE7A==
 
 oclif@^3.4.3:
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/oclif/-/oclif-3.4.3.tgz#8db95c7d1f0c8c82fb3037545f78e65fa7769a4a"
-  integrity sha512-Kg8ezSJvDluazG6eyN+TeoryaFn3i9utKVty2hy6I0FUy6QcPnbl8+MCha4Jwc+x5+pA46Tu0n2cnjUcWqp56w==
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/oclif/-/oclif-3.6.1.tgz#157ac35f1e634af745879a55c3fa39bf724a5e69"
+  integrity sha512-zedbQqxAzC8WlH/T2D/CbGCTWIXHMV7wGs2av+M3KPG4SfB9/lwn1zXGjft/3NNy3X6KCEoGCYWqYYMZOf2Fgg==
   dependencies:
-    "@oclif/core" "^1.20.4"
+    "@oclif/core" "^2.0.3"
     "@oclif/plugin-help" "^5.1.19"
     "@oclif/plugin-not-found" "^2.3.7"
     "@oclif/plugin-warn-if-update-available" "^2.0.14"
@@ -6244,6 +6244,7 @@ oclif@^3.4.3:
     lodash "^4.17.21"
     normalize-package-data "^3.0.3"
     semver "^7.3.8"
+    shelljs "^0.8.5"
     tslib "^2.3.1"
     yeoman-environment "^3.11.1"
     yeoman-generator "^5.6.1"
@@ -7854,12 +7855,7 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2, tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.1:
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
-  integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
-
-tslib@^2.4.1:
+tslib@^2, tslib@^2.0.0, tslib@^2.1.0, tslib@^2.3.1, tslib@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.1.tgz#0d0bfbaac2880b91e22df0768e55be9753a5b17e"
   integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
