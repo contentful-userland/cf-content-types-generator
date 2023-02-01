@@ -1,38 +1,38 @@
-import * as Contentful from "contentful";
+import { Asset, Entry, EntryFields } from "contentful";
 
 export interface TypeBrandFields {
-    companyName: Contentful.EntryFields.Text;
-    logo?: Contentful.Asset;
-    companyDescription?: Contentful.EntryFields.Text;
-    website?: Contentful.EntryFields.Symbol;
-    twitter?: Contentful.EntryFields.Symbol;
-    email?: Contentful.EntryFields.Symbol;
-    phone?: Contentful.EntryFields.Symbol[];
+    companyName: EntryFields.Text;
+    logo?: Asset;
+    companyDescription?: EntryFields.Text;
+    website?: EntryFields.Symbol;
+    twitter?: EntryFields.Symbol;
+    email?: EntryFields.Symbol;
+    phone?: EntryFields.Symbol[];
 }
 
-export type TypeBrand = Contentful.Entry<TypeBrandFields>;
+export type TypeBrand = Entry<TypeBrandFields>;
 
 export interface TypeCategoryFields {
-    title: Contentful.EntryFields.Text;
-    icon?: Contentful.Asset;
-    categoryDescription?: Contentful.EntryFields.Text;
+    title: EntryFields.Text;
+    icon?: Asset;
+    categoryDescription?: EntryFields.Text;
 }
 
-export type TypeCategory = Contentful.Entry<TypeCategoryFields>;
+export type TypeCategory = Entry<TypeCategoryFields>;
 
 export interface TypeProductFields {
-    productName: Contentful.EntryFields.Text;
-    slug?: Contentful.EntryFields.Symbol;
-    productDescription?: Contentful.EntryFields.Text;
-    sizetypecolor?: Contentful.EntryFields.Symbol;
-    image?: Contentful.Asset[];
-    tags?: Contentful.EntryFields.Symbol[];
-    categories?: Contentful.Entry<TypeCategoryFields>[];
-    price?: Contentful.EntryFields.Number;
-    brand?: Contentful.Entry<TypeBrandFields>;
-    quantity?: Contentful.EntryFields.Integer;
-    sku?: Contentful.EntryFields.Symbol;
-    website?: Contentful.EntryFields.Symbol;
+    productName: EntryFields.Text;
+    slug?: EntryFields.Symbol;
+    productDescription?: EntryFields.Text;
+    sizetypecolor?: EntryFields.Symbol;
+    image?: Asset[];
+    tags?: EntryFields.Symbol[];
+    categories?: Entry<TypeCategoryFields>[];
+    price?: EntryFields.Number;
+    brand?: Entry<TypeBrandFields>;
+    quantity?: EntryFields.Integer;
+    sku?: EntryFields.Symbol;
+    website?: EntryFields.Symbol;
 }
 
-export type TypeProduct = Contentful.Entry<TypeProductFields>;
+export type TypeProduct = Entry<TypeProductFields>;

@@ -44,12 +44,8 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
     }
   }
 
-  protected addDefaultImports(context: RenderContext): void {
-    context.imports.add({
-      moduleSpecifier: 'contentful',
-      namespaceImport: 'Contentful',
-    });
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  protected addDefaultImports(context: RenderContext): void {}
 
   protected renderField(
     field: Field,
@@ -78,6 +74,10 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
   }
 
   protected renderEntryType(contentType: CFContentType, context: RenderContext): string {
-    return renderTypeGeneric('Contentful.Entry', context.moduleFieldsName(contentType.sys.id));
+    context.imports.add({
+      moduleSpecifier: 'contentful',
+      namedImports: ['Entry'],
+    });
+    return renderTypeGeneric('Entry', context.moduleFieldsName(contentType.sys.id));
   }
 }

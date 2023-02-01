@@ -7,7 +7,7 @@ import {
   ContentTypeRenderer,
   DefaultContentTypeRenderer,
   LocalizedContentTypeRenderer,
-} from './renderer/type';
+} from './renderer';
 
 // eslint-disable-next-line unicorn/prefer-module
 const contentfulExport = require('contentful-export');
