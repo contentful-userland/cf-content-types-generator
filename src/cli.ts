@@ -6,6 +6,7 @@ import CFDefinitionsBuilder from './cf-definitions-builder';
 import {
   ContentTypeRenderer,
   DefaultContentTypeRenderer,
+  JsDocRenderer,
   LocalizedContentTypeRenderer,
 } from './renderer/type';
 
@@ -20,6 +21,7 @@ class ContentfulMdg extends Command {
     out: flags.string({ char: 'o', description: 'output directory' }),
     preserve: flags.boolean({ char: 'p', description: 'preserve output folder' }),
     localized: flags.boolean({ char: 'l', description: 'add localized types' }),
+    jsdoc: flags.boolean({ char: 'd', description: 'add JSDoc comments' }),
 
     // remote access
     spaceId: flags.string({ char: 's', description: 'space id' }),
@@ -64,6 +66,10 @@ class ContentfulMdg extends Command {
     const renderers: ContentTypeRenderer[] = [new DefaultContentTypeRenderer()];
     if (flags.localized) {
       renderers.push(new LocalizedContentTypeRenderer());
+    }
+
+    if (flags.jsdoc) {
+      renderers.push(new JsDocRenderer());
     }
 
     const builder = new CFDefinitionsBuilder(renderers);

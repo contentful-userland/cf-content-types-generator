@@ -28,6 +28,7 @@
     "@oclif/plugin-help": "^5.1.12",
     "contentful": "^9.1.29",
     "contentful-export": "^7.17.13",
+    "contentful-management": "^10.27.4",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21",
     "ts-morph": "^17.0.1"
