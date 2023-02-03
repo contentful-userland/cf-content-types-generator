@@ -271,9 +271,14 @@ If no custom renderers given, `CFDefinitionsBuilder` creates a `DefaultContentTy
 #### Example Usage
 
 ```typescript
-import { CFDefinitionsBuilder, DefaultContentTypeRenderer } from 'cf-content-types-generator';
+import { 
+  CFDefinitionsBuilder, 
+  DefaultContentTypeRenderer 
+} from 'cf-content-types-generator';
 
-const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new JsDocRenderer()]);
+const builder = new CFDefinitionsBuilder([
+  new DefaultContentTypeRenderer()
+]);
 ```
 
 ## LocalizedContentTypeRenderer
@@ -340,9 +345,15 @@ JSDocContentTypeRenderer can only render comments for already rendered types. It
 #### Example Usage
 
 ```typescript
-import { CFDefinitionsBuilder, JsDocRenderer } from 'cf-content-types-generator';
+import { 
+  CFDefinitionsBuilder, 
+  JsDocRenderer 
+} from 'cf-content-types-generator';
 
-const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new JsDocRenderer()]);
+const builder = new CFDefinitionsBuilder([
+  new DefaultContentTypeRenderer(), 
+  new JsDocRenderer()
+]);
 ```
 
 #### Example output
