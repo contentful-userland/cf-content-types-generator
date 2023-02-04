@@ -57,12 +57,17 @@ describe('A JSDoc content type renderer class', () => {
         import * as Contentful from "contentful";
         
         /**
-         * Fields type definition for content type 'TypeAnimalFields'
+         * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
          * @type {TypeAnimalFields}
          * @memberof TypeAnimal
          */
         export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             */
             bread: Contentful.EntryFields.Symbol;
         }
         
@@ -97,12 +102,17 @@ describe('A JSDoc content type renderer class', () => {
         import * as Contentful from "contentful";
         
         /**
-         * Fields type definition for content type 'TypeAnimalFields'
+         * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
          * @type {TypeAnimalFields}
          * @memberof TypeAnimal
          */
         export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             */
             bread: Contentful.EntryFields.Symbol;
         }
         
@@ -134,12 +144,17 @@ describe('A JSDoc content type renderer class', () => {
         import * as Contentful from "contentful";
         
         /**
-         * Fields type definition for content type 'TypeAnimalFields'
+         * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
          * @type {TypeAnimalFields}
          * @memberof TypeAnimal
          */
         export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             */
             bread: Contentful.EntryFields.Symbol;
         }
         
@@ -171,12 +186,17 @@ describe('A JSDoc content type renderer class', () => {
         import * as Contentful from "contentful";
         
         /**
-         * Fields type definition for content type 'TypeAnimalFields'
+         * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
          * @type {TypeAnimalFields}
          * @memberof TypeAnimal
          */
         export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             */
             bread: Contentful.EntryFields.Symbol;
         }
         
@@ -216,12 +236,17 @@ describe('A JSDoc content type renderer class', () => {
         import * as Contentful from "contentful";
         
         /**
-         * Fields type definition for content type 'TypeAnimalFields'
+         * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
          * @type {TypeAnimalFields}
          * @memberof TypeAnimal
          */
         export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             */
             bread: Contentful.EntryFields.Symbol;
         }
         
