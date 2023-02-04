@@ -6,20 +6,25 @@ import { BaseContentTypeRenderer } from './base-content-type-renderer';
 
 type EntryDocsOptionsProps = {
   /* Name of generated Entry type */
-  name: string;
+  readonly name: string;
   readonly contentType: CFContentType;
 };
 
 type FieldsDocsOptionsProps = {
   /* Name of generated Fields type */
-  name: string;
-  entryName: string;
+  readonly name: string;
+  readonly entryName: string;
   readonly fields: Field[];
+};
+
+type FieldDocsOptionsProps = {
+  readonly field: Field;
 };
 
 export type JSDocRenderOptions = {
   renderEntryDocs?: (props: EntryDocsOptionsProps) => OptionalKind<JSDocStructure> | string;
   renderFieldsDocs?: (props: FieldsDocsOptionsProps) => OptionalKind<JSDocStructure> | string;
+  renderFieldDocs?: (props: FieldDocsOptionsProps) => OptionalKind<JSDocStructure> | string;
 };
 
 export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
@@ -68,7 +73,7 @@ export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
 
   renderFieldsDocs: ({ name, entryName }) => {
     return {
-      description: `Fields type definition for content type '${name}'`,
+      description: `Fields type definition for content type '${entryName}'`,
       tags: [
         {
           tagName: 'name',
@@ -81,6 +86,22 @@ export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
         {
           tagName: 'memberof',
           text: entryName,
+        },
+      ],
+    };
+  },
+
+  renderFieldDocs: ({ field }) => {
+    return {
+      description: `Field type definition for field '${field.id}' (${field.name})`,
+      tags: [
+        {
+          tagName: 'name',
+          text: field.name,
+        },
+        {
+          tagName: 'localized',
+          text: field.localized.toString(),
         },
       ],
     };
@@ -125,6 +146,21 @@ export class JsDocRenderer extends BaseContentTypeRenderer {
           fields: contentType.fields,
         }),
       );
+
+      const fields = fieldsInterface.getProperties();
+
+      for (const field of fields) {
+        const fieldName = field.getName();
+        const contentTypeField = contentType.fields.find((f) => f.id === fieldName);
+
+        if (contentTypeField) {
+          field.addJsDoc(
+            this.renderOptions.renderFieldDocs({
+              field: contentTypeField,
+            }),
+          );
+        }
+      }
     }
   };
 }

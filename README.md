@@ -271,14 +271,9 @@ If no custom renderers given, `CFDefinitionsBuilder` creates a `DefaultContentTy
 #### Example Usage
 
 ```typescript
-import { 
-  CFDefinitionsBuilder, 
-  DefaultContentTypeRenderer 
-} from 'cf-content-types-generator';
+import { CFDefinitionsBuilder, DefaultContentTypeRenderer } from 'cf-content-types-generator';
 
-const builder = new CFDefinitionsBuilder([
-  new DefaultContentTypeRenderer()
-]);
+const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer()]);
 ```
 
 ## LocalizedContentTypeRenderer
@@ -336,7 +331,7 @@ const localizedCategory: LocalizedTypeCategory<'DE-de' | 'En-en'> = {
 };
 ```
 
-## JSDocContentTypeRenderer
+## JSDocRenderer
 
 Adds [JSDoc](https://jsdoc.app/) Comments to every Entry type and Field type (created by the default renderer, or a renderer that creates the same entry and field type names). This renderer can be customized through [renderer options](src/renderer/type/js-doc-renderer.ts#L20).
 
@@ -345,15 +340,9 @@ JSDocContentTypeRenderer can only render comments for already rendered types. It
 #### Example Usage
 
 ```typescript
-import { 
-  CFDefinitionsBuilder, 
-  JsDocRenderer 
-} from 'cf-content-types-generator';
+import { CFDefinitionsBuilder, JsDocRenderer } from 'cf-content-types-generator';
 
-const builder = new CFDefinitionsBuilder([
-  new DefaultContentTypeRenderer(), 
-  new JsDocRenderer()
-]);
+const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new JsDocRenderer()]);
 ```
 
 #### Example output
@@ -361,12 +350,18 @@ const builder = new CFDefinitionsBuilder([
 ```typescript
 import * as Contentful from 'contentful';
 /**
- * Fields type definition for content type 'TypeAnimalFields'
+ * Fields type definition for content type 'TypeAnimal'
  * @name TypeAnimalFields
  * @type {TypeAnimalFields}
  * @memberof TypeAnimal
  */
 export interface TypeAnimalFields {
+  
+  /**
+   * Field type definition for field 'bread' (Bread)
+   * @name Bread
+   * @localized false
+  */
   bread: Contentful.EntryFields.Symbol;
 }
 
