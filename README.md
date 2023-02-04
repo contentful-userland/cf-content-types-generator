@@ -20,6 +20,7 @@
 - [Renderer](#renderer)
   - [Default Renderer](#DefaultContentTypeRenderer)
   - [Localized Renderer](#LocalizedContentTypeRenderer)
+  - [JSDoc Renderer](#JSDocContentTypeRenderer)
 - [Direct Usage](#direct-usage)
 - [Browser Usage](#browser-usage)
 
@@ -46,6 +47,7 @@ OPTIONS
   -o, --out=out                  output directory
   -p, --preserve                 preserve output folder
   -l, --localized                add localized types
+  -d, --jsdoc                    add JSDoc comments
   -s, --spaceId=spaceId          space id
   -t, --token=token              management token
   -v, --version                  show CLI version
@@ -235,7 +237,7 @@ Extend the default `BaseContentTypeRenderer` class, or implement the `ContentTyp
 Relevant methods to override:
 
 | Methods             | Description                                                                | Override                                                              |
-|---------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `render`            | Enriches a `SourceFile` with all relevant nodes                            | To control content type rendering (you should know what you're doing) |
 | `getContext`        | Returns new render context object                                          | To define custom type renderer and custom module name function        |
 | `addDefaultImports` | Define set of default imports added to every file                          | To control default imported modules                                   |
@@ -266,10 +268,33 @@ const builder = new CFDefinitionsBuilder([
 A renderer to render type fields and entry definitions. For most scenarios, this renderer is sufficient.
 If no custom renderers given, `CFDefinitionsBuilder` creates a `DefaultContentTypeRenderer` by default.
 
+#### Example Usage
+
+```typescript
+import { CFDefinitionsBuilder, DefaultContentTypeRenderer } from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer()]);
+```
+
 ## LocalizedContentTypeRenderer
 
 Add additional types for localized fields. It adds utility types to transform fields into localized fields for given locales
 More details on the utility types can be found here: [Issue 121](https://github.com/contentful-userland/cf-content-types-generator/issues/121)
+
+#### Example Usage
+
+```typescript
+import {
+  CFDefinitionsBuilder,
+  DefaultContentTypeRenderer,
+  LocalizedContentTypeRenderer,
+} from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([
+  new DefaultContentTypeRenderer(),
+  new LocalizedContentTypeRenderer(),
+]);
+```
 
 #### Example output
 
@@ -293,7 +318,7 @@ export type LocalizedTypeCategory<Locales extends keyof any> = LocalizedEntry<
 >;
 ```
 
-#### Example usage
+#### Example output usage
 
 ```typescript
 const localizedCategory: LocalizedTypeCategory<'DE-de' | 'En-en'> = {
@@ -304,6 +329,48 @@ const localizedCategory: LocalizedTypeCategory<'DE-de' | 'En-en'> = {
     },
   },
 };
+```
+
+## JSDocRenderer
+
+Adds [JSDoc](https://jsdoc.app/) Comments to every Entry type and Field type (created by the default renderer, or a renderer that creates the same entry and field type names). This renderer can be customized through [renderer options](src/renderer/type/js-doc-renderer.ts#L20).
+
+JSDocContentTypeRenderer can only render comments for already rendered types. It's essential to add it after the default renderer, or any renderer that creates entry and field types based on the context moduleName resolution.
+
+#### Example Usage
+
+```typescript
+import { CFDefinitionsBuilder, JsDocRenderer } from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new JsDocRenderer()]);
+```
+
+#### Example output
+
+```typescript
+import * as Contentful from 'contentful';
+/**
+ * Fields type definition for content type 'TypeAnimal'
+ * @name TypeAnimalFields
+ * @type {TypeAnimalFields}
+ * @memberof TypeAnimal
+ */
+export interface TypeAnimalFields {
+  
+  /**
+   * Field type definition for field 'bread' (Bread)
+   * @name Bread
+   * @localized false
+  */
+  bread: Contentful.EntryFields.Symbol;
+}
+
+/**
+ * Entry type definition for content type 'animal' (Animal)
+ * @name TypeAnimal
+ * @type {TypeAnimal}
+ */
+export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
 ```
 
 # Direct Usage
@@ -338,6 +405,7 @@ const stringContent = new CFDefinitionsBuilder()
 console.log(stringContent);
 
 // import { Entry, EntryFields } from "contentful";
+
 //
 // export interface TypeMyEntryFields {
 //   myField: EntryFields.Symbol;
