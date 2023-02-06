@@ -1,5 +1,4 @@
-import { renderRichText } from '../../../src/renderer/field';
-import { createDefaultContext } from '../../../src/renderer/type';
+import { createDefaultContext, renderRichText } from '../../../src';
 
 describe('A renderPropRichText function', () => {
   it('can evaluate a "RichText" type', () => {
@@ -25,6 +24,7 @@ describe('A renderPropRichText function', () => {
       {
         moduleSpecifier: '@contentful/rich-text-types',
         namespaceImport: 'CFRichTextTypes',
+        isTypeOnly: true,
       },
     ]);
   });

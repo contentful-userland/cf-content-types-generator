@@ -49,7 +49,7 @@ describe('A Contentful definitions builder', () => {
     builder.appendType(modelType);
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
 
                 export interface TypeSysIdFields {
                 }
@@ -80,7 +80,7 @@ describe('A Contentful definitions builder', () => {
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry, EntryFields } from "contentful";
+                import type { Entry, EntryFields } from "contentful";
                 
                 export interface TypeSysIdFields {
                     symbolFieldId: EntryFields.Symbol;
@@ -112,7 +112,7 @@ describe('A Contentful definitions builder', () => {
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry, EntryFields } from "contentful";
+                import type { Entry, EntryFields } from "contentful";
                 
                 export interface TypeSysIdFields {
                     symbolFieldId?: EntryFields.Symbol;
@@ -144,7 +144,7 @@ describe('A Contentful definitions builder', () => {
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry, EntryFields } from "contentful";
+                import type { Entry, EntryFields } from "contentful";
                 
                 export interface TypeSysIdFields {
                     boolFieldId?: EntryFields.Boolean;
@@ -181,8 +181,8 @@ describe('A Contentful definitions builder', () => {
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
-                import { TypeLinkedTypeFields } from "./TypeLinkedType";
+                import type { Entry } from "contentful";
+                import type { TypeLinkedTypeFields } from "./TypeLinkedType";
 
                 export interface TypeSysIdFields {
                     linkFieldId?: Entry<TypeLinkedTypeFields>;
@@ -223,9 +223,9 @@ describe('A Contentful definitions builder', () => {
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
-                import { TypeArtistFields } from "./TypeArtist";
-                import { TypeArtworkFields } from "./TypeArtwork";
+                import type { Entry } from "contentful";
+                import type { TypeArtistFields } from "./TypeArtist";
+                import type { TypeArtworkFields } from "./TypeArtwork";
 
                 export interface TypeSysIdFields {
                     arrayFieldId?: Entry<TypeArtistFields | TypeArtworkFields>[];
@@ -261,7 +261,7 @@ describe('A Contentful definitions builder', () => {
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
 
                 export interface TypeSysIdFields {
                     stringFieldId?: "hello" | "world";
@@ -297,7 +297,7 @@ describe('A Contentful definitions builder', () => {
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
                 
                 export interface TypeSysIdFields {
                     numericFieldId?: 1 | 2 | 3;
@@ -317,7 +317,7 @@ describe('A Contentful definitions builder', () => {
 
     expect('\n' + result.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
                 
                 export interface TypeSysIdFields {
                 }
@@ -345,7 +345,7 @@ describe('A Contentful definitions builder', () => {
 
     expect('\n' + result1.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
                 
                 export interface TypeSysIdFields {
                 }
@@ -356,7 +356,7 @@ describe('A Contentful definitions builder', () => {
 
     expect('\n' + result2.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
                 
                 export interface TypeMyTypeFields {
                 }
@@ -400,7 +400,7 @@ describe('A Contentful definitions builder', () => {
 
     expect('\n' + result1.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
                 
                 export interface TypeSysIdFields {
                 }
@@ -411,8 +411,8 @@ describe('A Contentful definitions builder', () => {
 
     expect('\n' + result2.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
-                import { TypeSysIdFields } from "./TypeSysId";
+                import type { Entry } from "contentful";
+                import type { TypeSysIdFields } from "./TypeSysId";
                 
                 export interface TypeMyTypeFields {
                     linkFieldId?: Entry<TypeSysIdFields>;
@@ -468,7 +468,7 @@ describe('A Contentful definitions builder', () => {
 
     expect('\n' + result2.toString()).toEqual(
       stripIndent(`
-                import { Entry } from "contentful";
+                import type { Entry } from "contentful";
                 
                 export interface TypeMyTypeFields {
                     linkFieldId?: Entry<TypeMyTypeFields>;

@@ -54,8 +54,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import { EntryFields } from "contentful";
-        import { Entry } from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -100,8 +100,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import { EntryFields } from "contentful";
-        import { Entry } from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -143,8 +143,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import { EntryFields } from "contentful";
-        import { Entry } from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -186,8 +186,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import { EntryFields } from "contentful";
-        import { Entry } from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -237,8 +237,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import { EntryFields } from "contentful";
-        import { Entry } from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'

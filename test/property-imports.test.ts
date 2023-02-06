@@ -26,6 +26,7 @@ describe('A typeImports function', () => {
       {
         moduleSpecifier: './TypeTopicCategory',
         namedImports: ['TypeTopicCategoryFields'],
+        isTypeOnly: true,
       },
     ]);
   });
@@ -64,6 +65,7 @@ describe('A typeImports function', () => {
       {
         moduleSpecifier: './TypeCategory',
         namedImports: ['TypeCategoryFields'],
+        isTypeOnly: true,
       },
     ]);
   });

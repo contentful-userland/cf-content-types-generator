@@ -19,6 +19,7 @@ export const renderPropLink = (
       context.imports.add({
         moduleSpecifier: 'contentful',
         namedImports: ['Entry'],
+        isTypeOnly: true,
       });
       return renderTypeGeneric(field.linkType, linkContentType(field, context));
 
@@ -26,6 +27,7 @@ export const renderPropLink = (
       context.imports.add({
         moduleSpecifier: 'contentful',
         namedImports: ['Asset'],
+        isTypeOnly: true,
       });
       return 'Asset';
 

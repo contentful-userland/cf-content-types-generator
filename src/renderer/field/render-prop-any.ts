@@ -21,6 +21,7 @@ export const renderPropAny = (field: Field, context: RenderContext): string => {
   context.imports.add({
     moduleSpecifier: 'contentful',
     namedImports: ['EntryFields'],
+    isTypeOnly: true,
   });
 
   return `EntryFields.${field.type}`;

@@ -77,6 +77,7 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
     context.imports.add({
       moduleSpecifier: 'contentful',
       namedImports: ['Entry'],
+      isTypeOnly: true,
     });
     return renderTypeGeneric('Entry', context.moduleFieldsName(contentType.sys.id));
   }

@@ -28,6 +28,7 @@ export const renderPropArray = (field: Field, context: RenderContext): string =>
     context.imports.add({
       moduleSpecifier: 'contentful',
       namedImports: ['EntryFields'],
+      isTypeOnly: true,
     });
 
     return renderTypeArray('EntryFields.Symbol');

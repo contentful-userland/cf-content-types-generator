@@ -75,7 +75,7 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import { Entry } from "contentful";
+        import type { Entry } from "contentful";
         
         export interface TypeTestFields {
             field_id: Test.Symbol;
@@ -137,8 +137,8 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import { EntryFields } from "contentful";
-        import { Entry } from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         export interface TypeTestFields {
             /** Field of type "Symbol" */
@@ -157,6 +157,7 @@ describe('A derived content type renderer class', () => {
         context.imports.add({
           moduleSpecifier: '@custom',
           namedImports: ['IdScopedEntry'],
+          isTypeOnly: true,
         });
         return renderTypeGeneric(
           'IdScopedEntry',
@@ -191,8 +192,8 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import { EntryFields } from "contentful";
-        import { IdScopedEntry } from "@custom";
+        import type { EntryFields } from "contentful";
+        import type { IdScopedEntry } from "@custom";
         
         export interface TypeTestFields {
             field_id: EntryFields.Symbol;
