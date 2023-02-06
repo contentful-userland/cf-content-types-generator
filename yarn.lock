@@ -2654,9 +2654,9 @@ contentful-batch-libs@^9.4.1:
     uuid "^8.3.2"
 
 contentful-export@^7.17.13:
-  version "7.19.19"
-  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.19.19.tgz#3b6d6b8958ea9ac0ff0ad0d1a443fd4ee75d280f"
-  integrity sha512-FyndxlgECJy3qafYeKEx24zVSvpL7+8EE0AJ6Y4/D1MOjFqGXMaLrWuQArmb7ZaoubCTd0Uf2owTXsBtcobSkQ==
+  version "7.19.26"
+  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.19.26.tgz#79b0707dbde694dcffd32062ecbdbf254c900b22"
+  integrity sha512-WZl1yiRP7897Gnyb9W6kx/DMhHqeRP/1fsim31g6OWZ2klEbLVkRNwVlQ/BQ9XgAqlEuOO5BDfEv7qUTUG59tg==
   dependencies:
     bfj "^7.0.2"
     bluebird "^3.3.3"
@@ -2675,18 +2675,7 @@ contentful-export@^7.17.13:
     node-fetch "^2.6.7"
     yargs "^17.1.1"
 
-contentful-management@^10.0.0:
-  version "10.6.0"
-  resolved "https://registry.npmjs.org/contentful-management/-/contentful-management-10.6.0.tgz"
-  integrity sha512-uc9ovuhXmgDtd6PVXsNQidMaiAv1mhSFMKUsiAvM37SsP7t7cQY0EoTtsuEvOv7bp16ezTndTQrswQd1rVRIRA==
-  dependencies:
-    "@types/json-patch" "0.0.30"
-    axios "^0.27.1"
-    contentful-sdk-core "^7.0.1"
-    fast-copy "^2.1.1"
-    lodash.isplainobject "^4.0.6"
-
-contentful-management@^10.27.4:
+contentful-management@^10.0.0, contentful-management@^10.27.4:
   version "10.27.4"
   resolved "https://registry.yarnpkg.com/contentful-management/-/contentful-management-10.27.4.tgz#4414bd3dde0db91db85e3df6819829a687f68247"
   integrity sha512-rHM2gedxHbvlAn1RXMGQm47uY33uxxjZADE+MGUseiVaPTEt9+EpoPyVKLTJc+eD8dH8x454oAYKjtK9xM11Ng==
@@ -3454,7 +3443,7 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-fast-copy@^2.1.0, fast-copy@^2.1.1, fast-copy@^2.1.3:
+fast-copy@^2.1.0, fast-copy@^2.1.3:
   version "2.1.3"
   resolved "https://registry.npmjs.org/fast-copy/-/fast-copy-2.1.3.tgz"
   integrity sha512-LDzYKNTHhD+XOp8wGMuCkY4eTxFZOOycmpwLBiuF3r3OjOmZnURRD8t2dUAbmKuXGbo/MGggwbSjcBdp8QT0+g==
