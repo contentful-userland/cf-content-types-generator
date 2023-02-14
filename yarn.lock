@@ -920,14 +920,14 @@
     tslib "^2"
 
 "@oclif/command@^1.8.16":
-  version "1.8.21"
-  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.8.21.tgz#32f876f8c02d61094b9693e34167e08fe67b6411"
-  integrity sha512-kIDrRIbAcicVl+CWMzXeZkg5dRNuF1VI7koyFTAQMNYwRNZpeya5x7XDPr+fh7rDiBL7psnxc3B1+zoOWj96lQ==
+  version "1.8.22"
+  resolved "https://registry.yarnpkg.com/@oclif/command/-/command-1.8.22.tgz#b7ea268393277606bb5e0e557c39536ff4e883f2"
+  integrity sha512-lystv7IKsWRmCv6K68jSvHrO/DILUPBDb5GZ3absTA5XTnNXTaMrcwVzTcMPfTf+gCrgIaPPD1bmbRStwfQxFw==
   dependencies:
     "@oclif/config" "^1.18.2"
     "@oclif/errors" "^1.3.6"
     "@oclif/help" "^1.0.1"
-    "@oclif/parser" "^3.8.9"
+    "@oclif/parser" "^3.8.10"
     debug "^4.1.1"
     semver "^7.3.8"
 
@@ -1065,7 +1065,7 @@
   resolved "https://registry.npmjs.org/@oclif/linewrap/-/linewrap-1.0.0.tgz"
   integrity sha512-Ups2dShK52xXa8w6iBWLgcjPJWjais6KPJQq3gQ/88AY6BXoTX+MIGFPrWQO1KLMiQfoTpcLnUwloN4brrVUHw==
 
-"@oclif/parser@^3.8.0", "@oclif/parser@^3.8.10", "@oclif/parser@^3.8.9":
+"@oclif/parser@^3.8.0", "@oclif/parser@^3.8.10":
   version "3.8.10"
   resolved "https://registry.yarnpkg.com/@oclif/parser/-/parser-3.8.10.tgz#7b1048566e1d3f45ed09ca92b2e30f09bd9647e1"
   integrity sha512-J4l/NcnfbIU84+NNdy6bxq9yJt4joFWNvpk59hq+uaQPUNtjmNJDVGuRvf6GUOxHNgRsVK1JRmd/Ez+v7Z9GqQ==
