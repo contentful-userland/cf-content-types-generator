@@ -54,7 +54,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import * as Contentful from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -68,7 +69,7 @@ describe('A JSDoc content type renderer class', () => {
              * @name Bread
              * @localized false
              */
-            bread: Contentful.EntryFields.Symbol;
+            bread: EntryFields.Symbol;
         }
         
         /**
@@ -76,7 +77,7 @@ describe('A JSDoc content type renderer class', () => {
          * @name TypeAnimal
          * @type {TypeAnimal}
          */
-        export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
+        export type TypeAnimal = Entry<TypeAnimalFields>;
         `),
       );
     });
@@ -99,7 +100,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import * as Contentful from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -113,7 +115,7 @@ describe('A JSDoc content type renderer class', () => {
              * @name Bread
              * @localized false
              */
-            bread: Contentful.EntryFields.Symbol;
+            bread: EntryFields.Symbol;
         }
         
         /**
@@ -122,7 +124,7 @@ describe('A JSDoc content type renderer class', () => {
          * @type {TypeAnimal}
          * @author <user-id>
          */
-        export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
+        export type TypeAnimal = Entry<TypeAnimalFields>;
         `),
       );
     });
@@ -141,7 +143,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import * as Contentful from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -155,7 +158,7 @@ describe('A JSDoc content type renderer class', () => {
              * @name Bread
              * @localized false
              */
-            bread: Contentful.EntryFields.Symbol;
+            bread: EntryFields.Symbol;
         }
         
         /**
@@ -164,7 +167,7 @@ describe('A JSDoc content type renderer class', () => {
          * @type {TypeAnimal}
          * @version 5
          */
-        export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
+        export type TypeAnimal = Entry<TypeAnimalFields>;
         `),
       );
     });
@@ -183,7 +186,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import * as Contentful from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -197,7 +201,7 @@ describe('A JSDoc content type renderer class', () => {
              * @name Bread
              * @localized false
              */
-            bread: Contentful.EntryFields.Symbol;
+            bread: EntryFields.Symbol;
         }
         
         /**
@@ -206,7 +210,7 @@ describe('A JSDoc content type renderer class', () => {
          * @type {TypeAnimal}
          * @since 1675420727
          */
-        export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
+        export type TypeAnimal = Entry<TypeAnimalFields>;
         `),
       );
     });
@@ -233,7 +237,8 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import * as Contentful from "contentful";
+        import type { EntryFields } from "contentful";
+        import type { Entry } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
@@ -247,11 +252,11 @@ describe('A JSDoc content type renderer class', () => {
              * @name Bread
              * @localized false
              */
-            bread: Contentful.EntryFields.Symbol;
+            bread: EntryFields.Symbol;
         }
         
         /** Custom entry description */
-        export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
+        export type TypeAnimal = Entry<TypeAnimalFields>;
         `),
       );
     });

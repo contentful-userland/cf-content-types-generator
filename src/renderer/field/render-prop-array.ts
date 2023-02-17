@@ -25,7 +25,13 @@ export const renderPropArray = (field: Field, context: RenderContext): string =>
       return renderTypeArray(`${renderTypeUnion(validationsTypes)}`);
     }
 
-    return renderTypeArray('Contentful.EntryFields.Symbol');
+    context.imports.add({
+      moduleSpecifier: 'contentful',
+      namedImports: ['EntryFields'],
+      isTypeOnly: true,
+    });
+
+    return renderTypeArray('EntryFields.Symbol');
   }
 
   throw new Error('unhandled array type "' + field.items.type + '"');

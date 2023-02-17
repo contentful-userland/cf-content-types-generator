@@ -208,7 +208,7 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
 
 ```typescript
 import * as CFRichTextTypes from '@contentful/rich-text-types';
-import * as Contentful from 'contentful';
+import { Entry, EntryFields } from 'contentful';
 
 export interface TypeArtistFields {
   name: Contentful.EntryFields.Symbol;
@@ -216,16 +216,16 @@ export interface TypeArtistFields {
   bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
 }
 
-export type TypeArtist = Contentful.Entry<TypeArtistFields>;
+export type TypeArtist = Entry<TypeArtistFields>;
 
 export interface TypeArtworkFields {
-  name: Contentful.EntryFields.Symbol;
+  name: EntryFields.Symbol;
   type?: 'print' | 'drawing' | 'painting';
-  preview?: Contentful.Asset[];
-  artist: Contentful.Entry<TypeArtistFields>;
+  preview?: Asset[];
+  artist: Entry<TypeArtistFields>;
 }
 
-export type TypeArtwork = Contentful.Entry<TypeArtworkFields>;
+export type TypeArtwork = Entry<TypeArtworkFields>;
 ```
 
 This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
@@ -404,13 +404,14 @@ const stringContent = new CFDefinitionsBuilder()
 
 console.log(stringContent);
 
-// import * as Contentful from "contentful";
+// import { Entry, EntryFields } from "contentful";
+
 //
 // export interface TypeMyEntryFields {
-//   myField: Contentful.EntryFields.Symbol;
+//   myField: EntryFields.Symbol;
 // }
 //
-// export type TypeMyEntry = Contentful.Entry<TypeMyEntryFields>;
+// export type TypeMyEntry = Entry<TypeMyEntryFields>;
 ```
 
 # Browser Usage

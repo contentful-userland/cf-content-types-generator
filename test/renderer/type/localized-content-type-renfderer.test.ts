@@ -1,7 +1,6 @@
 import stripIndent = require('strip-indent');
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
-import { LocalizedContentTypeRenderer } from '../../../src/renderer/type';
-import { CFContentType } from '../../../src/types';
+import { CFContentType, LocalizedContentTypeRenderer } from '../../../src';
 
 describe('A localized content type renderer class', () => {
   let project: Project;
@@ -73,7 +72,7 @@ describe('A localized content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import { LocalizedFields, LocalizedEntry } from "./Localized";
+        import type { LocalizedFields, LocalizedEntry } from "./Localized";
         
         export type LocalizedTypeTestFields<Locales extends keyof any> = LocalizedFields<TypeTestFields, Locales>;
         export type LocalizedTypeTest<Locales extends keyof any> = LocalizedEntry<TypeTest, Locales>;

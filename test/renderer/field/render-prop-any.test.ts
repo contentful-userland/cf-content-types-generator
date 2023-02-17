@@ -1,6 +1,12 @@
-import { renderPropAny } from '../../../src/renderer/field';
+import { createDefaultContext, RenderContext, renderPropAny } from '../../../src';
 
 describe('A renderPropAny function', () => {
+  let context: RenderContext;
+
+  beforeEach(() => {
+    context = createDefaultContext();
+  });
+
   it('can evaluate a "Symbol" type', () => {
     const field = JSON.parse(`
         {
@@ -16,7 +22,7 @@ describe('A renderPropAny function', () => {
         }
         `);
 
-    expect(renderPropAny(field)).toEqual('Contentful.EntryFields.Symbol');
+    expect(renderPropAny(field, context)).toEqual('EntryFields.Symbol');
   });
 
   it('can evaluate a "Symbol" type with "in" validation', () => {
@@ -40,7 +46,7 @@ describe('A renderPropAny function', () => {
         }
         `);
 
-    expect(renderPropAny(field)).toEqual('"Center-aligned" | "Left-aligned"');
+    expect(renderPropAny(field, context)).toEqual('"Center-aligned" | "Left-aligned"');
   });
 
   it('can evaluate a "Symbol" type with missing validations', () => {
@@ -56,6 +62,6 @@ describe('A renderPropAny function', () => {
       }
       `);
 
-    expect(renderPropAny(field)).toEqual('Contentful.EntryFields.Symbol');
+    expect(renderPropAny(field, context)).toEqual('EntryFields.Symbol');
   });
 });

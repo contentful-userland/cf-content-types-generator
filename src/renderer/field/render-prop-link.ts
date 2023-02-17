@@ -14,7 +14,24 @@ export const renderPropLink = (
       : 'Record<string, any>';
   };
 
-  return field.linkType === 'Entry'
-    ? renderTypeGeneric('Contentful.' + field.linkType, linkContentType(field, context))
-    : 'Contentful.' + field.linkType!;
+  switch (field.linkType) {
+    case 'Entry':
+      context.imports.add({
+        moduleSpecifier: 'contentful',
+        namedImports: ['Entry'],
+        isTypeOnly: true,
+      });
+      return renderTypeGeneric(field.linkType, linkContentType(field, context));
+
+    case 'Asset':
+      context.imports.add({
+        moduleSpecifier: 'contentful',
+        namedImports: ['Asset'],
+        isTypeOnly: true,
+      });
+      return 'Asset';
+
+    default:
+      throw new Error(`Unknown linkType "${field.linkType}"`);
+  }
 };

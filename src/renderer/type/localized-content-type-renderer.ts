@@ -73,6 +73,7 @@ export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
     context.imports.add({
       moduleSpecifier: `./${this.FILE_BASE_NAME}`,
       namedImports: ['LocalizedFields', 'LocalizedEntry'],
+      isTypeOnly: true,
     });
 
     for (const structure of context.imports) {

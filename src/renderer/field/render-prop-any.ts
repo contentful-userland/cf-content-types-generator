@@ -1,7 +1,8 @@
-import { renderTypeLiteral, renderTypeUnion } from '../generic';
 import { Field } from 'contentful';
+import { renderTypeLiteral, renderTypeUnion } from '../generic';
+import { RenderContext } from '../type';
 
-export const renderPropAny = (field: Field): string => {
+export const renderPropAny = (field: Field, context: RenderContext): string => {
   if (field.validations?.length > 0) {
     const includesValidation = field.validations.find((validation) => validation.in);
     if (includesValidation && includesValidation.in) {
@@ -17,5 +18,11 @@ export const renderPropAny = (field: Field): string => {
     }
   }
 
-  return `Contentful.EntryFields.${field.type}`;
+  context.imports.add({
+    moduleSpecifier: 'contentful',
+    namedImports: ['EntryFields'],
+    isTypeOnly: true,
+  });
+
+  return `EntryFields.${field.type}`;
 };

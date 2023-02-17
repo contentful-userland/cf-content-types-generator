@@ -10,10 +10,11 @@ export const propertyImports = (
 ): OptionalKind<ImportDeclarationStructure>[] => {
   const filterIgnoredModule = (name: string) => ignoreModule !== context.moduleName(name);
 
-  const moduleImport = (module: string) => {
+  const moduleImport = (module: string): OptionalKind<ImportDeclarationStructure> => {
     return {
       moduleSpecifier: `./${context.moduleName(module)}`,
       namedImports: [context.moduleFieldsName(module)],
+      isTypeOnly: true,
     };
   };
 
