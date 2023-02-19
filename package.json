@@ -29,13 +29,13 @@
     "contentful": "^9.1.29",
     "contentful-export": "^7.17.13",
     "contentful-management": "^10.27.4",
-    "fs-extra": "^10.1.0",
+    "fs-extra": "^11.1.0",
     "lodash": "^4.17.21",
     "ts-morph": "^17.0.1"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
-    "@types/fs-extra": "^9.0.1",
+    "@types/fs-extra": "^11.0.1",
     "@types/jest": "^27.5.1",
     "@types/lodash": "^4.14.155",
     "@types/node": "^18.11.17",
