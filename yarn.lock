@@ -2679,9 +2679,9 @@ contentful-export@^7.17.13:
     yargs "^17.1.1"
 
 contentful-management@^10.0.0, contentful-management@^10.27.4:
-  version "10.29.1"
-  resolved "https://registry.yarnpkg.com/contentful-management/-/contentful-management-10.29.1.tgz#6afce7c674f4d3211acc7ae1ef4ccab367ba857a"
-  integrity sha512-lP929UAf/0fK7ZTjVXrj0O/b7+MtW490Vj8lAb0HGhKKNwS1VhG9q71sKyx/OvsHIYXqVy4zAlKOf2TfchMdiA==
+  version "10.30.0"
+  resolved "https://registry.yarnpkg.com/contentful-management/-/contentful-management-10.30.0.tgz#48edbe726155ed257ab2fc67d8499f7c3b95fc33"
+  integrity sha512-CYeZqezYP7q++EuHgCHKakemsJqCHC784uOWyYp00Rc6+iMw5glK8GjwksbgUsbnZFfCywGyZCj4Xsd4lZ0ZaQ==
   dependencies:
     "@types/json-patch" "0.0.30"
     axios "^0.27.1"
