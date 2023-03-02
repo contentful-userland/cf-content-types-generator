@@ -56,6 +56,7 @@ describe('A content type type guard renderer class', () => {
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
         import type { Entry, EntryFields } from "contentful";
+        import type { SysWithContentTypeLinkId } from "TypeGuardTypes";
         
         export interface TypeAnimalFields {
             bread: EntryFields.Symbol;
@@ -63,9 +64,22 @@ describe('A content type type guard renderer class', () => {
         
         export type TypeAnimal = Entry<TypeAnimalFields>;
         
-        export function isTypeAnimal(entry: { sys: { contentType: { sys: { id: string } } } }): entry is TypeAnimal {
+        export function isTypeAnimal(entry: SysWithContentTypeLinkId): entry is TypeAnimal {
             return entry.sys.contentType.sys.id === 'animal'
         }
+        `),
+      );
+    });
+
+    it('creates type guard helper types', () => {
+      const typeGuardRenderer = new TypeGuardRenderer();
+      typeGuardRenderer.setup(project);
+      typeGuardRenderer.render(mockContentType, testFile);
+      const typeGuardFile = project.getSourceFiles()[1];
+
+      expect('\n' + typeGuardFile.getFullText()).toEqual(
+        stripIndent(`
+        export type SysWithContentTypeLinkId = { sys: { contentType: { sys: { id: string } } } };
         `),
       );
     });
