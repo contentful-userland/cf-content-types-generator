@@ -51,7 +51,7 @@ describe('A content type type guard renderer class', () => {
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
         import type { Entry, EntryFields } from "contentful";
-        import type { WithContentTypeLink } from "TypeGuardTypes";
+        import type { WithContentTypeLink } from "./WithContentTypeLink";
         
         export interface TypeAnimalFields {
             bread: EntryFields.Symbol;

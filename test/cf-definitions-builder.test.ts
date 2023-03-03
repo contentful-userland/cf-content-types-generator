@@ -4,7 +4,11 @@ import { writeFile } from 'fs-extra';
 import { cleanupTempDirs, createTempDir } from 'jest-fixtures';
 import * as path from 'path';
 
-import CFDefinitionsBuilder from '../src';
+import CFDefinitionsBuilder, {
+  DefaultContentTypeRenderer,
+  LocalizedContentTypeRenderer,
+  TypeGuardRenderer,
+} from '../src';
 import stripIndent = require('strip-indent');
 
 describe('A Contentful definitions builder', () => {
@@ -522,5 +526,62 @@ describe('A Contentful definitions builder', () => {
 
     expect(beforeResult).toEqual(afterResult);
     expect(beforeWriteResult).toEqual(afterWriteResult);
+  });
+
+  it("'return single file contents with localized renderer", async () => {
+    builder = new CFDefinitionsBuilder([
+      new DefaultContentTypeRenderer(),
+      new LocalizedContentTypeRenderer(),
+    ]);
+
+    builder.appendType(modelType);
+
+    expect('\n' + builder.toString()).toEqual(
+      stripIndent(`
+        import type { Entry } from "contentful";
+        
+        export type LocalizedFields<Fields, Locales extends keyof any> = {
+            [FieldName in keyof Fields]?: {
+                [LocaleName in Locales]?: Fields[FieldName];
+            }
+        };
+        export type LocalizedEntry<EntryType, Locales extends keyof any> = {
+            [Key in keyof EntryType]:
+            Key extends 'fields'
+            ? LocalizedFields<EntryType[Key], Locales>
+            : EntryType[Key]
+        };
+        
+        export interface TypeSysIdFields {
+        }
+
+        export type TypeSysId = Entry<TypeSysIdFields>;
+        export type LocalizedTypeSysIdFields<Locales extends keyof any> = LocalizedFields<TypeSysIdFields, Locales>;
+        export type LocalizedTypeSysId<Locales extends keyof any> = LocalizedEntry<TypeSysId, Locales>;
+        `),
+    );
+  });
+
+  it('exports type guard functions', async () => {
+    builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new TypeGuardRenderer()]);
+
+    builder.appendType(modelType);
+
+    expect('\n' + builder.toString()).toEqual(
+      stripIndent(`
+          import type { Entry } from "contentful";
+          
+          export interface TypeSysIdFields {
+          }
+
+          export type TypeSysId = Entry<TypeSysIdFields>;
+
+          export function isTypeSysId(entry: WithContentTypeLink): entry is TypeSysId {
+              return entry.sys.contentType.sys.id === 'sysId'
+          }
+          
+          export type WithContentTypeLink = { sys: { contentType: { sys: { id: string } } } };
+          `),
+    );
   });
 });
