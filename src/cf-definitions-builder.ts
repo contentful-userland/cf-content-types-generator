@@ -70,6 +70,7 @@ export default class CFDefinitionsBuilder {
 
     const writePromises = this.project.getSourceFiles().map((file) => {
       const targetPath = `${dir}${file.getFilePath()}`;
+      file.formatText();
       return writeCallback(targetPath, file.getFullText());
     });
     await Promise.all(writePromises);
@@ -100,6 +101,9 @@ export default class CFDefinitionsBuilder {
             types.push(childStructure.name);
             mergeFile.addTypeAlias(childStructure);
             break;
+          case StructureKind.Function:
+            mergeFile.addFunction(childStructure);
+            break;
           default:
             throw new Error(`Unhandled node type '${StructureKind[childStructure.kind]}'.`);
         }
@@ -116,7 +120,10 @@ export default class CFDefinitionsBuilder {
 
     // only import modules not present in merge file and not present in additional files
     for (const importD of imports) {
-      const name = importD.moduleSpecifier.slice(2);
+      const name = importD.moduleSpecifier.startsWith('./')
+        ? importD.moduleSpecifier.slice(2)
+        : importD.moduleSpecifier;
+      // This check relies on the fact that module and file name match
       if (!types.includes(name) && !additionalFileNames.has(name)) {
         mergeFile.addImportDeclaration(importD);
       }
@@ -125,6 +132,8 @@ export default class CFDefinitionsBuilder {
     mergeFile.organizeImports({
       ensureNewLineAtEndOfFile: true,
     });
+
+    mergeFile.formatText();
 
     const fullText = mergeFile.getFullText();
     this.project.removeSourceFile(mergeFile);

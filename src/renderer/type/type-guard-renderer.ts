@@ -14,9 +14,13 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
 
   public override setup(project: Project): void {
     super.setup(project);
-    const file = project.createSourceFile(`TypeGuardTypes.ts`, undefined, {
-      overwrite: true,
-    });
+    const file = project.createSourceFile(
+      `${TypeGuardRenderer.WithContentTypeLink}.ts`,
+      undefined,
+      {
+        overwrite: true,
+      },
+    );
 
     file.addTypeAlias({
       name: TypeGuardRenderer.WithContentTypeLink,
@@ -31,7 +35,7 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
     const entryInterfaceName = moduleName(contentType.sys.id);
 
     file.addImportDeclaration({
-      moduleSpecifier: 'TypeGuardTypes',
+      moduleSpecifier: `./${TypeGuardRenderer.WithContentTypeLink}`,
       namedImports: [TypeGuardRenderer.WithContentTypeLink],
       isTypeOnly: true,
     });
@@ -55,4 +59,8 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
 
     file.formatText();
   };
+
+  public override additionalFiles(): SourceFile[] {
+    return this.files;
+  }
 }
