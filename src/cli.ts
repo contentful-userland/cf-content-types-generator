@@ -8,6 +8,7 @@ import {
   DefaultContentTypeRenderer,
   JsDocRenderer,
   LocalizedContentTypeRenderer,
+  TypeGuardRenderer,
 } from './renderer';
 
 // eslint-disable-next-line unicorn/prefer-module
@@ -22,6 +23,7 @@ class ContentfulMdg extends Command {
     preserve: flags.boolean({ char: 'p', description: 'preserve output folder' }),
     localized: flags.boolean({ char: 'l', description: 'add localized types' }),
     jsdoc: flags.boolean({ char: 'd', description: 'add JSDoc comments' }),
+    typeguard: flags.boolean({ char: 'g', description: 'add type guards' }),
 
     // remote access
     spaceId: flags.string({ char: 's', description: 'space id' }),
@@ -70,6 +72,10 @@ class ContentfulMdg extends Command {
 
     if (flags.jsdoc) {
       renderers.push(new JsDocRenderer());
+    }
+
+    if (flags.typeguard) {
+      renderers.push(new TypeGuardRenderer());
     }
 
     const builder = new CFDefinitionsBuilder(renderers);

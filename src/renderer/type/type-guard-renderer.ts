@@ -1,10 +1,12 @@
 import { Project, SourceFile } from 'ts-morph';
+import { moduleName } from '../../module-name';
 import { CFContentType } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
 
 export class TypeGuardRenderer extends BaseContentTypeRenderer {
   private readonly files: SourceFile[];
 
+  private static readonly WithContentTypeLink = 'WithContentTypeLink';
   constructor() {
     super();
     this.files = [];
@@ -17,7 +19,7 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
     });
 
     file.addTypeAlias({
-      name: 'SysWithContentTypeLinkId',
+      name: TypeGuardRenderer.WithContentTypeLink,
       isExported: true,
       type: `{ sys: { contentType: { sys: { id: string } } } }`,
     });
@@ -26,13 +28,11 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
   }
 
   public render = (contentType: CFContentType, file: SourceFile): void => {
-    const context = this.createContext();
+    const entryInterfaceName = moduleName(contentType.sys.id);
 
-    const entryInterfaceName = context.moduleName(contentType.sys.id);
-
-    context.imports.add({
+    file.addImportDeclaration({
       moduleSpecifier: 'TypeGuardTypes',
-      namedImports: ['SysWithContentTypeLinkId'],
+      namedImports: [TypeGuardRenderer.WithContentTypeLink],
       isTypeOnly: true,
     });
 
@@ -43,15 +43,11 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
       parameters: [
         {
           name: 'entry',
-          type: 'SysWithContentTypeLinkId',
+          type: TypeGuardRenderer.WithContentTypeLink,
         },
       ],
       statements: `return entry.sys.contentType.sys.id === '${contentType.sys.id}'`,
     });
-
-    for (const structure of context.imports) {
-      file.addImportDeclaration(structure);
-    }
 
     file.organizeImports({
       ensureNewLineAtEndOfFile: true,

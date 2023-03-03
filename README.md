@@ -20,7 +20,8 @@
 - [Renderer](#renderer)
   - [Default Renderer](#DefaultContentTypeRenderer)
   - [Localized Renderer](#LocalizedContentTypeRenderer)
-  - [JSDoc Renderer](#JSDocContentTypeRenderer)
+  - [JSDoc Renderer](#JSDocRenderer)
+  - [Type Guard Renderer](#TypeGuardRenderer)
 - [Direct Usage](#direct-usage)
 - [Browser Usage](#browser-usage)
 
@@ -48,6 +49,7 @@ OPTIONS
   -p, --preserve                 preserve output folder
   -l, --localized                add localized types
   -d, --jsdoc                    add JSDoc comments
+  -g, --typeguard                add type guards
   -s, --spaceId=spaceId          space id
   -t, --token=token              management token
   -v, --version                  show CLI version
@@ -237,7 +239,7 @@ Extend the default `BaseContentTypeRenderer` class, or implement the `ContentTyp
 Relevant methods to override:
 
 | Methods             | Description                                                                | Override                                                              |
-| ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+|---------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------|
 | `render`            | Enriches a `SourceFile` with all relevant nodes                            | To control content type rendering (you should know what you're doing) |
 | `getContext`        | Returns new render context object                                          | To define custom type renderer and custom module name function        |
 | `addDefaultImports` | Define set of default imports added to every file                          | To control default imported modules                                   |
@@ -371,6 +373,35 @@ export interface TypeAnimalFields {
  * @type {TypeAnimal}
  */
 export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
+```
+
+## TypeGuardRenderer
+
+Adds type guard functions for every content type
+
+#### Example Usage
+
+```typescript
+import { CFDefinitionsBuilder, TypeGuardRenderer } from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new TypeGuardRenderer()]);
+```
+
+#### Example output
+
+```typescript
+import { Entry, EntryFields } from 'contentful';
+import type { WithContentTypeLink } from "TypeGuardTypes";
+
+export interface TypeAnimalFields {
+  bread: EntryFields.Symbol;
+}
+
+export type TypeAnimal = Entry<TypeAnimalFields>;
+
+export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
+  return entry.sys.contentType.sys.id === 'animal'
+}
 ```
 
 # Direct Usage

@@ -1,10 +1,5 @@
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
-import { CFContentType, DefaultContentTypeRenderer, JsDocRenderer } from '../../../src';
-import {
-  defaultJsDocRenderOptions,
-  JSDocRenderOptions,
-} from '../../../src/renderer/type/js-doc-renderer';
-import { TypeGuardRenderer } from '../../../src/renderer/type/type-guard-renderer';
+import { CFContentType, DefaultContentTypeRenderer, TypeGuardRenderer } from '../../../src';
 import stripIndent = require('strip-indent');
 
 describe('A content type type guard renderer class', () => {
@@ -56,7 +51,7 @@ describe('A content type type guard renderer class', () => {
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
         import type { Entry, EntryFields } from "contentful";
-        import type { SysWithContentTypeLinkId } from "TypeGuardTypes";
+        import type { WithContentTypeLink } from "TypeGuardTypes";
         
         export interface TypeAnimalFields {
             bread: EntryFields.Symbol;
@@ -64,7 +59,7 @@ describe('A content type type guard renderer class', () => {
         
         export type TypeAnimal = Entry<TypeAnimalFields>;
         
-        export function isTypeAnimal(entry: SysWithContentTypeLinkId): entry is TypeAnimal {
+        export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
             return entry.sys.contentType.sys.id === 'animal'
         }
         `),
@@ -79,7 +74,7 @@ describe('A content type type guard renderer class', () => {
 
       expect('\n' + typeGuardFile.getFullText()).toEqual(
         stripIndent(`
-        export type SysWithContentTypeLinkId = { sys: { contentType: { sys: { id: string } } } };
+        export type WithContentTypeLink = { sys: { contentType: { sys: { id: string } } } };
         `),
       );
     });
