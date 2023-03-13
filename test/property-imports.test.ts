@@ -1,9 +1,9 @@
-import {expect} from '@oclif/test';
-import {propertyImports} from '../src/cf-property-imports';
+import { propertyImports } from '../src';
+import { createDefaultContext } from '../src';
 
 describe('A typeImports function', () => {
-    it('returns imports for referenced Entry', () => {
-        const field = JSON.parse(`
+  it('returns imports for referenced Entry', () => {
+    const field = JSON.parse(`
         {
           "id": "category",
           "name": "Category",
@@ -22,14 +22,17 @@ describe('A typeImports function', () => {
           "linkType": "Entry"
         }
         `);
-        expect(propertyImports(field)).to.eql([{
-            moduleSpecifier: './TypeTopicCategory',
-            namedImports: ['TypeTopicCategoryFields'],
-        }]);
-    });
+    expect(propertyImports(field, createDefaultContext())).toEqual([
+      {
+        moduleSpecifier: './TypeTopicCategory',
+        namedImports: ['TypeTopicCategoryFields'],
+        isTypeOnly: true,
+      },
+    ]);
+  });
 
-    it('returns empty for symbol field', () => {
-        const field = JSON.parse(`
+  it('returns empty for symbol field', () => {
+    const field = JSON.parse(`
         {
           "id": "internalName",
           "name": "Internal name",
@@ -42,10 +45,10 @@ describe('A typeImports function', () => {
           "omitted": false
         }
         `);
-        expect(propertyImports(field)).to.eql([]);
-    });
-    it('returns imports for referenced Entry without validations', () => {
-        const field = JSON.parse(`
+    expect(propertyImports(field, createDefaultContext())).toEqual([]);
+  });
+  it('returns imports for referenced Entry without validations', () => {
+    const field = JSON.parse(`
         {
           "id": "category",
           "name": "Category",
@@ -58,9 +61,12 @@ describe('A typeImports function', () => {
           "linkType": "Entry"
         }
         `);
-        expect(propertyImports(field)).to.eql([{
-            moduleSpecifier: './TypeCategory',
-            namedImports: ['TypeCategoryFields'],
-        }]);
-    });
+    expect(propertyImports(field, createDefaultContext())).toEqual([
+      {
+        moduleSpecifier: './TypeCategory',
+        namedImports: ['TypeCategoryFields'],
+        isTypeOnly: true,
+      },
+    ]);
+  });
 });

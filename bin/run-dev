@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+const fs = require('fs-extra');
+const path = require('path');
+const project = path.join(__dirname, '../tsconfig.json');
+
+if (!fs.existsSync(project)) {
+    throw new Error(`Can't find project file at ${project}`)
+}
+
+require('ts-node').register({project});
+
+require('../src/cli.ts')
+    .run()
+    .catch(require('@oclif/errors/handle'));

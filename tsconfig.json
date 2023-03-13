@@ -1,19 +1,13 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "module": "commonjs",
     "outDir": "lib",
-    "rootDir": "src",
     "strict": true,
-    "target": "es2017",
+    "target": "esnext",
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "**/*.test.ts",
-    "lib"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["**/*.test.ts", "lib", "test"]
 }

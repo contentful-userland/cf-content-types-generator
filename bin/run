@@ -1,15 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require('fs-extra');
-const path = require('path');
-const project = path.join(__dirname, '../tsconfig.json');
-const dev = fs.existsSync(project);
-
-if (dev) {
-    // eslint-disable-next-line node/no-unpublished-require
-    require('ts-node').register({project});
-}
-
-require(`../${dev ? 'src' : 'lib'}`)
+require('../lib/cli.js')
     .run()
     .catch(require('@oclif/errors/handle'));
