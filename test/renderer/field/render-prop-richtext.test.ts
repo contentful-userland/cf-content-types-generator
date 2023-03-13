@@ -18,7 +18,7 @@ describe('A renderPropRichText function', () => {
     const context = createDefaultContext();
     const result = renderRichText(field, context);
 
-    expect(result).toEqual('CFRichTextTypes.Block | CFRichTextTypes.Inline');
+    expect(result).toEqual('CFRichTextTypes.RichText');
 
     expect([...context.imports.values()]).toEqual([
       {

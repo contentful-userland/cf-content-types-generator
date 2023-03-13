@@ -215,7 +215,7 @@ import { Entry, EntryFields } from 'contentful';
 export interface TypeArtistFields {
   name: Contentful.EntryFields.Symbol;
   profilePicture?: Contentful.Asset;
-  bio?: CFRichTextTypes.Block | CFRichTextTypes.Inline;
+  bio?: CFRichTextTypes.RichText;
 }
 
 export type TypeArtist = Entry<TypeArtistFields>;
