@@ -989,10 +989,10 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^2.0.3", "@oclif/core@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.4.0.tgz#8e5983dd0d50a3c0c170a844fe8925cb639f0a9f"
-  integrity sha512-wWUnOOfQQty0k1Cstm/iWW6pbG0mHzU7rcUtab2Sni9kjBPCcy6ENTgpsWbb/WdITopqtXmvpYII2fgcjKdzUA==
+"@oclif/core@^2.0.3", "@oclif/core@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.6.2.tgz#6ec15faf0c1e0e01e3c13c1c33827c12baaf0c88"
+  integrity sha512-roxcBLr4BuoOEDEkMQk4Yy0Tolr39n6i+A63qPLa19vrgxjZZJygh2HpThsn69/UPuEzMq051FnvJ9tNln3Y5g==
   dependencies:
     "@types/cli-progress" "^3.11.0"
     ansi-escapes "^4.3.2"
@@ -1018,6 +1018,7 @@
     strip-ansi "^6.0.1"
     supports-color "^8.1.1"
     supports-hyperlinks "^2.2.0"
+    ts-node "^10.9.1"
     tslib "^2.5.0"
     widest-line "^3.1.0"
     wordwrap "^1.0.0"
@@ -1076,11 +1077,11 @@
     tslib "^2.5.0"
 
 "@oclif/plugin-help@^5.1.12", "@oclif/plugin-help@^5.1.19":
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.2.7.tgz#3c7ed34186b52fd54b810ec120a5a0130c4abc87"
-  integrity sha512-p6DJk0QMfzGvXGqrSZTQPitUGi68oGzr48tRKdrVxDDPMAELxHeXXFbkNRNdvjldPpTk44m0PbxV5tWhwurRwg==
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-5.2.8.tgz#25821ea8588b59e5554187611ce58b8a95d4e90d"
+  integrity sha512-Fl1DD6Hm7USG/BYqcUmc/hMXK6Bnd3HvkZsRG+qi0dbYaNtY9zJ58C5b3lgPn69bXJlyi1eWX4S8djSUWD8VYg==
   dependencies:
-    "@oclif/core" "^2.4.0"
+    "@oclif/core" "^2.6.2"
 
 "@oclif/plugin-not-found@^2.3.7":
   version "2.3.15"
@@ -7862,7 +7863,7 @@ ts-morph@^17.0.1:
     "@ts-morph/common" "~0.18.0"
     code-block-writer "^11.0.3"
 
-ts-node@^10.8.0:
+ts-node@^10.8.0, ts-node@^10.9.1:
   version "10.9.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.9.1.tgz#e73de9102958af9e1f0b168a6ff320e25adcff4b"
   integrity sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==
