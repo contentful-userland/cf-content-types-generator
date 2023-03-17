@@ -3,9 +3,9 @@ import { RenderContext } from '../type';
 
 export const renderRichText = (field: Field, context: RenderContext): string => {
   context.imports.add({
-    moduleSpecifier: '@contentful/rich-text-types',
-    namespaceImport: 'CFRichTextTypes',
+    moduleSpecifier: 'contentful',
+    namedImports: ['EntryFields'],
     isTypeOnly: true,
   });
-  return 'CFRichTextTypes.RichText';
+  return 'EntryFields.RichText';
 };
