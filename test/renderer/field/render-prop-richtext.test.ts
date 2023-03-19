@@ -18,12 +18,12 @@ describe('A renderPropRichText function', () => {
     const context = createDefaultContext();
     const result = renderRichText(field, context);
 
-    expect(result).toEqual('CFRichTextTypes.RichText');
+    expect(result).toEqual('EntryFields.RichText');
 
     expect([...context.imports.values()]).toEqual([
       {
-        moduleSpecifier: '@contentful/rich-text-types',
-        namespaceImport: 'CFRichTextTypes',
+        moduleSpecifier: 'contentful',
+        namedImports: ['EntryFields'],
         isTypeOnly: true,
       },
     ]);

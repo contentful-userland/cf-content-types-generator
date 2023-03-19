@@ -215,7 +215,7 @@ import { Entry, EntryFields } from 'contentful';
 export interface TypeArtistFields {
   name: Contentful.EntryFields.Symbol;
   profilePicture?: Contentful.Asset;
-  bio?: CFRichTextTypes.RichText;
+  bio?: EntryFields.RichText;
 }
 
 export type TypeArtist = Entry<TypeArtistFields>;
@@ -239,7 +239,7 @@ Extend the default `BaseContentTypeRenderer` class, or implement the `ContentTyp
 Relevant methods to override:
 
 | Methods             | Description                                                                | Override                                                              |
-|---------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `render`            | Enriches a `SourceFile` with all relevant nodes                            | To control content type rendering (you should know what you're doing) |
 | `getContext`        | Returns new render context object                                          | To define custom type renderer and custom module name function        |
 | `addDefaultImports` | Define set of default imports added to every file                          | To control default imported modules                                   |
@@ -358,12 +358,11 @@ import * as Contentful from 'contentful';
  * @memberof TypeAnimal
  */
 export interface TypeAnimalFields {
-  
   /**
    * Field type definition for field 'bread' (Bread)
    * @name Bread
    * @localized false
-  */
+   */
   bread: Contentful.EntryFields.Symbol;
 }
 
@@ -384,14 +383,17 @@ Adds type guard functions for every content type
 ```typescript
 import { CFDefinitionsBuilder, TypeGuardRenderer } from 'cf-content-types-generator';
 
-const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new TypeGuardRenderer()]);
+const builder = new CFDefinitionsBuilder([
+  new DefaultContentTypeRenderer(),
+  new TypeGuardRenderer(),
+]);
 ```
 
 #### Example output
 
 ```typescript
 import { Entry, EntryFields } from 'contentful';
-import type { WithContentTypeLink } from "TypeGuardTypes";
+import type { WithContentTypeLink } from 'TypeGuardTypes';
 
 export interface TypeAnimalFields {
   bread: EntryFields.Symbol;
@@ -400,7 +402,7 @@ export interface TypeAnimalFields {
 export type TypeAnimal = Entry<TypeAnimalFields>;
 
 export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
-  return entry.sys.contentType.sys.id === 'animal'
+  return entry.sys.contentType.sys.id === 'animal';
 }
 ```
 
