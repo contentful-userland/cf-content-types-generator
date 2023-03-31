@@ -163,13 +163,17 @@ export default class CFDefinitionsBuilder {
     for (const sourceFile of this.project.getSourceFiles()) {
       const exportDeclarations = sourceFile.getExportSymbols();
       if (sourceFile.getBaseNameWithoutExtension() !== 'index') {
-        indexFile.addExportDeclaration({
-          isTypeOnly: true,
-          namedExports: exportDeclarations.map((declaration) =>
-            declaration.getExportSymbol().getEscapedName(),
-          ),
-          moduleSpecifier: `./${sourceFile.getBaseNameWithoutExtension()}`,
-        });
+        // we have to add every single exported member to differentiate type only exports
+        // organize imports in the end optimize again and groups imports from same module
+        for (const exportDeclaration of exportDeclarations) {
+          indexFile.addExportDeclaration({
+            isTypeOnly: !sourceFile.getFunctions().some((f) => {
+              return f.getName() === exportDeclaration.getExportSymbol().getName();
+            }),
+            namedExports: [exportDeclaration.getExportSymbol().getEscapedName()],
+            moduleSpecifier: `./${sourceFile.getBaseNameWithoutExtension()}`,
+          });
+        }
       }
     }
 

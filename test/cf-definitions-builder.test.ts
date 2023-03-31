@@ -584,4 +584,19 @@ describe('A Contentful definitions builder', () => {
           `),
     );
   });
+
+  it('can create index file with type guard functions', async () => {
+    builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new TypeGuardRenderer()]);
+    builder.appendType(modelType);
+    await builder.write(fixturesPath, writeFile);
+
+    const result1 = await fs.readFile(path.resolve(fixturesPath, 'index.ts'));
+    expect('\n' + result1.toString()).toEqual(
+      stripIndent(`
+            export { isTypeSysId } from "./TypeSysId";
+            export type { TypeSysId, TypeSysIdFields } from "./TypeSysId";
+            export type { WithContentTypeLink } from "./WithContentTypeLink";
+            `),
+    );
+  });
 });
