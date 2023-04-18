@@ -1,14 +1,17 @@
-import { Field, FieldType } from 'contentful';
+import { ContentTypeField, ContentTypeFieldType } from 'contentful';
 import { RenderContext } from '../type';
 
-export type FieldRenderer<FType extends FieldType> = (
-  field: FType extends 'Link' ? Pick<Field, 'validations' | 'linkType'> : Field,
+export type FieldRenderer<FType extends ContentTypeFieldType> = (
+  field: FType extends 'Link'
+    ? Pick<ContentTypeField, 'validations' | 'linkType'>
+    : ContentTypeField,
   context: RenderContext,
 ) => string;
 
 export type FieldRenderers = {
   RichText: FieldRenderer<'RichText'>;
   Link: FieldRenderer<'Link'>;
+  ResourceLink: FieldRenderer<'ResourceLink'>;
   Array: FieldRenderer<'Array'>;
   Text: FieldRenderer<'Text'>;
   Symbol: FieldRenderer<'Symbol'>;

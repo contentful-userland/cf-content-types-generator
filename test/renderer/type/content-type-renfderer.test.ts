@@ -1,4 +1,4 @@
-import { Field, FieldType } from 'contentful';
+import { ContentTypeField, ContentTypeFieldType } from 'contentful';
 
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import {
@@ -38,7 +38,7 @@ describe('A derived content type renderer class', () => {
         return {
           moduleName,
           moduleFieldsName,
-          getFieldRenderer: <FType extends FieldType>(fieldType: FType) => {
+          getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => {
             if (fieldType === 'Symbol') {
               return symbolTypeRenderer as FieldRenderer<FType>;
             }
@@ -88,7 +88,7 @@ describe('A derived content type renderer class', () => {
 
   it('can return a custom field renderer with docs support', () => {
     class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
-      protected renderField(field: Field, context: RenderContext) {
+      protected renderField(field: ContentTypeField, context: RenderContext) {
         return {
           docs: [{ description: `Field of type "${field.type}"` }],
           name: field.id,

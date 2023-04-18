@@ -1,4 +1,4 @@
-import { Field } from 'contentful';
+import { ContentTypeField } from 'contentful';
 import { ContentTypeProps } from 'contentful-management';
 import { JSDocStructure, JSDocTagStructure, OptionalKind, SourceFile } from 'ts-morph';
 import { CFContentType } from '../../types';
@@ -14,11 +14,11 @@ type FieldsDocsOptionsProps = {
   /* Name of generated Fields type */
   readonly name: string;
   readonly entryName: string;
-  readonly fields: Field[];
+  readonly fields: ContentTypeField[];
 };
 
 type FieldDocsOptionsProps = {
-  readonly field: Field;
+  readonly field: ContentTypeField;
 };
 
 export type JSDocRenderOptions = {

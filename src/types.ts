@@ -1,4 +1,4 @@
-import { Field } from 'contentful';
+import { ContentTypeField } from 'contentful';
 
 export type WriteCallback = (filePath: string, content: string) => Promise<void>;
 
@@ -8,5 +8,5 @@ export type CFContentType = {
     id: string;
     type: string;
   };
-  fields: Field[];
+  fields: ContentTypeField[];
 };

@@ -1,10 +1,10 @@
-import { Field } from 'contentful';
+import { ContentTypeField } from 'contentful';
 import { ImportDeclarationStructure, OptionalKind } from 'ts-morph';
 import { linkContentTypeValidations } from './extract-validation';
 import { RenderContext } from './renderer';
 
 export const propertyImports = (
-  field: Field,
+  field: ContentTypeField,
   context: RenderContext,
   ignoreModule?: string,
 ): OptionalKind<ImportDeclarationStructure>[] => {
