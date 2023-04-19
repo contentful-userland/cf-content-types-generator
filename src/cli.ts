@@ -6,10 +6,12 @@ import CFDefinitionsBuilder from './cf-definitions-builder';
 import {
   ContentTypeRenderer,
   DefaultContentTypeRenderer,
+  V10ContentTypeRenderer,
   JsDocRenderer,
   LocalizedContentTypeRenderer,
   TypeGuardRenderer,
 } from './renderer';
+import { V10TypeGuardRenderer } from './renderer/type/v10-type-guard-renderer';
 
 // eslint-disable-next-line unicorn/prefer-module
 const contentfulExport = require('contentful-export');
@@ -21,6 +23,7 @@ class ContentfulMdg extends Command {
     help: flags.help({ char: 'h' }),
     out: flags.string({ char: 'o', description: 'output directory' }),
     preserve: flags.boolean({ char: 'p', description: 'preserve output folder' }),
+    v10: flags.boolean({ char: 'X', description: 'create contentful.js v10 types' }),
     localized: flags.boolean({ char: 'l', description: 'add localized types' }),
     jsdoc: flags.boolean({ char: 'd', description: 'add JSDoc comments' }),
     typeguard: flags.boolean({ char: 'g', description: 'add type guards' }),
@@ -65,7 +68,9 @@ class ContentfulMdg extends Command {
       });
     }
 
-    const renderers: ContentTypeRenderer[] = [new DefaultContentTypeRenderer()];
+    const renderers: ContentTypeRenderer[] = flags.v10
+      ? [new V10ContentTypeRenderer()]
+      : [new DefaultContentTypeRenderer()];
     if (flags.localized) {
       renderers.push(new LocalizedContentTypeRenderer());
     }
@@ -75,7 +80,7 @@ class ContentfulMdg extends Command {
     }
 
     if (flags.typeguard) {
-      renderers.push(new TypeGuardRenderer());
+      renderers.push(flags.v10 ? new V10TypeGuardRenderer() : new TypeGuardRenderer());
     }
 
     const builder = new CFDefinitionsBuilder(renderers);

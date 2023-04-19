@@ -47,6 +47,7 @@ OPTIONS
   -h, --help                     show CLI help
   -o, --out=out                  output directory
   -p, --preserve                 preserve output folder
+  -X  --v10                      create contentful.js v10 types
   -l, --localized                add localized types
   -d, --jsdoc                    add JSDoc comments
   -g, --typeguard                add type guards

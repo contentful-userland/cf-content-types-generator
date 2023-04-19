@@ -8,6 +8,7 @@ import {
   FieldRenderer,
   moduleFieldsName,
   moduleName,
+  moduleSkeletonName,
   RenderContext,
   renderTypeGeneric,
 } from '../../../src';
@@ -38,6 +39,7 @@ describe('A derived content type renderer class', () => {
         return {
           moduleName,
           moduleFieldsName,
+          moduleSkeletonName,
           getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => {
             if (fieldType === 'Symbol') {
               return symbolTypeRenderer as FieldRenderer<FType>;

@@ -1,7 +1,8 @@
 import { ContentTypeFieldType } from 'contentful';
 import { ImportDeclarationStructure, OptionalKind } from 'ts-morph';
-import { moduleFieldsName, moduleName, moduleSkeletonName } from '../../module-name';
-import { defaultRenderers, FieldRenderer } from '../field';
+import { FieldRenderer } from '../field';
+import { createDefaultContext } from './create-default-context';
+import { v10Renderers } from '../field/v10-renderers';
 
 export type RenderContext = {
   getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => FieldRenderer<FType>;
@@ -11,13 +12,10 @@ export type RenderContext = {
   imports: Set<OptionalKind<ImportDeclarationStructure>>;
 };
 
-export const createDefaultContext = (): RenderContext => {
+export const createV10Context = (): RenderContext => {
   return {
-    moduleName,
-    moduleFieldsName,
-    moduleSkeletonName,
+    ...createDefaultContext(),
     getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) =>
-      defaultRenderers[fieldType] as FieldRenderer<FType>,
-    imports: new Set(),
+      v10Renderers[fieldType] as FieldRenderer<FType>,
   };
 };
