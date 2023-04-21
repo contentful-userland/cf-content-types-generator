@@ -5,3 +5,4 @@ export { renderPropLink, renderPropLinkV10 } from './render-prop-link';
 export { renderPropResourceLink, renderPropResourceLinkV10 } from './render-prop-resource-link';
 export { renderRichText, renderRichTextV10 } from './render-prop-richtext';
 export { defaultRenderers } from './default-renderers';
+export { v10Renderers } from './v10-renderers';

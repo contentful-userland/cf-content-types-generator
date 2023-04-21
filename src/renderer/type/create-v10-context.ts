@@ -1,8 +1,7 @@
 import { ContentTypeFieldType } from 'contentful';
 import { ImportDeclarationStructure, OptionalKind } from 'ts-morph';
-import { FieldRenderer } from '../field';
+import { FieldRenderer, v10Renderers } from '../field';
 import { createDefaultContext } from './create-default-context';
-import { v10Renderers } from '../field/v10-renderers';
 
 export type RenderContext = {
   getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => FieldRenderer<FType>;
