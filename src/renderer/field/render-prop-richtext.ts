@@ -1,7 +1,7 @@
-import { Field } from 'contentful';
+import { ContentTypeField } from 'contentful';
 import { RenderContext } from '../type';
 
-export const renderRichText = (field: Field, context: RenderContext): string => {
+export const renderRichText = (field: ContentTypeField, context: RenderContext): string => {
   context.imports.add({
     moduleSpecifier: 'contentful',
     namedImports: ['EntryFields'],

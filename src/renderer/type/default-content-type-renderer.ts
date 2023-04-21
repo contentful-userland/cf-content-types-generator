@@ -1,4 +1,4 @@
-import { Field } from 'contentful';
+import { ContentTypeField } from 'contentful';
 import {
   OptionalKind,
   PropertySignatureStructure,
@@ -48,7 +48,7 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
   protected addDefaultImports(context: RenderContext): void {}
 
   protected renderField(
-    field: Field,
+    field: ContentTypeField,
     context: RenderContext,
   ): OptionalKind<PropertySignatureStructure> {
     return {
@@ -58,7 +58,7 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
     };
   }
 
-  protected renderFieldType(field: Field, context: RenderContext): string {
+  protected renderFieldType(field: ContentTypeField, context: RenderContext): string {
     return context.getFieldRenderer(field.type)(field, context);
   }
 

@@ -1,8 +1,8 @@
-import { Field } from 'contentful';
+import { ContentTypeField } from 'contentful';
 import { renderTypeLiteral, renderTypeUnion } from '../generic';
 import { RenderContext } from '../type';
 
-export const renderPropAny = (field: Field, context: RenderContext): string => {
+export const renderPropAny = (field: ContentTypeField, context: RenderContext): string => {
   if (field.validations?.length > 0) {
     const includesValidation = field.validations.find((validation) => validation.in);
     if (includesValidation && includesValidation.in) {

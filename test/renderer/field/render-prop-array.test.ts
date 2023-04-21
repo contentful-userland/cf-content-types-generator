@@ -112,4 +112,37 @@ describe('A renderPropArray function', () => {
       'Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]',
     );
   });
+
+  it('can evaluate a "Array" of "ResourceLink"', () => {
+    const field = JSON.parse(`
+      {
+        "id": "components",
+        "name": "Components",
+        "type": "Array",
+        "localized": false,
+        "required": true,
+        "validations": [],
+        "disabled": false,
+        "omitted": false,
+        "items": {
+          "type": "ResourceLink",
+          "validations": []
+        },
+        "allowedResources": [
+          {
+            "type": "Contentful:Entry",
+            "source": "crn:contentful:::content:spaces/spaceId",
+            "contentTypes": [
+              "componentCta",
+              "componentFaq",
+              "wrapperImage",
+              "wrapperVideo"
+            ]
+          }
+        ]
+      }
+    `);
+
+    expect(renderPropArray(field, createDefaultContext())).toEqual('Entry<Record<string, any>>[]');
+  });
 });

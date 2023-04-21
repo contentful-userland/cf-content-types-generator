@@ -26,7 +26,7 @@
     "@oclif/config": "^1.18.3",
     "@oclif/errors": "^1.3.5",
     "@oclif/plugin-help": "^5.1.12",
-    "contentful": "^9.1.29",
+    "contentful": "^10.1.0",
     "contentful-export": "^7.17.13",
     "contentful-management": "^10.27.4",
     "fs-extra": "^11.1.0",

@@ -1,8 +1,8 @@
-import { FieldItem, FieldValidation } from 'contentful';
+import { FieldItem, ContentTypeFieldValidation } from 'contentful';
 
 type WithValidations = Pick<FieldItem, 'validations'>;
 
-const validation = (node: WithValidations, field: keyof FieldValidation): any => {
+const validation = (node: WithValidations, field: keyof ContentTypeFieldValidation): any => {
   if (node.validations && node.validations.length > 0) {
     const linkContentValidation = node.validations.find((value) => value[field]);
     if (linkContentValidation) {
