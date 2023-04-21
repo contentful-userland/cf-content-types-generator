@@ -279,10 +279,21 @@ import { CFDefinitionsBuilder, DefaultContentTypeRenderer } from 'cf-content-typ
 const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer()]);
 ```
 
+## V10ContentTypeRenderer
+
+A renderer to render type fields and entry definitions compatible with contentful.js v10.
+
+```typescript
+import { CFDefinitionsBuilder, V10ContentTypeRenderer } from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([new V10ContentTypeRenderer()]);
+```
+
 ## LocalizedContentTypeRenderer
 
 Add additional types for localized fields. It adds utility types to transform fields into localized fields for given locales
 More details on the utility types can be found here: [Issue 121](https://github.com/contentful-userland/cf-content-types-generator/issues/121)
+Note that these types are not needed when using `V10ContentTypeRenderer` as the v10 entry type already supports localization.
 
 #### Example Usage
 
@@ -382,7 +393,7 @@ Adds type guard functions for every content type
 #### Example Usage
 
 ```typescript
-import { CFDefinitionsBuilder, TypeGuardRenderer } from 'cf-content-types-generator';
+import { CFDefinitionsBuilder, DefaultContentTypeRenderer, TypeGuardRenderer } from 'cf-content-types-generator';
 
 const builder = new CFDefinitionsBuilder([
   new DefaultContentTypeRenderer(),
@@ -404,6 +415,38 @@ export type TypeAnimal = Entry<TypeAnimalFields>;
 
 export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
   return entry.sys.contentType.sys.id === 'animal';
+}
+```
+
+## V10TypeGuardRenderer
+
+Adds type guard functions for every content type which are compatible with contentful.js v10.
+
+#### Example Usage
+
+```typescript
+import { CFDefinitionsBuilder, V10ContentTypeRenderer, V10TypeGuardRenderer } from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([
+  new V10ContentTypeRenderer(),
+  new V10TypeGuardRenderer(),
+]);
+```
+
+#### Example output
+
+```typescript
+import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+
+export interface TypeAnimalFields {
+  bread?: EntryFieldTypes.Symbol;
+}
+
+export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, "animal">;
+export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+
+export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: Entry<EntrySkeletonType, Modifiers, Locales>): entry is TypeAnimal<Modifiers, Locales> {
+  return entry.sys.contentType.sys.id === 'animal'
 }
 ```
 
