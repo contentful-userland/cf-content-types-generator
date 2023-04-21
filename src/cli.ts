@@ -72,6 +72,12 @@ class ContentfulMdg extends Command {
       ? [new V10ContentTypeRenderer()]
       : [new DefaultContentTypeRenderer()];
     if (flags.localized) {
+      if (flags.v10) {
+        this.error(
+          '"--localized" option is not needed, contentful.js v10 types have localization built in.',
+        );
+      }
+
       renderers.push(new LocalizedContentTypeRenderer());
     }
 
