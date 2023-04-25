@@ -21,10 +21,17 @@ type FieldDocsOptionsProps = {
   readonly field: ContentTypeField;
 };
 
+type SkeletonDocsOptionsProps = {
+  /* Name of generated Skeleton type */
+  readonly name: string;
+  readonly contentType: CFContentType;
+};
+
 export type JSDocRenderOptions = {
   renderEntryDocs?: (props: EntryDocsOptionsProps) => OptionalKind<JSDocStructure> | string;
   renderFieldsDocs?: (props: FieldsDocsOptionsProps) => OptionalKind<JSDocStructure> | string;
   renderFieldDocs?: (props: FieldDocsOptionsProps) => OptionalKind<JSDocStructure> | string;
+  renderSkeletonDocs?: (props: SkeletonDocsOptionsProps) => OptionalKind<JSDocStructure> | string;
 };
 
 export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
@@ -106,6 +113,49 @@ export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
       ],
     };
   },
+
+  renderSkeletonDocs: ({ contentType, name }) => {
+    const tags: OptionalKind<JSDocTagStructure>[] = [];
+
+    tags.push(
+      {
+        tagName: 'name',
+        text: name,
+      },
+      {
+        tagName: 'type',
+        text: `{${name}}`,
+      },
+    );
+
+    const cmaContentType = contentType as ContentTypeProps;
+
+    if (cmaContentType.sys.createdBy?.sys?.id) {
+      tags.push({
+        tagName: 'author',
+        text: cmaContentType.sys.createdBy.sys.id,
+      });
+    }
+
+    if (cmaContentType.sys.firstPublishedAt) {
+      tags.push({
+        tagName: 'since',
+        text: cmaContentType.sys.firstPublishedAt,
+      });
+    }
+
+    if (cmaContentType.sys.publishedVersion) {
+      tags.push({
+        tagName: 'version',
+        text: cmaContentType.sys.publishedVersion.toString(),
+      });
+    }
+
+    return {
+      description: `Entry skeleton type definition for content type '${contentType.sys.id}' (${contentType.name})`,
+      tags,
+    };
+  },
 };
 
 /* JsDocRenderer only works in conjunction with other Renderers. It relays on previously rendered Interfaces */
@@ -161,6 +211,18 @@ export class JsDocRenderer extends BaseContentTypeRenderer {
           );
         }
       }
+    }
+
+    const skeletonInterfaceName = context.moduleSkeletonName(contentType.sys.id);
+    const skeletonInterface = file.getTypeAlias(skeletonInterfaceName);
+
+    if (skeletonInterface) {
+      skeletonInterface.addJsDoc(
+        this.renderOptions.renderSkeletonDocs({
+          name: skeletonInterfaceName,
+          contentType,
+        }),
+      );
     }
   };
 }

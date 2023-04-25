@@ -1,5 +1,10 @@
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
-import { CFContentType, DefaultContentTypeRenderer, JsDocRenderer } from '../../../src';
+import {
+  CFContentType,
+  DefaultContentTypeRenderer,
+  JsDocRenderer,
+  V10ContentTypeRenderer,
+} from '../../../src';
 import {
   defaultJsDocRenderOptions,
   JSDocRenderOptions,
@@ -78,6 +83,49 @@ describe('A JSDoc content type renderer class', () => {
          * @type {TypeAnimal}
          */
         export type TypeAnimal = Entry<TypeAnimalFields>;
+        `),
+      );
+    });
+
+    it('renders JSDocs with v10 flag', () => {
+      const v10Renderer = new V10ContentTypeRenderer();
+      v10Renderer.setup(project);
+      v10Renderer.render(mockContentType, testFile);
+
+      const docsRenderer = new JsDocRenderer();
+      docsRenderer.render(mockContentType, testFile);
+
+      expect('\n' + testFile.getFullText()).toEqual(
+        stripIndent(`
+        import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+        
+        /**
+         * Fields type definition for content type 'TypeAnimal'
+         * @name TypeAnimalFields
+         * @type {TypeAnimalFields}
+         * @memberof TypeAnimal
+         */
+        export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             */
+            bread: EntryFieldTypes.Symbol;
+        }
+        
+        /**
+         * Entry skeleton type definition for content type 'animal' (Animal)
+         * @name TypeAnimalSkeleton
+         * @type {TypeAnimalSkeleton}
+         */
+        export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, "animal">;
+        /**
+         * Entry type definition for content type 'animal' (Animal)
+         * @name TypeAnimal
+         * @type {TypeAnimal}
+         */
+        export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
         `),
       );
     });

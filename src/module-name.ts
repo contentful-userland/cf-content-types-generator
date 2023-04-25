@@ -9,6 +9,10 @@ export const moduleName = (name: string): string => {
   return pipe([replaceDash, upperFirst, addPrefix, removeSpace])(name);
 };
 
+export const moduleSkeletonName = (name: string): string => {
+  return moduleName(name) + 'Skeleton';
+};
+
 export const moduleFieldsName = (name: string): string => {
   return moduleName(name) + 'Fields';
 };

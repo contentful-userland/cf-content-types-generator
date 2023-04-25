@@ -38,3 +38,35 @@ export const renderPropLink = (
       throw new Error(`Unknown linkType "${field.linkType}"`);
   }
 };
+
+export const renderPropLinkV10 = (
+  field: Pick<ContentTypeField, 'validations' | 'linkType'>,
+  context: RenderContext,
+): string => {
+  const linkContentType = (
+    field: Pick<ContentTypeField, 'validations'>,
+    context: RenderContext,
+  ): string => {
+    const validations = linkContentTypeValidations(field);
+    return validations?.length > 0
+      ? renderTypeUnion(validations.map((validation) => context.moduleSkeletonName(validation)))
+      : 'EntrySkeletonType';
+  };
+
+  context.imports.add({
+    moduleSpecifier: 'contentful',
+    namedImports: ['EntryFieldTypes'],
+    isTypeOnly: true,
+  });
+
+  switch (field.linkType) {
+    case 'Entry':
+      return renderTypeGeneric('EntryFieldTypes.EntryLink', linkContentType(field, context));
+
+    case 'Asset':
+      return 'EntryFieldTypes.AssetLink';
+
+    default:
+      throw new Error(`Unknown linkType "${field.linkType}"`);
+  }
+};
