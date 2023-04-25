@@ -77,8 +77,7 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import type { EntrySkeletonType } from "contentful";
-        import type { ChainModifiers, Entry, LocaleCode } from "contentful";
+        import type { ChainModifiers, Entry, EntrySkeletonType, LocaleCode } from "contentful";
         
         export interface TypeTestFields {
             field_id: Test.Symbol;
@@ -141,9 +140,7 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import type { EntryFieldTypes } from "contentful";
-        import type { EntrySkeletonType } from "contentful";
-        import type { ChainModifiers, Entry, LocaleCode } from "contentful";
+        import type { Entry, EntryFieldTypes, EntrySkeletonType } from "contentful";
         
         export interface TypeTestFields {
             /** Field of type "Symbol" */
@@ -200,9 +197,8 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import type { EntryFieldTypes } from "contentful";
-        import type { EntrySkeletonType } from "contentful";
         import type { CustomEntry } from "@custom";
+        import type { EntryFieldTypes, EntrySkeletonType } from "contentful";
         
         export interface TypeTestFields {
             field_id: EntryFieldTypes.Symbol;

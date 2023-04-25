@@ -97,9 +97,7 @@ describe('A JSDoc content type renderer class', () => {
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`
-        import type { EntryFieldTypes } from "contentful";
-        import type { EntrySkeletonType } from "contentful";
-        import type { ChainModifiers, Entry, LocaleCode } from "contentful";
+        import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
         
         /**
          * Fields type definition for content type 'TypeAnimal'
