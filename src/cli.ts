@@ -7,11 +7,11 @@ import {
   ContentTypeRenderer,
   DefaultContentTypeRenderer,
   V10ContentTypeRenderer,
+  V10TypeGuardRenderer,
   JsDocRenderer,
   LocalizedContentTypeRenderer,
   TypeGuardRenderer,
 } from './renderer';
-import { V10TypeGuardRenderer } from './renderer/type/v10-type-guard-renderer';
 
 // eslint-disable-next-line unicorn/prefer-module
 const contentfulExport = require('contentful-export');
