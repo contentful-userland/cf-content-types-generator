@@ -23,6 +23,10 @@ export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
     for (const structure of context.imports) {
       file.addImportDeclaration(structure);
     }
+
+    file.organizeImports({
+      ensureNewLineAtEndOfFile: true,
+    });
   }
 
   protected renderFieldsInterface(

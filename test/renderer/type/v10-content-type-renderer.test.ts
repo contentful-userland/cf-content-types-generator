@@ -14,6 +14,67 @@ import {
 } from '../../../src';
 import stripIndent = require('strip-indent');
 
+describe('The v10 content type renderer', () => {
+  let project: Project;
+  let testFile: SourceFile;
+
+  beforeEach(() => {
+    project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ScriptTarget.ES5,
+        declaration: true,
+      },
+    });
+    testFile = project.createSourceFile('test.ts');
+  });
+
+  it('adds import for skeleton type', () => {
+    const renderer = new V10ContentTypeRenderer();
+
+    const contentType: CFContentType = {
+      name: 'unused-name',
+      sys: {
+        id: 'test',
+        type: 'Symbol',
+      },
+      fields: [
+        {
+          id: 'linkFieldId',
+          name: 'Linked entry Field',
+          type: 'Link',
+          localized: false,
+          required: true,
+          validations: [
+            {
+              linkContentType: ['linkedType'],
+            },
+          ],
+          disabled: false,
+          omitted: false,
+          linkType: 'Entry',
+        },
+      ],
+    };
+
+    renderer.render(contentType, testFile);
+
+    expect('\n' + testFile.getFullText()).toEqual(
+      stripIndent(`
+        import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+        import type { TypeLinkedTypeSkeleton } from "./TypeLinkedType";
+        
+        export interface TypeTestFields {
+            linkFieldId: EntryFieldTypes.EntryLink<TypeLinkedTypeSkeleton>;
+        }
+        
+        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+        `),
+    );
+  });
+});
+
 describe('A derived content type renderer class', () => {
   let project: Project;
   let testFile: SourceFile;
@@ -39,6 +100,7 @@ describe('A derived content type renderer class', () => {
         return {
           moduleName,
           moduleFieldsName,
+          moduleReferenceName: moduleSkeletonName,
           moduleSkeletonName,
           getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => {
             if (fieldType === 'Symbol') {

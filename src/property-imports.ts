@@ -13,7 +13,7 @@ export const propertyImports = (
   const moduleImport = (module: string): OptionalKind<ImportDeclarationStructure> => {
     return {
       moduleSpecifier: `./${context.moduleName(module)}`,
-      namedImports: [context.moduleFieldsName(module)],
+      namedImports: [context.moduleReferenceName(module)],
       isTypeOnly: true,
     };
   };

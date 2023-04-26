@@ -14,6 +14,66 @@ import {
 } from '../../../src';
 import stripIndent = require('strip-indent');
 
+describe('The default content type renderer', () => {
+  let project: Project;
+  let testFile: SourceFile;
+
+  beforeEach(() => {
+    project = new Project({
+      useInMemoryFileSystem: true,
+      compilerOptions: {
+        target: ScriptTarget.ES5,
+        declaration: true,
+      },
+    });
+    testFile = project.createSourceFile('test.ts');
+  });
+
+  it('adds import for field type', () => {
+    const renderer = new DefaultContentTypeRenderer();
+
+    const contentType: CFContentType = {
+      name: 'unused-name',
+      sys: {
+        id: 'test',
+        type: 'Symbol',
+      },
+      fields: [
+        {
+          id: 'linkFieldId',
+          name: 'Linked entry Field',
+          type: 'Link',
+          localized: false,
+          required: true,
+          validations: [
+            {
+              linkContentType: ['linkedType'],
+            },
+          ],
+          disabled: false,
+          omitted: false,
+          linkType: 'Entry',
+        },
+      ],
+    };
+
+    renderer.render(contentType, testFile);
+
+    expect('\n' + testFile.getFullText()).toEqual(
+      stripIndent(`
+        import type { Entry } from "contentful";
+        import type { TypeLinkedTypeFields } from "./TypeLinkedType";
+        
+        export interface TypeTestFields {
+            linkFieldId: Entry<TypeLinkedTypeFields>;
+        }
+        
+        export type TypeTest = Entry<TypeTestFields>;
+        `),
+    );
+  });
+});
+
 describe('A derived content type renderer class', () => {
   let project: Project;
   let testFile: SourceFile;
@@ -39,6 +99,7 @@ describe('A derived content type renderer class', () => {
         return {
           moduleName,
           moduleFieldsName,
+          moduleReferenceName: moduleFieldsName,
           moduleSkeletonName,
           getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => {
             if (fieldType === 'Symbol') {
@@ -139,8 +200,7 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import type { EntryFields } from "contentful";
-        import type { Entry } from "contentful";
+        import type { Entry, EntryFields } from "contentful";
         
         export interface TypeTestFields {
             /** Field of type "Symbol" */
@@ -194,8 +254,8 @@ describe('A derived content type renderer class', () => {
 
     expect('\n' + testFile.getFullText()).toEqual(
       stripIndent(`
-        import type { EntryFields } from "contentful";
         import type { IdScopedEntry } from "@custom";
+        import type { EntryFields } from "contentful";
         
         export interface TypeTestFields {
             field_id: EntryFields.Symbol;
