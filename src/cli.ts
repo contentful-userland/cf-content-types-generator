@@ -1,4 +1,6 @@
-import { Command, flags } from '@oclif/command';
+import { Args, Command, Flags } from '@oclif/core';
+
+import contentfulExport from 'contentful-export';
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
 import * as path from 'node:path';
@@ -6,42 +8,42 @@ import CFDefinitionsBuilder from './cf-definitions-builder';
 import {
   ContentTypeRenderer,
   DefaultContentTypeRenderer,
-  V10ContentTypeRenderer,
-  V10TypeGuardRenderer,
   JsDocRenderer,
   LocalizedContentTypeRenderer,
   TypeGuardRenderer,
+  V10ContentTypeRenderer,
+  V10TypeGuardRenderer,
 } from './renderer';
 
-// eslint-disable-next-line unicorn/prefer-module
-const contentfulExport = require('contentful-export');
 class ContentfulMdg extends Command {
   static description = 'Contentful Content Types (TS Definitions) Generator';
 
   static flags = {
-    version: flags.version({ char: 'v' }),
-    help: flags.help({ char: 'h' }),
-    out: flags.string({ char: 'o', description: 'output directory' }),
-    preserve: flags.boolean({ char: 'p', description: 'preserve output folder' }),
-    v10: flags.boolean({ char: 'X', description: 'create contentful.js v10 types' }),
-    localized: flags.boolean({ char: 'l', description: 'add localized types' }),
-    jsdoc: flags.boolean({ char: 'd', description: 'add JSDoc comments' }),
-    typeguard: flags.boolean({ char: 'g', description: 'add type guards' }),
+    version: Flags.version({ char: 'v' }),
+    help: Flags.help({ char: 'h' }),
+    out: Flags.string({ char: 'o', description: 'output directory' }),
+    preserve: Flags.boolean({ char: 'p', description: 'preserve output folder' }),
+    v10: Flags.boolean({ char: 'X', description: 'create contentful.js v10 types' }),
+    localized: Flags.boolean({ char: 'l', description: 'add localized types' }),
+    jsdoc: Flags.boolean({ char: 'd', description: 'add JSDoc comments' }),
+    typeguard: Flags.boolean({ char: 'g', description: 'add type guards' }),
 
     // remote access
-    spaceId: flags.string({ char: 's', description: 'space id' }),
-    token: flags.string({
+    spaceId: Flags.string({ char: 's', description: 'space id' }),
+    token: Flags.string({
       char: 't',
       description: 'management token',
       default: process.env.CTF_CMA_TOKEN,
     }),
-    environment: flags.string({ char: 'e', description: 'environment' }),
+    environment: Flags.string({ char: 'e', description: 'environment' }),
   };
 
-  static args = [{ name: 'file', description: 'local export (.json)' }];
+  static args = {
+    file: Args.file({ description: 'local export (.json)' }),
+  };
 
   async run(): Promise<string | void> {
-    const { args, flags } = this.parse(ContentfulMdg);
+    const { args, flags } = await this.parse(ContentfulMdg);
 
     if (args.file && !fs.existsSync(args.file)) {
       this.error(`file ${args.file} doesn't exists.`);
