@@ -4,7 +4,7 @@ import contentfulExport from 'contentful-export';
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
 import * as path from 'node:path';
-import CFDefinitionsBuilder from './cf-definitions-builder';
+import CFDefinitionsBuilder from '../cf-definitions-builder';
 import {
   ContentTypeRenderer,
   DefaultContentTypeRenderer,
@@ -13,7 +13,7 @@ import {
   TypeGuardRenderer,
   V10ContentTypeRenderer,
   V10TypeGuardRenderer,
-} from './renderer';
+} from '../renderer';
 
 class ContentfulMdg extends Command {
   static description = 'Contentful Content Types (TS Definitions) Generator';
