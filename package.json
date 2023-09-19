@@ -46,6 +46,8 @@
     "jest-fixtures": "^0.6.0",
     "lint-staged": "^13.1.0",
     "oclif": "^3.4.3",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.0.0",
     "semantic-release": "^19.0.2",
     "strip-indent": "^3.0.0",
@@ -68,7 +70,8 @@
     "version": "oclif readme && git add README.md",
     "presemantic-release": "yarn run build",
     "semantic-release": "semantic-release",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "patch-package"
   },
   "release": {
     "branches": [
