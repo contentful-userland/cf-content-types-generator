@@ -14,7 +14,8 @@ const validation = (node: WithValidations, field: keyof ContentTypeFieldValidati
 };
 
 export const linkContentTypeValidations = (node: WithValidations): string[] => {
-  return validation(node, 'linkContentType');
+  const value = validation(node, 'linkContentType');
+  return Array.isArray(value) ? value : [value];
 };
 
 export const inValidations = (node: WithValidations): string[] => {

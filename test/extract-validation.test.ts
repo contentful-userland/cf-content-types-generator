@@ -20,4 +20,9 @@ describe('A linkContentTypeValidations function', () => {
     const field = { validations: [{ linkContentType: ['topicA', 'topicB'] }] };
     expect(linkContentTypeValidations(field)).toEqual(['topicA', 'topicB']);
   });
+
+  it('parses a non array linked content type validation', () => {
+    const field = { validations: [{ linkContentType: 'topicA' }] };
+    expect(linkContentTypeValidations(field)).toEqual(['topicA']);
+  });
 });
