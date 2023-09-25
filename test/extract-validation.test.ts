@@ -23,6 +23,8 @@ describe('A linkContentTypeValidations function', () => {
 
   it('parses a non array linked content type validation', () => {
     const field = { validations: [{ linkContentType: 'topicA' }] };
+    // https://github.com/contentful-userland/cf-content-types-generator/issues/148
+    // @ts-ignore
     expect(linkContentTypeValidations(field)).toEqual(['topicA']);
   });
 });

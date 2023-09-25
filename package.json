@@ -30,8 +30,7 @@
     "contentful-management": "^10.40.1",
     "fs-extra": "^11.1.1",
     "lodash": "^4.17.21",
-    "ts-morph": "^19.0.0",
-    "patch-package": "^8.0.0"
+    "ts-morph": "^19.0.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
@@ -71,8 +70,7 @@
     "version": "oclif readme && git add README.md",
     "presemantic-release": "yarn run build",
     "semantic-release": "semantic-release",
-    "prepare": "husky install",
-    "postinstall": "patch-package"
+    "prepare": "husky install"
   },
   "release": {
     "branches": [
