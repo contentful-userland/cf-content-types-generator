@@ -1,7 +1,7 @@
 import { ContentTypeField } from 'contentful';
 import { ContentTypeProps } from 'contentful-management';
 import { JSDocStructure, JSDocTagStructure, OptionalKind, SourceFile } from 'ts-morph';
-import { CFContentType } from '../../types';
+import { CFContentType, CFEditorInterface, CFEditorInterfaceControl } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
 
 type EntryDocsOptionsProps = {
@@ -19,6 +19,7 @@ type FieldsDocsOptionsProps = {
 
 type FieldDocsOptionsProps = {
   readonly field: ContentTypeField;
+  readonly control?: CFEditorInterfaceControl;
 };
 
 type SkeletonDocsOptionsProps = {
@@ -98,19 +99,28 @@ export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
     };
   },
 
-  renderFieldDocs: ({ field }) => {
+  renderFieldDocs: ({ field, control }) => {
+    const tags: OptionalKind<JSDocTagStructure>[] = [
+      {
+        tagName: 'name',
+        text: field.name,
+      },
+      {
+        tagName: 'localized',
+        text: field.localized.toString(),
+      },
+    ];
+
+    if (control?.settings?.helpText) {
+      tags.push({
+        tagName: 'helpText',
+        text: control?.settings?.helpText,
+      });
+    }
+
     return {
       description: `Field type definition for field '${field.id}' (${field.name})`,
-      tags: [
-        {
-          tagName: 'name',
-          text: field.name,
-        },
-        {
-          tagName: 'localized',
-          text: field.localized.toString(),
-        },
-      ],
+      tags,
     };
   },
 
@@ -170,7 +180,11 @@ export class JsDocRenderer extends BaseContentTypeRenderer {
     };
   }
 
-  public render = (contentType: CFContentType, file: SourceFile): void => {
+  public render = (
+    contentType: CFContentType,
+    file: SourceFile,
+    editorInterfaces?: CFEditorInterface[],
+  ): void => {
     const context = this.createContext();
 
     const entryInterfaceName = context.moduleName(contentType.sys.id);
@@ -199,14 +213,20 @@ export class JsDocRenderer extends BaseContentTypeRenderer {
 
       const fields = fieldsInterface.getProperties();
 
+      const editorInterface = editorInterfaces?.find(
+        (e) => e.sys.contentType.sys.id === contentType.sys.id,
+      );
+
       for (const field of fields) {
         const fieldName = field.getName();
         const contentTypeField = contentType.fields.find((f) => f.id === fieldName);
+        const control = editorInterface?.controls.find((c) => c.fieldId === fieldName);
 
         if (contentTypeField) {
           field.addJsDoc(
             this.renderOptions.renderFieldDocs({
               field: contentTypeField,
+              control,
             }),
           );
         }

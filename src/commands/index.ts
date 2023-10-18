@@ -63,7 +63,6 @@ class ContentfulMdg extends Command {
         spaceId: flags.spaceId,
         managementToken: flags.token,
         environmentId: flags.environment,
-        skipEditorInterfaces: true,
         skipContent: true,
         skipRoles: true,
         skipWebhooks: true,
@@ -94,7 +93,7 @@ class ContentfulMdg extends Command {
 
     const builder = new CFDefinitionsBuilder(renderers);
     for (const model of content.contentTypes) {
-      builder.appendType(model);
+      builder.appendType(model, content.editorInterfaces);
     }
 
     if (flags.out) {

@@ -258,6 +258,52 @@ describe('A JSDoc content type renderer class', () => {
         `),
       );
     });
+
+    it('renders field @helpText tag', () => {
+      const defaultRenderer = new DefaultContentTypeRenderer();
+      defaultRenderer.setup(project);
+      defaultRenderer.render(mockContentType, testFile);
+
+      const docsRenderer = new JsDocRenderer();
+
+      docsRenderer.render(mockContentType, testFile, [
+        {
+          sys: { contentType: { sys: { id: 'animal' } } },
+          controls: [
+            { fieldId: 'bread', settings: { helpText: 'Help text for the bread field.' } },
+          ],
+        },
+      ]);
+
+      expect('\n' + testFile.getFullText()).toEqual(
+        stripIndent(`
+        import type { Entry, EntryFields } from "contentful";
+        
+        /**
+         * Fields type definition for content type 'TypeAnimal'
+         * @name TypeAnimalFields
+         * @type {TypeAnimalFields}
+         * @memberof TypeAnimal
+         */
+        export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             * @helpText Help text for the bread field.
+             */
+            bread: EntryFields.Symbol;
+        }
+        
+        /**
+         * Entry type definition for content type 'animal' (Animal)
+         * @name TypeAnimal
+         * @type {TypeAnimal}
+         */
+        export type TypeAnimal = Entry<TypeAnimalFields>;
+        `),
+      );
+    });
   });
 
   describe('with custom Entry Docs renderer', () => {
