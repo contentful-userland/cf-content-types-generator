@@ -1,8 +1,8 @@
 import { Project, SourceFile } from 'ts-morph';
-import { moduleName } from '../../module-name';
-import { CFContentType } from '../../types';
+import { CFContentType, CFEditorInterface } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
 import { renderTypeGeneric } from '../generic';
+import { RenderContextOptions } from './create-default-context';
 
 export class V10TypeGuardRenderer extends BaseContentTypeRenderer {
   private readonly files: SourceFile[];
@@ -17,8 +17,15 @@ export class V10TypeGuardRenderer extends BaseContentTypeRenderer {
     super.setup(project);
   }
 
-  public render = (contentType: CFContentType, file: SourceFile): void => {
-    const entryInterfaceName = moduleName(contentType.sys.id);
+  public override render(
+    contentType: CFContentType,
+    file: SourceFile,
+    editorInterface?: CFEditorInterface,
+    contextOptions: RenderContextOptions = {},
+  ): void {
+    const context = this.createContext(contextOptions);
+
+    const entryInterfaceName = context.moduleName(contentType.sys.id);
 
     file.addImportDeclaration({
       moduleSpecifier: `contentful`,
@@ -30,14 +37,23 @@ export class V10TypeGuardRenderer extends BaseContentTypeRenderer {
       isExported: true,
       name: renderTypeGeneric(
         `is${entryInterfaceName}`,
-        'Modifiers extends ChainModifiers',
-        'Locales extends LocaleCode',
+        `${context.genericsPrefix ?? ''}Modifiers extends ChainModifiers`,
+        `${context.genericsPrefix ?? ''}Locales extends LocaleCode`,
       ),
-      returnType: `entry is ${renderTypeGeneric(entryInterfaceName, 'Modifiers', 'Locales')}`,
+      returnType: `entry is ${renderTypeGeneric(
+        entryInterfaceName,
+        `${context.genericsPrefix ?? ''}Modifiers`,
+        `${context.genericsPrefix ?? ''}Locales`,
+      )}`,
       parameters: [
         {
           name: 'entry',
-          type: renderTypeGeneric('Entry', 'EntrySkeletonType', 'Modifiers', 'Locales'),
+          type: renderTypeGeneric(
+            'Entry',
+            'EntrySkeletonType',
+            `${context.genericsPrefix ?? ''}Modifiers`,
+            `${context.genericsPrefix ?? ''}Locales`,
+          ),
         },
       ],
       statements: `return entry.sys.contentType.sys.id === '${contentType.sys.id}'`,
@@ -48,7 +64,7 @@ export class V10TypeGuardRenderer extends BaseContentTypeRenderer {
     });
 
     file.formatText();
-  };
+  }
 
   public override additionalFiles(): SourceFile[] {
     return this.files;

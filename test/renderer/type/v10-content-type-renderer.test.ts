@@ -73,6 +73,51 @@ describe('The v10 content type renderer', () => {
         `),
     );
   });
+
+  it('supports prefixing generics', () => {
+    const renderer = new V10ContentTypeRenderer();
+
+    const contentType: CFContentType = {
+      name: 'unused-name',
+      sys: {
+        id: 'test',
+        type: 'Symbol',
+      },
+      fields: [
+        {
+          id: 'linkFieldId',
+          name: 'Linked entry Field',
+          type: 'Link',
+          localized: false,
+          required: true,
+          validations: [
+            {
+              linkContentType: ['linkedType'],
+            },
+          ],
+          disabled: false,
+          omitted: false,
+          linkType: 'Entry',
+        },
+      ],
+    };
+
+    renderer.render(contentType, testFile, undefined, { genericsPrefix: 'T' });
+
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+      import type { TypeLinkedTypeSkeleton } from "./TypeLinkedType";
+      
+      export interface TypeTestFields {
+          linkFieldId: EntryFieldTypes.EntryLink<TypeLinkedTypeSkeleton>;
+      }
+      
+      export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+      export type TypeTest<TModifiers extends ChainModifiers, TLocales extends LocaleCode> = Entry<TypeTestSkeleton, TModifiers, TLocales>;
+      "
+    `);
+  });
 });
 
 const symbolTypeRenderer = () => {
@@ -95,6 +140,65 @@ describe('A derived content type renderer class', () => {
   });
 
   it('can return a custom field type renderer', () => {
+    class DerivedContentTypeRenderer extends V10ContentTypeRenderer {
+      public createContext(): RenderContext {
+        return {
+          moduleName,
+          moduleFieldsName,
+          moduleReferenceName: moduleSkeletonName,
+          moduleSkeletonName,
+          getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => {
+            if (fieldType === 'Symbol') {
+              return symbolTypeRenderer as FieldRenderer<FType>;
+            }
+
+            return defaultRenderers[fieldType] as FieldRenderer<FType>;
+          },
+          imports: new Set(),
+          genericsPrefix: '',
+        };
+      }
+    }
+
+    const renderer = new DerivedContentTypeRenderer();
+
+    const contentType: CFContentType = {
+      name: 'unused-name',
+      sys: {
+        id: 'test',
+        type: 'Symbol',
+      },
+      fields: [
+        {
+          id: 'field_id',
+          name: 'field_name',
+          disabled: false,
+          localized: false,
+          required: true,
+          type: 'Symbol',
+          omitted: false,
+          validations: [],
+        },
+      ],
+    };
+
+    renderer.render(contentType, testFile);
+
+    expect('\n' + testFile.getFullText()).toEqual(
+      stripIndent(`
+        import type { ChainModifiers, Entry, EntrySkeletonType, LocaleCode } from "contentful";
+        
+        export interface TypeTestFields {
+            field_id: Test.Symbol;
+        }
+        
+        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+        `),
+    );
+  });
+
+  it('can return a custom field type renderer without prefixes', () => {
     class DerivedContentTypeRenderer extends V10ContentTypeRenderer {
       public createContext(): RenderContext {
         return {

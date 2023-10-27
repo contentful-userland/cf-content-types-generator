@@ -1,7 +1,8 @@
 import { Project, SourceFile } from 'ts-morph';
 import { renderTypeGeneric } from '../generic';
-import { CFContentType } from '../../types';
+import { CFContentType, CFEditorInterface } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
+import { RenderContextOptions } from './create-default-context';
 
 export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
   private readonly FILE_BASE_NAME = 'Localized';
@@ -49,24 +50,35 @@ export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
     this.files.push(file);
   }
 
-  render(contentType: CFContentType, file: SourceFile): void {
-    const context = this.createContext();
+  render(
+    contentType: CFContentType,
+    file: SourceFile,
+    editorInterface?: CFEditorInterface,
+    contextOptions: RenderContextOptions = {},
+  ): void {
+    const context = this.createContext(contextOptions);
 
     file.addTypeAlias({
-      name: `Localized${context.moduleFieldsName(contentType.sys.id)}<Locales extends keyof any>`,
+      name: `Localized${context.moduleFieldsName(contentType.sys.id)}<${
+        context.genericsPrefix ?? ''
+      }Locales extends keyof any>`,
       isExported: true,
       type: renderTypeGeneric(
         'LocalizedFields',
-        `${context.moduleFieldsName(contentType.sys.id)}, Locales`,
+        context.moduleFieldsName(contentType.sys.id),
+        `${context.genericsPrefix ?? ''}Locales`,
       ),
     });
 
     file.addTypeAlias({
-      name: `Localized${context.moduleName(contentType.sys.id)}<Locales extends keyof any>`,
+      name: `Localized${context.moduleName(contentType.sys.id)}<${
+        context.genericsPrefix ?? ''
+      }Locales extends keyof any>`,
       isExported: true,
       type: renderTypeGeneric(
         'LocalizedEntry',
-        `${context.moduleName(contentType.sys.id)}, Locales`,
+        context.moduleName(contentType.sys.id),
+        `${context.genericsPrefix ?? ''}Locales`,
       ),
     });
 

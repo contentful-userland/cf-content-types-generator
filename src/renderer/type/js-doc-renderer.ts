@@ -3,6 +3,7 @@ import { ContentTypeProps } from 'contentful-management';
 import { JSDocStructure, JSDocTagStructure, OptionalKind, SourceFile } from 'ts-morph';
 import { CFContentType, CFEditorInterface, CFEditorInterfaceControl } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
+import { RenderContextOptions } from './create-default-context';
 
 type EntryDocsOptionsProps = {
   /* Name of generated Entry type */
@@ -184,8 +185,9 @@ export class JsDocRenderer extends BaseContentTypeRenderer {
     contentType: CFContentType,
     file: SourceFile,
     editorInterface?: CFEditorInterface,
+    contextOptions: RenderContextOptions = {},
   ): void => {
-    const context = this.createContext();
+    const context = this.createContext(contextOptions);
 
     const entryInterfaceName = context.moduleName(contentType.sys.id);
     const entryInterface = file.getTypeAlias(entryInterfaceName);

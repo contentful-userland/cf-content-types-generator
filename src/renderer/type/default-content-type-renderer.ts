@@ -7,13 +7,18 @@ import {
 } from 'ts-morph';
 import { propertyImports } from '../../property-imports';
 import { renderTypeGeneric } from '../generic';
-import { CFContentType } from '../../types';
+import { CFContentType, CFEditorInterface } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
-import { RenderContext } from './create-default-context';
+import { RenderContext, RenderContextOptions } from './create-default-context';
 
 export class DefaultContentTypeRenderer extends BaseContentTypeRenderer {
-  public render(contentType: CFContentType, file: SourceFile): void {
-    const context = this.createContext();
+  public render(
+    contentType: CFContentType,
+    file: SourceFile,
+    editorInterface?: CFEditorInterface,
+    contextOptions: RenderContextOptions = {},
+  ): void {
+    const context = this.createContext(contextOptions);
 
     this.addDefaultImports(context);
     this.renderFieldsInterface(contentType, file, context);

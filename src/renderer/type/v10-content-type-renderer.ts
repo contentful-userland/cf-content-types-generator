@@ -7,14 +7,19 @@ import {
 } from 'ts-morph';
 import { propertyImports } from '../../property-imports';
 import { renderTypeGeneric } from '../generic';
-import { CFContentType } from '../../types';
+import { CFContentType, CFEditorInterface } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
-import { RenderContext } from './create-default-context';
+import { RenderContext, RenderContextOptions } from './create-default-context';
 import { createV10Context } from './create-v10-context';
 
 export class V10ContentTypeRenderer extends BaseContentTypeRenderer {
-  public render(contentType: CFContentType, file: SourceFile): void {
-    const context = this.createContext();
+  public render(
+    contentType: CFContentType,
+    file: SourceFile,
+    editorInterface?: CFEditorInterface,
+    contextOptions: RenderContextOptions = {},
+  ): void {
+    const context = this.createContext(contextOptions);
 
     this.addDefaultImports(context);
     this.renderFieldsInterface(contentType, file, context);
@@ -101,8 +106,8 @@ export class V10ContentTypeRenderer extends BaseContentTypeRenderer {
     return {
       name: renderTypeGeneric(
         context.moduleName(contentType.sys.id),
-        'Modifiers extends ChainModifiers',
-        'Locales extends LocaleCode',
+        `${context.genericsPrefix ?? ''}Modifiers extends ChainModifiers`,
+        `${context.genericsPrefix ?? ''}Locales extends LocaleCode`,
       ),
       isExported: true,
       type: this.renderEntryType(contentType, context),
@@ -119,12 +124,12 @@ export class V10ContentTypeRenderer extends BaseContentTypeRenderer {
     return renderTypeGeneric(
       'Entry',
       context.moduleSkeletonName(contentType.sys.id),
-      'Modifiers',
-      'Locales',
+      `${context.genericsPrefix ?? ''}Modifiers`,
+      `${context.genericsPrefix ?? ''}Locales`,
     );
   }
 
-  public createContext(): RenderContext {
-    return createV10Context();
+  public createContext(options: RenderContextOptions = {}): RenderContext {
+    return createV10Context(options);
   }
 }

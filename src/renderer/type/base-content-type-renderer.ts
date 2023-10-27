@@ -1,19 +1,28 @@
 import { Project, SourceFile } from 'ts-morph';
-import { CFContentType } from '../../types';
+import { CFContentType, CFEditorInterface } from '../../types';
 import { ContentTypeRenderer } from './content-type-renderer';
-import { createDefaultContext, RenderContext } from './create-default-context';
+import {
+  createDefaultContext,
+  RenderContext,
+  RenderContextOptions,
+} from './create-default-context';
 
 export class BaseContentTypeRenderer implements ContentTypeRenderer {
   setup(project: Project): void {
     /**/
   }
 
-  public render(contentType: CFContentType, file: SourceFile): void {
+  public render(
+    contentType: CFContentType,
+    file: SourceFile,
+    editorInterface?: CFEditorInterface,
+    contextOptions: RenderContextOptions = {},
+  ): void {
     file.addStatements(`/* Types for ${contentType.sys.id} */`);
   }
 
-  public createContext(): RenderContext {
-    return createDefaultContext();
+  public createContext(options: RenderContextOptions = {}): RenderContext {
+    return createDefaultContext(options);
   }
 
   additionalFiles(): SourceFile[] {
