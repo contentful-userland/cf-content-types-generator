@@ -55,7 +55,7 @@ OPTIONS
   -t, --token=token              management token
   -v, --version                  show CLI version
   -a, --host                     The Management API host
-
+      --genericsPrefix=value     prefix for generics
 ```
 
 ### Example

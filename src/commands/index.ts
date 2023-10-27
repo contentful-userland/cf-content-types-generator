@@ -30,6 +30,8 @@ class ContentfulMdg extends Command {
     jsdoc: Flags.boolean({ char: 'd', description: 'add JSDoc comments' }),
     typeguard: Flags.boolean({ char: 'g', description: 'add type guards' }),
 
+    genericsPrefix: Flags.string({ description: 'prefix for generics', default: '' }),
+
     // remote access
     spaceId: Flags.string({ char: 's', description: 'space id' }),
     token: Flags.string({
@@ -96,7 +98,7 @@ class ContentfulMdg extends Command {
 
     const editorInterfaces = content.editorInterfaces as CFEditorInterface[] | undefined;
 
-    const builder = new CFDefinitionsBuilder(renderers);
+    const builder = new CFDefinitionsBuilder(renderers, { genericsPrefix: flags.genericsPrefix });
     for (const model of content.contentTypes) {
       const editorInterface = editorInterfaces?.find(
         (e) => e.sys.contentType.sys.id === model.sys.id,
