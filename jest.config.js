@@ -2,5 +2,5 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  prettierPath: null,
+  prettierPath: require.resolve('prettier-2'),
 };
