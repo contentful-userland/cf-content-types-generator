@@ -11,17 +11,23 @@ import { moduleName } from './module-name';
 import { ContentTypeRenderer, DefaultContentTypeRenderer } from './renderer';
 import { CFContentType, CFEditorInterface, WriteCallback } from './types';
 import { flatten } from 'lodash';
+import { RenderContextOptions } from './renderer/type/create-default-context';
 
 export default class CFDefinitionsBuilder {
   private readonly project: Project;
 
   private readonly contentTypeRenderers: ContentTypeRenderer[];
+  private readonly renderContextOptions: RenderContextOptions;
 
-  constructor(contentTypeRenderers: ContentTypeRenderer[] = []) {
+  constructor(
+    contentTypeRenderers: ContentTypeRenderer[] = [],
+    options: RenderContextOptions = {},
+  ) {
     if (contentTypeRenderers.length === 0) {
       contentTypeRenderers.push(new DefaultContentTypeRenderer());
     }
 
+    this.renderContextOptions = options;
     this.contentTypeRenderers = contentTypeRenderers;
     this.project = new Project({
       useInMemoryFileSystem: true,
@@ -46,7 +52,7 @@ export default class CFDefinitionsBuilder {
 
     const file = this.addFile(moduleName(model.sys.id));
     for (const renderer of this.contentTypeRenderers) {
-      renderer.render(model, file, editorInterface);
+      renderer.render(model, file, editorInterface, this.renderContextOptions);
     }
 
     file.organizeImports({
