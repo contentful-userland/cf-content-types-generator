@@ -528,7 +528,7 @@ describe('A Contentful definitions builder', () => {
     expect(beforeWriteResult).toEqual(afterWriteResult);
   });
 
-  it("'return single file contents with localized renderer", async () => {
+  it('returns single file contents with localized renderer', async () => {
     builder = new CFDefinitionsBuilder([
       new DefaultContentTypeRenderer(),
       new LocalizedContentTypeRenderer(),
