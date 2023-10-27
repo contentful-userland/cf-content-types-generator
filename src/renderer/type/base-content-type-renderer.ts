@@ -1,6 +1,6 @@
 import { Project, SourceFile } from 'ts-morph';
 import { CFContentType, CFEditorInterface } from '../../types';
-import { ContentTypeRenderer } from './content-type-renderer';
+import { ContentTypeRenderer, SetupOptions } from './content-type-renderer';
 import {
   createDefaultContext,
   RenderContext,
@@ -8,7 +8,7 @@ import {
 } from './create-default-context';
 
 export class BaseContentTypeRenderer implements ContentTypeRenderer {
-  setup(project: Project): void {
+  setup(project: Project, options: SetupOptions = {}): void {
     /**/
   }
 

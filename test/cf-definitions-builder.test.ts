@@ -550,22 +550,22 @@ describe('A Contentful definitions builder', () => {
     expect('\n' + builder.toString()).toMatchInlineSnapshot(`
       "
       import type { Entry } from "contentful";
-      
-      export type LocalizedFields<Fields, Locales extends keyof any> = {
-          [FieldName in keyof Fields]?: {
-              [LocaleName in Locales]?: Fields[FieldName];
+
+      export type LocalizedFields<TFields, TLocales extends keyof any> = {
+          [TFieldName in keyof TFields]?: {
+              [TLocaleName in TLocales]?: TFields[TFieldName];
           }
       };
-      export type LocalizedEntry<EntryType, Locales extends keyof any> = {
-          [Key in keyof EntryType]:
-          Key extends 'fields'
-          ? LocalizedFields<EntryType[Key], Locales>
-          : EntryType[Key]
+      export type LocalizedEntry<TEntryType, TLocales extends keyof any> = {
+          [TKey in keyof TEntryType]:
+          TKey extends 'fields'
+          ? LocalizedFields<TEntryType[TKey], TLocales>
+          : TEntryType[TKey]
       };
-      
+
       export interface TypeSysIdFields {
       }
-      
+
       export type TypeSysId = Entry<TypeSysIdFields>;
       export type LocalizedTypeSysIdFields<TLocales extends keyof any> = LocalizedFields<TypeSysIdFields, TLocales>;
       export type LocalizedTypeSysId<TLocales extends keyof any> = LocalizedEntry<TypeSysId, TLocales>;

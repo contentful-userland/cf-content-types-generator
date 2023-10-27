@@ -3,6 +3,7 @@ import { renderTypeGeneric } from '../generic';
 import { CFContentType, CFEditorInterface } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
 import { RenderContextOptions } from './create-default-context';
+import { SetupOptions } from './content-type-renderer';
 
 export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
   private readonly FILE_BASE_NAME = 'Localized';
@@ -14,7 +15,7 @@ export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
     this.files = [];
   }
 
-  setup(project: Project): void {
+  setup(project: Project, options: SetupOptions = {}): void {
     const file = project.createSourceFile(
       `${this.FILE_BASE_NAME}.ts`,
       // eslint-disable-next-line no-warning-comments
@@ -27,22 +28,34 @@ export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
 
     file.addStatements('/* Utility types for localized entries */');
     file.addTypeAlias({
-      name: 'LocalizedFields<Fields, Locales extends keyof any>',
+      name: `LocalizedFields<${options.genericsPrefix ?? ''}Fields, ${
+        options.genericsPrefix ?? ''
+      }Locales extends keyof any>`,
       isExported: true,
       type: `{
-                [FieldName in keyof Fields]?: {
-                    [LocaleName in Locales]?: Fields[FieldName];
+                [${options.genericsPrefix ?? ''}FieldName in keyof ${
+        options.genericsPrefix ?? ''
+      }Fields]?: {
+                    [${options.genericsPrefix ?? ''}LocaleName in ${
+        options.genericsPrefix ?? ''
+      }Locales]?: ${options.genericsPrefix ?? ''}Fields[${options.genericsPrefix ?? ''}FieldName];
                 }
             }`,
     });
     file.addTypeAlias({
-      name: 'LocalizedEntry<EntryType, Locales extends keyof any>',
+      name: `LocalizedEntry<${options.genericsPrefix ?? ''}EntryType, ${
+        options.genericsPrefix ?? ''
+      }Locales extends keyof any>`,
       isExported: true,
       type: `{
-                [Key in keyof EntryType]:
-                Key extends 'fields'
-                    ? LocalizedFields<EntryType[Key], Locales>
-                    : EntryType[Key]
+                [${options.genericsPrefix ?? ''}Key in keyof ${
+        options.genericsPrefix ?? ''
+      }EntryType]:
+                ${options.genericsPrefix ?? ''}Key extends 'fields'
+                    ? LocalizedFields<${options.genericsPrefix ?? ''}EntryType[${
+        options.genericsPrefix ?? ''
+      }Key], ${options.genericsPrefix ?? ''}Locales>
+                    : ${options.genericsPrefix ?? ''}EntryType[${options.genericsPrefix ?? ''}Key]
             }`,
     });
 

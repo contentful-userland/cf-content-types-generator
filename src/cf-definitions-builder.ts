@@ -38,7 +38,7 @@ export default class CFDefinitionsBuilder {
     });
 
     for (const renderer of this.contentTypeRenderers) {
-      renderer.setup(this.project);
+      renderer.setup(this.project, options);
     }
   }
 
