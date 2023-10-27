@@ -12,7 +12,6 @@ import {
   RenderContext,
   renderTypeGeneric,
 } from '../../../src';
-import stripIndent = require('strip-indent');
 
 describe('The default content type renderer', () => {
   let project: Project;
@@ -59,18 +58,18 @@ describe('The default content type renderer', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { Entry } from "contentful";
-        import type { TypeLinkedTypeFields } from "./TypeLinkedType";
-        
-        export interface TypeTestFields {
-            linkFieldId: Entry<TypeLinkedTypeFields>;
-        }
-        
-        export type TypeTest = Entry<TypeTestFields>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
+      import type { TypeLinkedTypeFields } from "./TypeLinkedType";
+
+      export interface TypeTestFields {
+          linkFieldId: Entry<TypeLinkedTypeFields>;
+      }
+
+      export type TypeTest = Entry<TypeTestFields>;
+      "
+    `);
   });
 });
 
@@ -137,17 +136,17 @@ describe('A derived content type renderer class', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { Entry } from "contentful";
-        
-        export interface TypeTestFields {
-            field_id: Test.Symbol;
-        }
-        
-        export type TypeTest = Entry<TypeTestFields>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
+
+      export interface TypeTestFields {
+          field_id: Test.Symbol;
+      }
+
+      export type TypeTest = Entry<TypeTestFields>;
+      "
+    `);
   });
 
   it('can return a custom field renderer with docs support', () => {
@@ -199,19 +198,19 @@ describe('A derived content type renderer class', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { Entry, EntryFields } from "contentful";
-        
-        export interface TypeTestFields {
-            /** Field of type "Symbol" */
-            field_id: EntryFields.Symbol;
-        }
-        
-        /** content type "display name" with id: test */
-        export type TypeTest = Entry<TypeTestFields>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { Entry, EntryFields } from "contentful";
+
+      export interface TypeTestFields {
+          /** Field of type "Symbol" */
+          field_id: EntryFields.Symbol;
+      }
+
+      /** content type "display name" with id: test */
+      export type TypeTest = Entry<TypeTestFields>;
+      "
+    `);
   });
 
   it('can render custom entries', () => {
@@ -253,17 +252,17 @@ describe('A derived content type renderer class', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { IdScopedEntry } from "@custom";
-        import type { EntryFields } from "contentful";
-        
-        export interface TypeTestFields {
-            field_id: EntryFields.Symbol;
-        }
-        
-        export type TypeTest = IdScopedEntry<'test', TypeTestFields>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { IdScopedEntry } from "@custom";
+      import type { EntryFields } from "contentful";
+
+      export interface TypeTestFields {
+          field_id: EntryFields.Symbol;
+      }
+
+      export type TypeTest = IdScopedEntry<'test', TypeTestFields>;
+      "
+    `);
   });
 });

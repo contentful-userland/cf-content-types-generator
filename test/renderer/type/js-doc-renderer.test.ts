@@ -10,7 +10,6 @@ import {
   defaultJsDocRenderOptions,
   JSDocRenderOptions,
 } from '../../../src/renderer/type/js-doc-renderer';
-import stripIndent = require('strip-indent');
 
 describe('A JSDoc content type renderer class', () => {
   let project: Project;
@@ -58,10 +57,10 @@ describe('A JSDoc content type renderer class', () => {
       const docsRenderer = new JsDocRenderer();
       docsRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { Entry, EntryFields } from "contentful";
-        
+
         /**
          * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
@@ -76,15 +75,15 @@ describe('A JSDoc content type renderer class', () => {
              */
             bread: EntryFields.Symbol;
         }
-        
+
         /**
          * Entry type definition for content type 'animal' (Animal)
          * @name TypeAnimal
          * @type {TypeAnimal}
          */
         export type TypeAnimal = Entry<TypeAnimalFields>;
-        `),
-      );
+        "
+      `);
     });
 
     it('renders JSDocs with v10 flag', () => {
@@ -95,10 +94,10 @@ describe('A JSDoc content type renderer class', () => {
       const docsRenderer = new JsDocRenderer();
       docsRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
-        
+
         /**
          * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
@@ -113,7 +112,7 @@ describe('A JSDoc content type renderer class', () => {
              */
             bread: EntryFieldTypes.Symbol;
         }
-        
+
         /**
          * Entry skeleton type definition for content type 'animal' (Animal)
          * @name TypeAnimalSkeleton
@@ -126,8 +125,8 @@ describe('A JSDoc content type renderer class', () => {
          * @type {TypeAnimal}
          */
         export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
-        `),
-      );
+        "
+      `);
     });
 
     it('renders optional Entry @author tag', () => {
@@ -146,10 +145,10 @@ describe('A JSDoc content type renderer class', () => {
       const docsRenderer = new JsDocRenderer();
       docsRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { Entry, EntryFields } from "contentful";
-        
+
         /**
          * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
@@ -164,7 +163,7 @@ describe('A JSDoc content type renderer class', () => {
              */
             bread: EntryFields.Symbol;
         }
-        
+
         /**
          * Entry type definition for content type 'animal' (Animal)
          * @name TypeAnimal
@@ -172,8 +171,8 @@ describe('A JSDoc content type renderer class', () => {
          * @author <user-id>
          */
         export type TypeAnimal = Entry<TypeAnimalFields>;
-        `),
-      );
+        "
+      `);
     });
 
     it('renders optional Entry @version tag', () => {
@@ -188,10 +187,10 @@ describe('A JSDoc content type renderer class', () => {
       const docsRenderer = new JsDocRenderer();
       docsRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { Entry, EntryFields } from "contentful";
-        
+
         /**
          * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
@@ -206,7 +205,7 @@ describe('A JSDoc content type renderer class', () => {
              */
             bread: EntryFields.Symbol;
         }
-        
+
         /**
          * Entry type definition for content type 'animal' (Animal)
          * @name TypeAnimal
@@ -214,8 +213,8 @@ describe('A JSDoc content type renderer class', () => {
          * @version 5
          */
         export type TypeAnimal = Entry<TypeAnimalFields>;
-        `),
-      );
+        "
+      `);
     });
 
     it('renders optional Entry @since tag', () => {
@@ -230,10 +229,10 @@ describe('A JSDoc content type renderer class', () => {
       const docsRenderer = new JsDocRenderer();
       docsRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { Entry, EntryFields } from "contentful";
-        
+
         /**
          * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
@@ -248,7 +247,7 @@ describe('A JSDoc content type renderer class', () => {
              */
             bread: EntryFields.Symbol;
         }
-        
+
         /**
          * Entry type definition for content type 'animal' (Animal)
          * @name TypeAnimal
@@ -256,8 +255,8 @@ describe('A JSDoc content type renderer class', () => {
          * @since 1675420727
          */
         export type TypeAnimal = Entry<TypeAnimalFields>;
-        `),
-      );
+        "
+      `);
     });
 
     it('renders field @summary tag', () => {
@@ -273,11 +272,10 @@ describe('A JSDoc content type renderer class', () => {
       };
 
       docsRenderer.render(mockContentType, testFile, editorInterface);
-
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { Entry, EntryFields } from "contentful";
-        
+
         /**
          * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
@@ -293,15 +291,15 @@ describe('A JSDoc content type renderer class', () => {
              */
             bread: EntryFields.Symbol;
         }
-        
+
         /**
          * Entry type definition for content type 'animal' (Animal)
          * @name TypeAnimal
          * @type {TypeAnimal}
          */
         export type TypeAnimal = Entry<TypeAnimalFields>;
-        `),
-      );
+        "
+      `);
     });
   });
 
@@ -324,10 +322,10 @@ describe('A JSDoc content type renderer class', () => {
       const docsRenderer = new JsDocRenderer({ renderOptions: customRendererOptions });
       docsRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { Entry, EntryFields } from "contentful";
-        
+
         /**
          * Fields type definition for content type 'TypeAnimal'
          * @name TypeAnimalFields
@@ -342,11 +340,11 @@ describe('A JSDoc content type renderer class', () => {
              */
             bread: EntryFields.Symbol;
         }
-        
+
         /** Custom entry description */
         export type TypeAnimal = Entry<TypeAnimalFields>;
-        `),
-      );
+        "
+      `);
     });
   });
 });

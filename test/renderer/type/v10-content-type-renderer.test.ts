@@ -12,7 +12,6 @@ import {
   RenderContext,
   renderTypeGeneric,
 } from '../../../src';
-import stripIndent = require('strip-indent');
 
 describe('The v10 content type renderer', () => {
   let project: Project;
@@ -59,19 +58,19 @@ describe('The v10 content type renderer', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
-        import type { TypeLinkedTypeSkeleton } from "./TypeLinkedType";
-        
-        export interface TypeTestFields {
-            linkFieldId: EntryFieldTypes.EntryLink<TypeLinkedTypeSkeleton>;
-        }
-        
-        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
-        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+      import type { TypeLinkedTypeSkeleton } from "./TypeLinkedType";
+
+      export interface TypeTestFields {
+          linkFieldId: EntryFieldTypes.EntryLink<TypeLinkedTypeSkeleton>;
+      }
+
+      export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+      export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+      "
+    `);
   });
 });
 
@@ -138,18 +137,18 @@ describe('A derived content type renderer class', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { ChainModifiers, Entry, EntrySkeletonType, LocaleCode } from "contentful";
-        
-        export interface TypeTestFields {
-            field_id: Test.Symbol;
-        }
-        
-        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
-        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { ChainModifiers, Entry, EntrySkeletonType, LocaleCode } from "contentful";
+
+      export interface TypeTestFields {
+          field_id: Test.Symbol;
+      }
+
+      export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+      export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+      "
+    `);
   });
 
   it('can return a custom field renderer with docs support', () => {
@@ -201,20 +200,20 @@ describe('A derived content type renderer class', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { Entry, EntryFieldTypes, EntrySkeletonType } from "contentful";
-        
-        export interface TypeTestFields {
-            /** Field of type "Symbol" */
-            field_id: EntryFieldTypes.Symbol;
-        }
-        
-        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
-        /** content type "display name" with id: test */
-        export type TypeTest = Entry<TypeTestSkeleton, Modifiers, Locales>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { Entry, EntryFieldTypes, EntrySkeletonType } from "contentful";
+
+      export interface TypeTestFields {
+          /** Field of type "Symbol" */
+          field_id: EntryFieldTypes.Symbol;
+      }
+
+      export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+      /** content type "display name" with id: test */
+      export type TypeTest = Entry<TypeTestSkeleton, Modifiers, Locales>;
+      "
+    `);
   });
 
   it('can render custom entries', () => {
@@ -258,18 +257,18 @@ describe('A derived content type renderer class', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { CustomEntry } from "@custom";
-        import type { EntryFieldTypes, EntrySkeletonType } from "contentful";
-        
-        export interface TypeTestFields {
-            field_id: EntryFieldTypes.Symbol;
-        }
-        
-        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
-        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = CustomEntry<TypeTestSkeleton, Modifiers, Locales>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { CustomEntry } from "@custom";
+      import type { EntryFieldTypes, EntrySkeletonType } from "contentful";
+
+      export interface TypeTestFields {
+          field_id: EntryFieldTypes.Symbol;
+      }
+
+      export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+      export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = CustomEntry<TypeTestSkeleton, Modifiers, Locales>;
+      "
+    `);
   });
 });

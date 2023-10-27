@@ -10,7 +10,6 @@ import CFDefinitionsBuilder, {
   LocalizedContentTypeRenderer,
   TypeGuardRenderer,
 } from '../src';
-import stripIndent = require('strip-indent');
 
 describe('A Contentful definitions builder', () => {
   let builder: CFDefinitionsBuilder;
@@ -49,16 +48,16 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with empty fields', () => {
     builder.appendType(modelType);
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-                export interface TypeSysIdFields {
-                }
+      export interface TypeSysIdFields {
+      }
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can create a definition with a required string field', () => {
@@ -77,17 +76,17 @@ describe('A Contentful definitions builder', () => {
         },
       ],
     });
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry, EntryFields } from "contentful";
-                
-                export interface TypeSysIdFields {
-                    symbolFieldId: EntryFields.Symbol;
-                }
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry, EntryFields } from "contentful";
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export interface TypeSysIdFields {
+          symbolFieldId: EntryFields.Symbol;
+      }
+
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can create a definition with a optional string field', () => {
@@ -106,17 +105,17 @@ describe('A Contentful definitions builder', () => {
         },
       ],
     });
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry, EntryFields } from "contentful";
-                
-                export interface TypeSysIdFields {
-                    symbolFieldId?: EntryFields.Symbol;
-                }
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry, EntryFields } from "contentful";
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export interface TypeSysIdFields {
+          symbolFieldId?: EntryFields.Symbol;
+      }
+
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can create a definition with a boolean field', () => {
@@ -135,17 +134,17 @@ describe('A Contentful definitions builder', () => {
         },
       ],
     });
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry, EntryFields } from "contentful";
-                
-                export interface TypeSysIdFields {
-                    boolFieldId?: EntryFields.Boolean;
-                }
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry, EntryFields } from "contentful";
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export interface TypeSysIdFields {
+          boolFieldId?: EntryFields.Boolean;
+      }
+
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can create a definition with a linked entry field', () => {
@@ -169,18 +168,18 @@ describe('A Contentful definitions builder', () => {
         },
       ],
     });
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                import type { TypeLinkedTypeFields } from "./TypeLinkedType";
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
+      import type { TypeLinkedTypeFields } from "./TypeLinkedType";
 
-                export interface TypeSysIdFields {
-                    linkFieldId?: Entry<TypeLinkedTypeFields>;
-                }
+      export interface TypeSysIdFields {
+          linkFieldId?: Entry<TypeLinkedTypeFields>;
+      }
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can create a definition with an array field', () => {
@@ -208,19 +207,19 @@ describe('A Contentful definitions builder', () => {
         },
       ],
     });
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                import type { TypeArtistFields } from "./TypeArtist";
-                import type { TypeArtworkFields } from "./TypeArtwork";
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
+      import type { TypeArtistFields } from "./TypeArtist";
+      import type { TypeArtworkFields } from "./TypeArtwork";
 
-                export interface TypeSysIdFields {
-                    arrayFieldId?: Entry<TypeArtistFields | TypeArtworkFields>[];
-                }
+      export interface TypeSysIdFields {
+          arrayFieldId?: Entry<TypeArtistFields | TypeArtworkFields>[];
+      }
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can create a definition with an string field with include validation', () => {
@@ -243,17 +242,17 @@ describe('A Contentful definitions builder', () => {
         },
       ],
     });
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-                export interface TypeSysIdFields {
-                    stringFieldId?: "hello" | "world";
-                }
+      export interface TypeSysIdFields {
+          stringFieldId?: "hello" | "world";
+      }
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can create a definition with an numeric field with include validation', () => {
@@ -276,17 +275,17 @@ describe('A Contentful definitions builder', () => {
         },
       ],
     });
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                
-                export interface TypeSysIdFields {
-                    numericFieldId?: 1 | 2 | 3;
-                }
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export interface TypeSysIdFields {
+          numericFieldId?: 1 | 2 | 3;
+      }
+
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can write an interface to output file', async () => {
@@ -296,16 +295,16 @@ describe('A Contentful definitions builder', () => {
 
     const result = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
 
-    expect('\n' + result.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                
-                export interface TypeSysIdFields {
-                }
+    expect('\n' + result.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export interface TypeSysIdFields {
+      }
+
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
   });
 
   it('can write multiple interfaces to output files', async () => {
@@ -324,27 +323,27 @@ describe('A Contentful definitions builder', () => {
     const result1 = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
     const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 
-    expect('\n' + result1.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                
-                export interface TypeSysIdFields {
-                }
+    expect('\n' + result1.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export interface TypeSysIdFields {
+      }
 
-    expect('\n' + result2.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                
-                export interface TypeMyTypeFields {
-                }
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
 
-                export type TypeMyType = Entry<TypeMyTypeFields>;
-                `),
-    );
+    expect('\n' + result2.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
+
+      export interface TypeMyTypeFields {
+      }
+
+      export type TypeMyType = Entry<TypeMyTypeFields>;
+      "
+    `);
   });
 
   it('can reference one type to the other', async () => {
@@ -379,29 +378,29 @@ describe('A Contentful definitions builder', () => {
     const result1 = await fs.readFile(path.resolve(fixturesPath, 'TypeSysId.ts'));
     const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 
-    expect('\n' + result1.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                
-                export interface TypeSysIdFields {
-                }
+    expect('\n' + result1.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-                export type TypeSysId = Entry<TypeSysIdFields>;
-                `),
-    );
+      export interface TypeSysIdFields {
+      }
 
-    expect('\n' + result2.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                import type { TypeSysIdFields } from "./TypeSysId";
-                
-                export interface TypeMyTypeFields {
-                    linkFieldId?: Entry<TypeSysIdFields>;
-                }
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      "
+    `);
 
-                export type TypeMyType = Entry<TypeMyTypeFields>;
-                `),
-    );
+    expect('\n' + result2.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
+      import type { TypeSysIdFields } from "./TypeSysId";
+
+      export interface TypeMyTypeFields {
+          linkFieldId?: Entry<TypeSysIdFields>;
+      }
+
+      export type TypeMyType = Entry<TypeMyTypeFields>;
+      "
+    `);
   });
 
   it('can create index file', async () => {
@@ -409,11 +408,11 @@ describe('A Contentful definitions builder', () => {
     await builder.write(fixturesPath, writeFile);
 
     const result1 = await fs.readFile(path.resolve(fixturesPath, 'index.ts'));
-    expect('\n' + result1.toString()).toEqual(
-      stripIndent(`
-            export type { TypeSysId, TypeSysIdFields } from "./TypeSysId";
-            `),
-    );
+    expect('\n' + result1.toString()).toMatchInlineSnapshot(`
+      "
+      export type { TypeSysId, TypeSysIdFields } from "./TypeSysId";
+      "
+    `);
   });
 
   it('can self-reference', async () => {
@@ -447,17 +446,17 @@ describe('A Contentful definitions builder', () => {
 
     const result2 = await fs.readFile(path.resolve(fixturesPath, 'TypeMyType.ts'));
 
-    expect('\n' + result2.toString()).toEqual(
-      stripIndent(`
-                import type { Entry } from "contentful";
-                
-                export interface TypeMyTypeFields {
-                    linkFieldId?: Entry<TypeMyTypeFields>;
-                }
+    expect('\n' + result2.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-                export type TypeMyType = Entry<TypeMyTypeFields>;
-                `),
-    );
+      export interface TypeMyTypeFields {
+          linkFieldId?: Entry<TypeMyTypeFields>;
+      }
+
+      export type TypeMyType = Entry<TypeMyTypeFields>;
+      "
+    `);
   });
 
   it('is not changing source project on export', async () => {
@@ -513,30 +512,30 @@ describe('A Contentful definitions builder', () => {
 
     builder.appendType(modelType);
 
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-        import type { Entry } from "contentful";
-        
-        export type LocalizedFields<Fields, Locales extends keyof any> = {
-            [FieldName in keyof Fields]?: {
-                [LocaleName in Locales]?: Fields[FieldName];
-            }
-        };
-        export type LocalizedEntry<EntryType, Locales extends keyof any> = {
-            [Key in keyof EntryType]:
-            Key extends 'fields'
-            ? LocalizedFields<EntryType[Key], Locales>
-            : EntryType[Key]
-        };
-        
-        export interface TypeSysIdFields {
-        }
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-        export type TypeSysId = Entry<TypeSysIdFields>;
-        export type LocalizedTypeSysIdFields<Locales extends keyof any> = LocalizedFields<TypeSysIdFields, Locales>;
-        export type LocalizedTypeSysId<Locales extends keyof any> = LocalizedEntry<TypeSysId, Locales>;
-        `),
-    );
+      export type LocalizedFields<Fields, Locales extends keyof any> = {
+          [FieldName in keyof Fields]?: {
+              [LocaleName in Locales]?: Fields[FieldName];
+          }
+      };
+      export type LocalizedEntry<EntryType, Locales extends keyof any> = {
+          [Key in keyof EntryType]:
+          Key extends 'fields'
+          ? LocalizedFields<EntryType[Key], Locales>
+          : EntryType[Key]
+      };
+
+      export interface TypeSysIdFields {
+      }
+
+      export type TypeSysId = Entry<TypeSysIdFields>;
+      export type LocalizedTypeSysIdFields<Locales extends keyof any> = LocalizedFields<TypeSysIdFields, Locales>;
+      export type LocalizedTypeSysId<Locales extends keyof any> = LocalizedEntry<TypeSysId, Locales>;
+      "
+    `);
   });
 
   it('exports type guard functions', async () => {
@@ -544,22 +543,22 @@ describe('A Contentful definitions builder', () => {
 
     builder.appendType(modelType);
 
-    expect('\n' + builder.toString()).toEqual(
-      stripIndent(`
-          import type { Entry } from "contentful";
-          
-          export interface TypeSysIdFields {
-          }
+    expect('\n' + builder.toString()).toMatchInlineSnapshot(`
+      "
+      import type { Entry } from "contentful";
 
-          export type TypeSysId = Entry<TypeSysIdFields>;
+      export interface TypeSysIdFields {
+      }
 
-          export function isTypeSysId(entry: WithContentTypeLink): entry is TypeSysId {
-              return entry.sys.contentType.sys.id === 'sysId'
-          }
-          
-          export type WithContentTypeLink = { sys: { contentType: { sys: { id: string } } } };
-          `),
-    );
+      export type TypeSysId = Entry<TypeSysIdFields>;
+
+      export function isTypeSysId(entry: WithContentTypeLink): entry is TypeSysId {
+          return entry.sys.contentType.sys.id === 'sysId'
+      }
+
+      export type WithContentTypeLink = { sys: { contentType: { sys: { id: string } } } };
+      "
+    `);
   });
 
   it('can create index file with type guard functions', async () => {
@@ -568,12 +567,12 @@ describe('A Contentful definitions builder', () => {
     await builder.write(fixturesPath, writeFile);
 
     const result1 = await fs.readFile(path.resolve(fixturesPath, 'index.ts'));
-    expect('\n' + result1.toString()).toEqual(
-      stripIndent(`
-            export { isTypeSysId } from "./TypeSysId";
-            export type { TypeSysId, TypeSysIdFields } from "./TypeSysId";
-            export type { WithContentTypeLink } from "./WithContentTypeLink";
-            `),
-    );
+    expect('\n' + result1.toString()).toMatchInlineSnapshot(`
+      "
+      export { isTypeSysId } from "./TypeSysId";
+      export type { TypeSysId, TypeSysIdFields } from "./TypeSysId";
+      export type { WithContentTypeLink } from "./WithContentTypeLink";
+      "
+    `);
   });
 });

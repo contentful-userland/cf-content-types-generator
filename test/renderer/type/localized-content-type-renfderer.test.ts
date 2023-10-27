@@ -1,4 +1,3 @@
-import stripIndent = require('strip-indent');
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import { CFContentType, LocalizedContentTypeRenderer } from '../../../src';
 
@@ -23,25 +22,23 @@ describe('A localized content type renderer class', () => {
 
     const file = project.getSourceFile('Localized.ts');
 
-    expect(file?.getFullText()).toEqual(
-      stripIndent(
-        `
-        /* Utility types for localized entries */
-        export type LocalizedFields<Fields, Locales extends keyof any> = {
-            [FieldName in keyof Fields]?: {
-                [LocaleName in Locales]?: Fields[FieldName];
-            }
-        };
-        export type LocalizedEntry<EntryType, Locales extends keyof any> = {
-            [Key in keyof EntryType]:
-            Key extends 'fields'
-            ? LocalizedFields<EntryType[Key], Locales>
-            : EntryType[Key]
-        };
-        `
-          .replace(/.*/, '').slice(1),
-      ),
-    );
+    expect(file).toBeDefined();
+    expect('\n' + file!.getFullText()).toMatchInlineSnapshot(`
+      "
+      /* Utility types for localized entries */
+      export type LocalizedFields<Fields, Locales extends keyof any> = {
+          [FieldName in keyof Fields]?: {
+              [LocaleName in Locales]?: Fields[FieldName];
+          }
+      };
+      export type LocalizedEntry<EntryType, Locales extends keyof any> = {
+          [Key in keyof EntryType]:
+          Key extends 'fields'
+          ? LocalizedFields<EntryType[Key], Locales>
+          : EntryType[Key]
+      };
+      "
+    `);
   });
 
   it('can render a localized entry and fields', () => {
@@ -69,13 +66,13 @@ describe('A localized content type renderer class', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { LocalizedFields, LocalizedEntry } from "./Localized";
-        
-        export type LocalizedTypeTestFields<Locales extends keyof any> = LocalizedFields<TypeTestFields, Locales>;
-        export type LocalizedTypeTest<Locales extends keyof any> = LocalizedEntry<TypeTest, Locales>;
-        `),
-    );
+    expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+      "
+      import type { LocalizedFields, LocalizedEntry } from "./Localized";
+
+      export type LocalizedTypeTestFields<Locales extends keyof any> = LocalizedFields<TypeTestFields, Locales>;
+      export type LocalizedTypeTest<Locales extends keyof any> = LocalizedEntry<TypeTest, Locales>;
+      "
+    `);
   });
 });

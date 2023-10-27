@@ -1,6 +1,5 @@
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import { CFContentType, DefaultContentTypeRenderer, TypeGuardRenderer } from '../../../src';
-import stripIndent = require('strip-indent');
 
 describe('A content type type guard renderer class', () => {
   let project: Project;
@@ -48,22 +47,22 @@ describe('A content type type guard renderer class', () => {
       const typeGuardRenderer = new TypeGuardRenderer();
       typeGuardRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + testFile.getFullText()).toMatchInlineSnapshot(`
+        "
         import type { Entry, EntryFields } from "contentful";
         import type { WithContentTypeLink } from "./WithContentTypeLink";
-        
+
         export interface TypeAnimalFields {
             bread: EntryFields.Symbol;
         }
-        
+
         export type TypeAnimal = Entry<TypeAnimalFields>;
-        
+
         export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
             return entry.sys.contentType.sys.id === 'animal'
         }
-        `),
-      );
+        "
+      `);
     });
 
     it('creates type guard helper types', () => {
@@ -72,11 +71,11 @@ describe('A content type type guard renderer class', () => {
       typeGuardRenderer.render(mockContentType, testFile);
       const typeGuardFile = project.getSourceFiles()[1];
 
-      expect('\n' + typeGuardFile.getFullText()).toEqual(
-        stripIndent(`
+      expect('\n' + typeGuardFile.getFullText()).toMatchInlineSnapshot(`
+        "
         export type WithContentTypeLink = { sys: { contentType: { sys: { id: string } } } };
-        `),
-      );
+        "
+      `);
     });
   });
 });
