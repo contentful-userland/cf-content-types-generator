@@ -133,7 +133,7 @@ describe('A JSDoc content type renderer class', () => {
       const defaultRenderer = new DefaultContentTypeRenderer();
       defaultRenderer.setup(project);
 
-      // @ts-ignore
+      // @ts-expect-error currently not defined
       mockContentType.sys.createdBy = {
         sys: {
           id: '<user-id>',
@@ -179,7 +179,7 @@ describe('A JSDoc content type renderer class', () => {
       const defaultRenderer = new DefaultContentTypeRenderer();
       defaultRenderer.setup(project);
 
-      // @ts-ignore
+      // @ts-expect-error currently not defined
       mockContentType.sys.publishedVersion = 5;
 
       defaultRenderer.render(mockContentType, testFile);
@@ -221,7 +221,7 @@ describe('A JSDoc content type renderer class', () => {
       const defaultRenderer = new DefaultContentTypeRenderer();
       defaultRenderer.setup(project);
 
-      // @ts-ignore
+      // @ts-expect-error currently not defined
       mockContentType.sys.firstPublishedAt = '1675420727';
 
       defaultRenderer.render(mockContentType, testFile);

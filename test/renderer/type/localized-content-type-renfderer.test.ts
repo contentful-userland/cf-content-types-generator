@@ -39,8 +39,7 @@ describe('A localized content type renderer class', () => {
             : EntryType[Key]
         };
         `
-          .replace(/.*/, '')
-          .substr(1),
+          .replace(/.*/, '').slice(1),
       ),
     );
   });
