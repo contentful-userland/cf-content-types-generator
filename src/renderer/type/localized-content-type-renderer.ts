@@ -26,36 +26,26 @@ export class LocalizedContentTypeRenderer extends BaseContentTypeRenderer {
       },
     );
 
+    const { genericsPrefix = '' } = options;
+
     file.addStatements('/* Utility types for localized entries */');
     file.addTypeAlias({
-      name: `LocalizedFields<${options.genericsPrefix ?? ''}Fields, ${
-        options.genericsPrefix ?? ''
-      }Locales extends keyof any>`,
+      name: `LocalizedFields<${genericsPrefix}Fields, ${genericsPrefix}Locales extends keyof any>`,
       isExported: true,
       type: `{
-                [${options.genericsPrefix ?? ''}FieldName in keyof ${
-        options.genericsPrefix ?? ''
-      }Fields]?: {
-                    [${options.genericsPrefix ?? ''}LocaleName in ${
-        options.genericsPrefix ?? ''
-      }Locales]?: ${options.genericsPrefix ?? ''}Fields[${options.genericsPrefix ?? ''}FieldName];
+                [${genericsPrefix}FieldName in keyof ${genericsPrefix}Fields]?: {
+                    [${genericsPrefix}LocaleName in ${genericsPrefix}Locales]?: ${genericsPrefix}Fields[${genericsPrefix}FieldName];
                 }
             }`,
     });
     file.addTypeAlias({
-      name: `LocalizedEntry<${options.genericsPrefix ?? ''}EntryType, ${
-        options.genericsPrefix ?? ''
-      }Locales extends keyof any>`,
+      name: `LocalizedEntry<${genericsPrefix}EntryType, ${genericsPrefix}Locales extends keyof any>`,
       isExported: true,
       type: `{
-                [${options.genericsPrefix ?? ''}Key in keyof ${
-        options.genericsPrefix ?? ''
-      }EntryType]:
-                ${options.genericsPrefix ?? ''}Key extends 'fields'
-                    ? LocalizedFields<${options.genericsPrefix ?? ''}EntryType[${
-        options.genericsPrefix ?? ''
-      }Key], ${options.genericsPrefix ?? ''}Locales>
-                    : ${options.genericsPrefix ?? ''}EntryType[${options.genericsPrefix ?? ''}Key]
+                [${genericsPrefix}Key in keyof ${genericsPrefix}EntryType]:
+                ${genericsPrefix}Key extends 'fields'
+                    ? LocalizedFields<${genericsPrefix}EntryType[${genericsPrefix}Key], ${genericsPrefix}Locales>
+                    : ${genericsPrefix}EntryType[${genericsPrefix}Key]
             }`,
     });
 
