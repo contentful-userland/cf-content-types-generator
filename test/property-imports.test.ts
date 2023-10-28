@@ -46,6 +46,7 @@ describe('A typeImports function', () => {
         `);
     expect(propertyImports(field, createDefaultContext())).toEqual([]);
   });
+
   it('returns imports for referenced Entry without validations', () => {
     const field = JSON.parse(`
         {

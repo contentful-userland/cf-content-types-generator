@@ -61,6 +61,7 @@ describe('A renderPropResourceLink function', () => {
     );
   });
 });
+
 describe('A renderPropResourceLinkV10 function', () => {
   it('can evaluate a "ResourceLink" type', () => {
     const field = JSON.parse(`
