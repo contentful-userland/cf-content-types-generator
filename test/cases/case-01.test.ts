@@ -3,6 +3,7 @@ import * as path from 'node:path';
 import CFDefinitionsBuilder from '../../src/cf-definitions-builder';
 
 function testCase(id: string, description: string) {
+  // eslint-disable-next-line jest/valid-title
   it(description, async () => {
     const builder = new CFDefinitionsBuilder();
     const fixture = await import(`./fixtures/${id}-input.json`);
