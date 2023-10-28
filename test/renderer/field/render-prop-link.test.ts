@@ -27,7 +27,7 @@ describe('A renderPropLink function', () => {
         }
         `);
 
-    expect(renderPropLink(field, createDefaultContext())).toEqual('Entry<TypeTopicCategoryFields>');
+    expect(renderPropLink(field, createDefaultContext())).toBe('Entry<TypeTopicCategoryFields>');
   });
 
   it('can evaluate a "Link" type with no validations', () => {
@@ -45,7 +45,7 @@ describe('A renderPropLink function', () => {
       }
       `);
 
-    expect(renderPropLink(field, createDefaultContext())).toEqual('Entry<Record<string, any>>');
+    expect(renderPropLink(field, createDefaultContext())).toBe('Entry<Record<string, any>>');
   });
 });
 
@@ -71,7 +71,7 @@ describe('A renderPropLinkV10 function', () => {
         }
         `);
 
-    expect(renderPropLinkV10(field, createV10Context())).toEqual(
+    expect(renderPropLinkV10(field, createV10Context())).toBe(
       'EntryFieldTypes.EntryLink<TypeTopicCategorySkeleton>',
     );
   });
@@ -98,7 +98,7 @@ describe('A renderPropLinkV10 function', () => {
         }
         `);
 
-    expect(renderPropLinkV10(field, createV10Context())).toEqual(
+    expect(renderPropLinkV10(field, createV10Context())).toBe(
       'EntryFieldTypes.EntryLink<TypeTopicCategoryASkeleton | TypeTopicCategoryBSkeleton>',
     );
   });
@@ -118,7 +118,7 @@ describe('A renderPropLinkV10 function', () => {
       }
       `);
 
-    expect(renderPropLinkV10(field, createV10Context())).toEqual(
+    expect(renderPropLinkV10(field, createV10Context())).toBe(
       'EntryFieldTypes.EntryLink<EntrySkeletonType>',
     );
   });

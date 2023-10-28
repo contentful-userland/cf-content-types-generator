@@ -28,7 +28,7 @@ describe('A renderPropResourceLink function', () => {
          }
         `);
 
-    expect(renderPropResourceLink(field, createDefaultContext())).toEqual(
+    expect(renderPropResourceLink(field, createDefaultContext())).toBe(
       'Entry<Record<string, any>>',
     );
   });
@@ -86,7 +86,7 @@ describe('A renderPropResourceLinkV10 function', () => {
          }
         `);
 
-    expect(renderPropResourceLinkV10(field, createDefaultContext())).toEqual(
+    expect(renderPropResourceLinkV10(field, createDefaultContext())).toBe(
       'EntryFieldTypes.EntryResourceLink<EntrySkeletonType>',
     );
   });

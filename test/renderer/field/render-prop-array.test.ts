@@ -25,7 +25,7 @@ describe('A renderPropArray function', () => {
       }
       `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual('Entry<Record<string, any>>[]');
+    expect(renderPropArray(field, createDefaultContext())).toBe('Entry<Record<string, any>>[]');
   });
 
   it('can evaluate an "Array" of "Symbol"', () => {
@@ -48,7 +48,7 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual('EntryFields.Symbol[]');
+    expect(renderPropArray(field, createDefaultContext())).toBe('EntryFields.Symbol[]');
   });
 
   it('can evaluate an "Array" of "Symbol" with "in" validation', () => {
@@ -79,7 +79,7 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual(
+    expect(renderPropArray(field, createDefaultContext())).toBe(
       '("Benefit" | "Feature" | "Other" | "Tech spec")[]',
     );
   });
@@ -113,7 +113,7 @@ describe('A renderPropArray function', () => {
         }
         `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual(
+    expect(renderPropArray(field, createDefaultContext())).toBe(
       'Entry<TypeComponentCtaFields | TypeComponentFaqFields | TypeWrapperImageFields | TypeWrapperVideoFields>[]',
     );
   });
@@ -148,7 +148,7 @@ describe('A renderPropArray function', () => {
       }
     `);
 
-    expect(renderPropArray(field, createDefaultContext())).toEqual('Entry<Record<string, any>>[]');
+    expect(renderPropArray(field, createDefaultContext())).toBe('Entry<Record<string, any>>[]');
   });
 });
 
@@ -172,7 +172,7 @@ describe('A renderPropArrayV10 function', () => {
       }
       `);
 
-    expect(renderPropArrayV10(field, createV10Context())).toEqual(
+    expect(renderPropArrayV10(field, createV10Context())).toBe(
       'EntryFieldTypes.Array<EntryFieldTypes.EntryLink<EntrySkeletonType>>',
     );
   });
@@ -197,7 +197,7 @@ describe('A renderPropArrayV10 function', () => {
         }
         `);
 
-    expect(renderPropArrayV10(field, createV10Context())).toEqual(
+    expect(renderPropArrayV10(field, createV10Context())).toBe(
       'EntryFieldTypes.Array<EntryFieldTypes.Symbol>',
     );
   });
@@ -230,7 +230,7 @@ describe('A renderPropArrayV10 function', () => {
         }
         `);
 
-    expect(renderPropArrayV10(field, createV10Context())).toEqual(
+    expect(renderPropArrayV10(field, createV10Context())).toBe(
       'EntryFieldTypes.Array<EntryFieldTypes.Symbol<"Benefit" | "Feature" | "Other" | "Tech spec">>',
     );
   });
@@ -264,7 +264,7 @@ describe('A renderPropArrayV10 function', () => {
         }
         `);
 
-    expect(renderPropArrayV10(field, createV10Context())).toEqual(
+    expect(renderPropArrayV10(field, createV10Context())).toBe(
       'EntryFieldTypes.Array<EntryFieldTypes.EntryLink<TypeComponentCtaSkeleton | TypeComponentFaqSkeleton | TypeWrapperImageSkeleton | TypeWrapperVideoSkeleton>>',
     );
   });
@@ -299,7 +299,7 @@ describe('A renderPropArrayV10 function', () => {
       }
     `);
 
-    expect(renderPropArrayV10(field, createV10Context())).toEqual(
+    expect(renderPropArrayV10(field, createV10Context())).toBe(
       'EntryFieldTypes.Array<EntryFieldTypes.EntryResourceLink<EntrySkeletonType>>',
     );
   });

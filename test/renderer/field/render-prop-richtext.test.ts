@@ -18,7 +18,7 @@ describe('A renderPropRichText function', () => {
     const context = createDefaultContext();
     const result = renderRichText(field, context);
 
-    expect(result).toEqual('EntryFields.RichText');
+    expect(result).toBe('EntryFields.RichText');
 
     expect([...context.imports.values()]).toEqual([
       {
@@ -48,7 +48,7 @@ describe('A renderPropRichTextV10 function', () => {
     const context = createDefaultContext();
     const result = renderRichTextV10(field, context);
 
-    expect(result).toEqual('EntryFieldTypes.RichText');
+    expect(result).toBe('EntryFieldTypes.RichText');
 
     expect([...context.imports.values()]).toEqual([
       {

@@ -23,7 +23,7 @@
     {
       "files": ["test/**"],
       "plugins": ["jest", "jest-formatting"],
-      "extends": ["plugin:jest/recommended", "plugin:jest-formatting/recommended"]
+      "extends": ["plugin:jest/recommended", "plugin:jest/style", "plugin:jest-formatting/recommended"]
     }
   ]
 }

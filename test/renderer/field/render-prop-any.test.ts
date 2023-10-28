@@ -28,7 +28,7 @@ describe('A renderPropAny function', () => {
         }
         `);
 
-    expect(renderPropAny(field, context)).toEqual('EntryFields.Symbol');
+    expect(renderPropAny(field, context)).toBe('EntryFields.Symbol');
   });
 
   it('can evaluate a "Symbol" type with "in" validation', () => {
@@ -52,7 +52,7 @@ describe('A renderPropAny function', () => {
         }
         `);
 
-    expect(renderPropAny(field, context)).toEqual('"Center-aligned" | "Left-aligned"');
+    expect(renderPropAny(field, context)).toBe('"Center-aligned" | "Left-aligned"');
   });
 
   it('can evaluate a "Symbol" type with missing validations', () => {
@@ -68,7 +68,7 @@ describe('A renderPropAny function', () => {
       }
       `);
 
-    expect(renderPropAny(field, context)).toEqual('EntryFields.Symbol');
+    expect(renderPropAny(field, context)).toBe('EntryFields.Symbol');
   });
 });
 
@@ -94,7 +94,7 @@ describe('A renderPropAnyV10 function', () => {
         }
         `);
 
-    expect(renderPropAnyV10(field, context)).toEqual('EntryFieldTypes.Symbol');
+    expect(renderPropAnyV10(field, context)).toBe('EntryFieldTypes.Symbol');
   });
 
   it('can evaluate a "Symbol" type with "in" validation', () => {
@@ -118,7 +118,7 @@ describe('A renderPropAnyV10 function', () => {
         }
         `);
 
-    expect(renderPropAnyV10(field, context)).toEqual(
+    expect(renderPropAnyV10(field, context)).toBe(
       'EntryFieldTypes.Symbol<"Center-aligned" | "Left-aligned">',
     );
   });
@@ -136,6 +136,6 @@ describe('A renderPropAnyV10 function', () => {
       }
       `);
 
-    expect(renderPropAnyV10(field, context)).toEqual('EntryFieldTypes.Symbol');
+    expect(renderPropAnyV10(field, context)).toBe('EntryFieldTypes.Symbol');
   });
 });
