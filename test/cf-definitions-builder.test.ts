@@ -1,8 +1,8 @@
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
-//@ts-ignore
+// @ts-expect-error does not have type definitions
 import { cleanupTempDirs, createTempDir } from 'jest-fixtures';
-import * as path from 'path';
+import * as path from 'node:path';
 
 import CFDefinitionsBuilder, {
   DefaultContentTypeRenderer,
@@ -37,13 +37,10 @@ describe('A Contentful definitions builder', () => {
   it('throws on invalid input ()', () => {
     expect(() =>
       builder.appendType({
-        ...{},
         ...modelType,
-        ...{
-          sys: {
-            id: 'irrelevant',
-            type: 'UnknownType',
-          },
+        sys: {
+          id: 'irrelevant',
+          type: 'UnknownType',
         },
       }),
     ).toThrow('given data is not describing a ContentType');
@@ -65,22 +62,19 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with a required string field', () => {
     builder.appendType({
-      ...{},
       ...modelType,
-      ...{
-        fields: [
-          {
-            id: 'symbolFieldId',
-            name: 'Some Symbol Field',
-            type: 'Symbol',
-            localized: false,
-            required: true,
-            validations: [],
-            disabled: false,
-            omitted: false,
-          },
-        ],
-      },
+      fields: [
+        {
+          id: 'symbolFieldId',
+          name: 'Some Symbol Field',
+          type: 'Symbol',
+          localized: false,
+          required: true,
+          validations: [],
+          disabled: false,
+          omitted: false,
+        },
+      ],
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
@@ -97,22 +91,19 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with a optional string field', () => {
     builder.appendType({
-      ...{},
       ...modelType,
-      ...{
-        fields: [
-          {
-            id: 'symbolFieldId',
-            name: 'Some Symbol Field',
-            type: 'Symbol',
-            localized: false,
-            required: false,
-            validations: [],
-            disabled: false,
-            omitted: false,
-          },
-        ],
-      },
+      fields: [
+        {
+          id: 'symbolFieldId',
+          name: 'Some Symbol Field',
+          type: 'Symbol',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false,
+        },
+      ],
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
@@ -129,22 +120,19 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with a boolean field', () => {
     builder.appendType({
-      ...{},
       ...modelType,
-      ...{
-        fields: [
-          {
-            id: 'boolFieldId',
-            name: 'Some Bool Field',
-            type: 'Boolean',
-            localized: false,
-            required: false,
-            validations: [],
-            disabled: false,
-            omitted: false,
-          },
-        ],
-      },
+      fields: [
+        {
+          id: 'boolFieldId',
+          name: 'Some Bool Field',
+          type: 'Boolean',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false,
+        },
+      ],
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
@@ -161,27 +149,24 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with a linked entry field', () => {
     builder.appendType({
-      ...{},
       ...modelType,
-      ...{
-        fields: [
-          {
-            id: 'linkFieldId',
-            name: 'Linked entry Field',
-            type: 'Link',
-            localized: false,
-            required: false,
-            validations: [
-              {
-                linkContentType: ['linkedType'],
-              },
-            ],
-            disabled: false,
-            omitted: false,
-            linkType: 'Entry',
-          },
-        ],
-      },
+      fields: [
+        {
+          id: 'linkFieldId',
+          name: 'Linked entry Field',
+          type: 'Link',
+          localized: false,
+          required: false,
+          validations: [
+            {
+              linkContentType: ['linkedType'],
+            },
+          ],
+          disabled: false,
+          omitted: false,
+          linkType: 'Entry',
+        },
+      ],
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
@@ -199,31 +184,28 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with an array field', () => {
     builder.appendType({
-      ...{},
       ...modelType,
-      ...{
-        fields: [
-          {
-            id: 'arrayFieldId',
-            name: 'Array Field',
-            type: 'Array',
-            localized: false,
-            required: false,
-            validations: [],
-            disabled: false,
-            omitted: false,
-            items: {
-              type: 'Link',
-              validations: [
-                {
-                  linkContentType: ['artist', 'artwork'],
-                },
-              ],
-              linkType: 'Entry',
-            },
+      fields: [
+        {
+          id: 'arrayFieldId',
+          name: 'Array Field',
+          type: 'Array',
+          localized: false,
+          required: false,
+          validations: [],
+          disabled: false,
+          omitted: false,
+          items: {
+            type: 'Link',
+            validations: [
+              {
+                linkContentType: ['artist', 'artwork'],
+              },
+            ],
+            linkType: 'Entry',
           },
-        ],
-      },
+        },
+      ],
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
@@ -242,26 +224,23 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with an string field with include validation', () => {
     builder.appendType({
-      ...{},
       ...modelType,
-      ...{
-        fields: [
-          {
-            id: 'stringFieldId',
-            name: 'Restricted string Field',
-            type: 'Text',
-            localized: false,
-            required: false,
-            disabled: false,
-            omitted: false,
-            validations: [
-              {
-                in: ['hello', 'world'],
-              },
-            ],
-          },
-        ],
-      },
+      fields: [
+        {
+          id: 'stringFieldId',
+          name: 'Restricted string Field',
+          type: 'Text',
+          localized: false,
+          required: false,
+          disabled: false,
+          omitted: false,
+          validations: [
+            {
+              in: ['hello', 'world'],
+            },
+          ],
+        },
+      ],
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
@@ -278,26 +257,23 @@ describe('A Contentful definitions builder', () => {
 
   it('can create a definition with an numeric field with include validation', () => {
     builder.appendType({
-      ...{},
       ...modelType,
-      ...{
-        fields: [
-          {
-            id: 'numericFieldId',
-            name: 'Restricted numeric Field',
-            type: 'Integer',
-            localized: false,
-            required: false,
-            disabled: false,
-            omitted: false,
-            validations: [
-              {
-                in: ['1', '2', '3'],
-              },
-            ],
-          },
-        ],
-      },
+      fields: [
+        {
+          id: 'numericFieldId',
+          name: 'Restricted numeric Field',
+          type: 'Integer',
+          localized: false,
+          required: false,
+          disabled: false,
+          omitted: false,
+          validations: [
+            {
+              in: ['1', '2', '3'],
+            },
+          ],
+        },
+      ],
     });
     expect('\n' + builder.toString()).toEqual(
       stripIndent(`
@@ -510,8 +486,8 @@ describe('A Contentful definitions builder', () => {
       ],
     });
 
-    let beforeWriteResult: Record<string, string> = {};
-    let afterWriteResult: Record<string, string> = {};
+    const beforeWriteResult: Record<string, string> = {};
+    const afterWriteResult: Record<string, string> = {};
 
     const write = (result: Record<string, string>) => {
       return async (filePath: string, content: string) => {

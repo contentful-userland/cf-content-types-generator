@@ -75,6 +75,10 @@ describe('The v10 content type renderer', () => {
   });
 });
 
+const symbolTypeRenderer = () => {
+  return 'Test.Symbol';
+};
+
 describe('A derived content type renderer class', () => {
   let project: Project;
   let testFile: SourceFile;
@@ -91,10 +95,6 @@ describe('A derived content type renderer class', () => {
   });
 
   it('can return a custom field type renderer', () => {
-    const symbolTypeRenderer = () => {
-      return 'Test.Symbol';
-    };
-
     class DerivedContentTypeRenderer extends V10ContentTypeRenderer {
       public createContext(): RenderContext {
         return {
@@ -106,6 +106,7 @@ describe('A derived content type renderer class', () => {
             if (fieldType === 'Symbol') {
               return symbolTypeRenderer as FieldRenderer<FType>;
             }
+
             return defaultRenderers[fieldType] as FieldRenderer<FType>;
           },
           imports: new Set(),

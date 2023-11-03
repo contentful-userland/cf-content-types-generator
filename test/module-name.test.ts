@@ -12,9 +12,9 @@ describe('A moduleName function', () => {
     { input: '12345', expect: 'Type12345' },
   ];
 
-  specs.forEach((spec) => {
+  for (const spec of specs) {
     it("transforms '" + spec.input + "' to valid module name '" + spec.expect + "'", () => {
       expect(moduleName(spec.input)).toEqual(spec.expect);
     });
-  });
+  }
 });
