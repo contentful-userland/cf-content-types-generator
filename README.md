@@ -73,8 +73,10 @@ cf-content-types-generator path/to/exported/file.json
 **Will store resulting files in target directory**
 
 ```bash
-cf-content-types-generator path/to/exported/file.json path/to/target/out/directory
+cf-content-types-generator path/to/exported/file.json -o path/to/target/out/directory
 ```
+
+> existing directory content will be removed.
 
 #### Remote
 
