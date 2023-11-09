@@ -6,7 +6,7 @@
     "outDir": "lib",
     "strict": true,
     "target": "esnext",
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*"],
   "exclude": ["**/*.test.ts", "lib", "test"]
