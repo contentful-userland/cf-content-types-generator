@@ -113,7 +113,7 @@ export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
 
     if (control?.settings?.helpText) {
       tags.push({
-        tagName: 'helpText',
+        tagName: 'summary',
         text: control?.settings?.helpText,
       });
     }

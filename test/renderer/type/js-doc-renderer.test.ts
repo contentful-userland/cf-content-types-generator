@@ -259,7 +259,7 @@ describe('A JSDoc content type renderer class', () => {
       );
     });
 
-    it('renders field @helpText tag', () => {
+    it('renders field @summary tag', () => {
       const defaultRenderer = new DefaultContentTypeRenderer();
       defaultRenderer.setup(project);
       defaultRenderer.render(mockContentType, testFile);
@@ -290,7 +290,7 @@ describe('A JSDoc content type renderer class', () => {
              * Field type definition for field 'bread' (Bread)
              * @name Bread
              * @localized false
-             * @helpText Help text for the bread field.
+             * @summary Help text for the bread field.
              */
             bread: EntryFields.Symbol;
         }
