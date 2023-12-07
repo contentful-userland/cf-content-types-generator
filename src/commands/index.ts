@@ -15,6 +15,7 @@ import {
   V10ContentTypeRenderer,
   V10TypeGuardRenderer,
 } from '../renderer';
+import { CFEditorInterface } from '../types';
 
 class ContentfulMdg extends Command {
   static description = 'Contentful Content Types (TS Definitions) Generator';
@@ -91,9 +92,14 @@ class ContentfulMdg extends Command {
       renderers.push(flags.v10 ? new V10TypeGuardRenderer() : new TypeGuardRenderer());
     }
 
+    const editorInterfaces = content.editorInterfaces as CFEditorInterface[] | undefined;
+
     const builder = new CFDefinitionsBuilder(renderers);
     for (const model of content.contentTypes) {
-      builder.appendType(model, content.editorInterfaces);
+      const editorInterface = editorInterfaces?.find(
+        (e) => e.sys.contentType.sys.id === model.sys.id,
+      );
+      builder.appendType(model, editorInterface);
     }
 
     if (flags.out) {

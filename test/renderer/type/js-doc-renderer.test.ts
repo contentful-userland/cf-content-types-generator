@@ -1,6 +1,7 @@
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import {
   CFContentType,
+  CFEditorInterface,
   DefaultContentTypeRenderer,
   JsDocRenderer,
   V10ContentTypeRenderer,
@@ -266,14 +267,12 @@ describe('A JSDoc content type renderer class', () => {
 
       const docsRenderer = new JsDocRenderer();
 
-      docsRenderer.render(mockContentType, testFile, [
-        {
-          sys: { contentType: { sys: { id: 'animal' } } },
-          controls: [
-            { fieldId: 'bread', settings: { helpText: 'Help text for the bread field.' } },
-          ],
-        },
-      ]);
+      const editorInterface: CFEditorInterface = {
+        sys: { contentType: { sys: { id: 'animal' } } },
+        controls: [{ fieldId: 'bread', settings: { helpText: 'Help text for the bread field.' } }],
+      };
+
+      docsRenderer.render(mockContentType, testFile, editorInterface);
 
       expect('\n' + testFile.getFullText()).toEqual(
         stripIndent(`

@@ -5,11 +5,7 @@ import { RenderContext } from './create-default-context';
 export interface ContentTypeRenderer {
   setup(project: Project): void;
 
-  render(
-    contentType: CFContentType,
-    file: SourceFile,
-    editorInterfaces?: CFEditorInterface[],
-  ): void;
+  render(contentType: CFContentType, file: SourceFile, editorInterface?: CFEditorInterface): void;
 
   createContext(): RenderContext;
 

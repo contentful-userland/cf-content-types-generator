@@ -183,7 +183,7 @@ export class JsDocRenderer extends BaseContentTypeRenderer {
   public render = (
     contentType: CFContentType,
     file: SourceFile,
-    editorInterfaces?: CFEditorInterface[],
+    editorInterface?: CFEditorInterface,
   ): void => {
     const context = this.createContext();
 
@@ -212,10 +212,6 @@ export class JsDocRenderer extends BaseContentTypeRenderer {
       );
 
       const fields = fieldsInterface.getProperties();
-
-      const editorInterface = editorInterfaces?.find(
-        (e) => e.sys.contentType.sys.id === contentType.sys.id,
-      );
 
       for (const field of fields) {
         const fieldName = field.getName();

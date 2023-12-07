@@ -38,7 +38,7 @@ export default class CFDefinitionsBuilder {
 
   public appendType = (
     model: CFContentType,
-    editorInterfaces?: CFEditorInterface[],
+    editorInterface?: CFEditorInterface,
   ): CFDefinitionsBuilder => {
     if (model.sys.type !== 'ContentType') {
       throw new Error('given data is not describing a ContentType');
@@ -46,7 +46,7 @@ export default class CFDefinitionsBuilder {
 
     const file = this.addFile(moduleName(model.sys.id));
     for (const renderer of this.contentTypeRenderers) {
-      renderer.render(model, file, editorInterfaces);
+      renderer.render(model, file, editorInterface);
     }
 
     file.organizeImports({
@@ -58,10 +58,10 @@ export default class CFDefinitionsBuilder {
 
   public appendTypes = (
     models: CFContentType[],
-    editorInterfaces?: CFEditorInterface[],
+    editorInterface?: CFEditorInterface,
   ): CFDefinitionsBuilder => {
     for (const model of models) {
-      this.appendType(model, editorInterfaces);
+      this.appendType(model, editorInterface);
     }
 
     return this;
