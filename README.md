@@ -80,7 +80,7 @@ cf-content-types-generator path/to/exported/file.json -o path/to/target/out/dire
 
 #### Remote
 
-If no `file` arg provided, remote mode es enabled.
+If no `file` arg provided, remote mode is enabled.
 `spaceId` and `token` flags need to be set.
 
 ```bash
