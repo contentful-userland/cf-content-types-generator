@@ -2117,6 +2117,15 @@ axios@^1.4.0:
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
+axios@^1.6.0:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.2.tgz#de67d42c755b571d3e698df1b6504cde9b0ee9f2"
+  integrity sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
 babel-jest@^29.7.0:
   version "29.7.0"
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-29.7.0.tgz#f4369919225b684c56085998ac63dbd05be020d5"
@@ -2930,13 +2939,13 @@ contentful-sdk-core@^8.1.0:
     lodash.isstring "^4.0.1"
     p-throttle "^4.1.1"
 
-contentful@10.6.1:
-  version "10.6.1"
-  resolved "https://registry.yarnpkg.com/contentful/-/contentful-10.6.1.tgz#241cfe3411ba7cb77d36a1e2623ba723185d21ac"
-  integrity sha512-ZiMOVx68KD+C5f4EIjqDo1yvZzpokOIwG4X0+LZ/Eco9c2S5qzT889mbDDay3Y8NB3OfAdS7s6T4rr1p8b7bDA==
+contentful@^10.6.1:
+  version "10.6.12"
+  resolved "https://registry.yarnpkg.com/contentful/-/contentful-10.6.12.tgz#7e30a4700fa381c530d6537ba6d58fcaabc7ab8d"
+  integrity sha512-IKTlpNv5phaPE340iEu0qVQTzpq7YpEgP8FYhvUVBwHfhtIlk3IhbodawG3RL9mqd/mul22RLo8omZXBt/P9Nw==
   dependencies:
     "@contentful/rich-text-types" "^16.0.2"
-    axios "^1.4.0"
+    axios "^1.6.0"
     contentful-resolve-response "^1.8.1"
     contentful-sdk-core "^8.1.0"
     json-stringify-safe "^5.0.1"
