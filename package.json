@@ -49,7 +49,7 @@
     "oclif": "^3.4.3",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.0.0",
-    "semantic-release": "^19.0.2",
+    "semantic-release": "^22.0.10",
     "strip-indent": "^3.0.0",
     "ts-jest": "29.1.1",
     "ts-node": "^10.9.1",
