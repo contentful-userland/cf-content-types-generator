@@ -1,6 +1,7 @@
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import {
   CFContentType,
+  CFEditorInterface,
   DefaultContentTypeRenderer,
   JsDocRenderer,
   V10ContentTypeRenderer,
@@ -253,6 +254,50 @@ describe('A JSDoc content type renderer class', () => {
          * @name TypeAnimal
          * @type {TypeAnimal}
          * @since 1675420727
+         */
+        export type TypeAnimal = Entry<TypeAnimalFields>;
+        `),
+      );
+    });
+
+    it('renders field @summary tag', () => {
+      const defaultRenderer = new DefaultContentTypeRenderer();
+      defaultRenderer.setup(project);
+      defaultRenderer.render(mockContentType, testFile);
+
+      const docsRenderer = new JsDocRenderer();
+
+      const editorInterface: CFEditorInterface = {
+        sys: { contentType: { sys: { id: 'animal' } } },
+        controls: [{ fieldId: 'bread', settings: { helpText: 'Help text for the bread field.' } }],
+      };
+
+      docsRenderer.render(mockContentType, testFile, editorInterface);
+
+      expect('\n' + testFile.getFullText()).toEqual(
+        stripIndent(`
+        import type { Entry, EntryFields } from "contentful";
+        
+        /**
+         * Fields type definition for content type 'TypeAnimal'
+         * @name TypeAnimalFields
+         * @type {TypeAnimalFields}
+         * @memberof TypeAnimal
+         */
+        export interface TypeAnimalFields {
+            /**
+             * Field type definition for field 'bread' (Bread)
+             * @name Bread
+             * @localized false
+             * @summary Help text for the bread field.
+             */
+            bread: EntryFields.Symbol;
+        }
+        
+        /**
+         * Entry type definition for content type 'animal' (Animal)
+         * @name TypeAnimal
+         * @type {TypeAnimal}
          */
         export type TypeAnimal = Entry<TypeAnimalFields>;
         `),

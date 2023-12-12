@@ -10,3 +10,21 @@ export type CFContentType = {
   };
   fields: ContentTypeField[];
 };
+
+export type CFEditorInterface = {
+  sys: {
+    contentType: {
+      sys: {
+        id: string;
+      };
+    };
+  };
+  controls: CFEditorInterfaceControl[];
+};
+
+export type CFEditorInterfaceControl = {
+  fieldId: string;
+  settings?: {
+    helpText: string;
+  };
+};

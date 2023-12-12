@@ -9,7 +9,7 @@ import {
 } from 'ts-morph';
 import { moduleName } from './module-name';
 import { ContentTypeRenderer, DefaultContentTypeRenderer } from './renderer';
-import { CFContentType, WriteCallback } from './types';
+import { CFContentType, CFEditorInterface, WriteCallback } from './types';
 import { flatten } from 'lodash';
 
 export default class CFDefinitionsBuilder {
@@ -36,14 +36,17 @@ export default class CFDefinitionsBuilder {
     }
   }
 
-  public appendType = (model: CFContentType): CFDefinitionsBuilder => {
+  public appendType = (
+    model: CFContentType,
+    editorInterface?: CFEditorInterface,
+  ): CFDefinitionsBuilder => {
     if (model.sys.type !== 'ContentType') {
       throw new Error('given data is not describing a ContentType');
     }
 
     const file = this.addFile(moduleName(model.sys.id));
     for (const renderer of this.contentTypeRenderers) {
-      renderer.render(model, file);
+      renderer.render(model, file, editorInterface);
     }
 
     file.organizeImports({
@@ -53,9 +56,12 @@ export default class CFDefinitionsBuilder {
     return this;
   };
 
-  public appendTypes = (models: CFContentType[]): CFDefinitionsBuilder => {
+  public appendTypes = (
+    models: CFContentType[],
+    editorInterface?: CFEditorInterface,
+  ): CFDefinitionsBuilder => {
     for (const model of models) {
-      this.appendType(model);
+      this.appendType(model, editorInterface);
     }
 
     return this;
