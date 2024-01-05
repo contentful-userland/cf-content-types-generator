@@ -4,6 +4,7 @@ import { writeFile } from 'fs-extra';
 import { cleanupTempDirs, createTempDir } from 'jest-fixtures';
 import * as path from 'node:path';
 
+// eslint-disable-next-line import/no-named-as-default
 import CFDefinitionsBuilder, {
   DefaultContentTypeRenderer,
   LocalizedContentTypeRenderer,
