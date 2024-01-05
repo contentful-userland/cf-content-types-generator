@@ -47,7 +47,7 @@ class ContentfulMdg extends Command {
   async run(): Promise<string | void> {
     const { args, flags } = await this.parse(ContentfulMdg);
 
-    if (args.file && !fs.existsSync(args.file)) {
+    if (args.file && !fs.pathExistsSync(args.file)) {
       this.error(`file ${args.file} doesn't exists.`);
     }
 
@@ -104,7 +104,7 @@ class ContentfulMdg extends Command {
 
     if (flags.out) {
       const outDir = path.resolve(flags.out);
-      if (!flags.preserve && fs.existsSync(outDir)) {
+      if (!flags.preserve && fs.pathExistsSync(outDir)) {
         await fs.remove(outDir);
       }
 

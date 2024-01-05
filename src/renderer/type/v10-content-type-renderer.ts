@@ -51,7 +51,7 @@ export class V10ContentTypeRenderer extends BaseContentTypeRenderer {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected addDefaultImports(context: RenderContext): void {}
 
   protected renderField(
