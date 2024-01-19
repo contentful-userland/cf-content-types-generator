@@ -54,6 +54,8 @@ OPTIONS
   -s, --spaceId=spaceId          space id
   -t, --token=token              management token
   -v, --version                  show CLI version
+  -a, --host                     The Management API host
+
 ```
 
 ### Example
