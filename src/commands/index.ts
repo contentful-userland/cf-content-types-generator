@@ -38,6 +38,7 @@ class ContentfulMdg extends Command {
       default: process.env.CTF_CMA_TOKEN,
     }),
     environment: Flags.string({ char: 'e', description: 'environment' }),
+    host: Flags.string({ char: 'a', description: 'host', default: 'api.contentful.com' }),
   };
 
   static args = {
@@ -68,6 +69,7 @@ class ContentfulMdg extends Command {
         skipRoles: true,
         skipWebhooks: true,
         saveFile: false,
+        host: flags.host,
       });
     }
 
