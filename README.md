@@ -22,6 +22,7 @@
   - [Localized Renderer](#LocalizedContentTypeRenderer)
   - [JSDoc Renderer](#JSDocRenderer)
   - [Type Guard Renderer](#TypeGuardRenderer)
+  - [Response Type Renderer](#ResponseTypeRenderer)
 - [Direct Usage](#direct-usage)
 - [Browser Usage](#browser-usage)
 
@@ -397,7 +398,11 @@ Adds type guard functions for every content type
 #### Example Usage
 
 ```typescript
-import { CFDefinitionsBuilder, DefaultContentTypeRenderer, TypeGuardRenderer } from 'cf-content-types-generator';
+import {
+  CFDefinitionsBuilder,
+  DefaultContentTypeRenderer,
+  TypeGuardRenderer,
+} from 'cf-content-types-generator';
 
 const builder = new CFDefinitionsBuilder([
   new DefaultContentTypeRenderer(),
@@ -429,7 +434,11 @@ Adds type guard functions for every content type which are compatible with conte
 #### Example Usage
 
 ```typescript
-import { CFDefinitionsBuilder, V10ContentTypeRenderer, V10TypeGuardRenderer } from 'cf-content-types-generator';
+import {
+  CFDefinitionsBuilder,
+  V10ContentTypeRenderer,
+  V10TypeGuardRenderer,
+} from 'cf-content-types-generator';
 
 const builder = new CFDefinitionsBuilder([
   new V10ContentTypeRenderer(),
@@ -440,18 +449,83 @@ const builder = new CFDefinitionsBuilder([
 #### Example output
 
 ```typescript
-import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+import type {
+  ChainModifiers,
+  Entry,
+  EntryFieldTypes,
+  EntrySkeletonType,
+  LocaleCode,
+} from 'contentful';
 
 export interface TypeAnimalFields {
   bread?: EntryFieldTypes.Symbol;
 }
 
-export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, "animal">;
-export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
+export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<
+  TypeAnimalSkeleton,
+  Modifiers,
+  Locales
+>;
 
-export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: Entry<EntrySkeletonType, Modifiers, Locales>): entry is TypeAnimal<Modifiers, Locales> {
-  return entry.sys.contentType.sys.id === 'animal'
+export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
+  entry: Entry<EntrySkeletonType, Modifiers, Locales>,
+): entry is TypeAnimal<Modifiers, Locales> {
+  return entry.sys.contentType.sys.id === 'animal';
 }
+```
+
+## ResponseTypeRenderer
+
+Adds response types for every content type which are compatible with contentful.js v10.
+
+#### Example Usage
+
+```typescript
+import {
+  CFDefinitionsBuilder,
+  V10ContentTypeRenderer,
+  ResponseTypeRenderer,
+} from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([
+  new V10ContentTypeRenderer(),
+  new ResponseTypeRenderer(),
+]);
+```
+
+#### Example output
+
+```typescript
+import type {
+  ChainModifiers,
+  Entry,
+  EntryFieldTypes,
+  EntrySkeletonType,
+  LocaleCode,
+} from 'contentful';
+
+export interface TypeAnimalFields {
+  bread?: EntryFieldTypes.Symbol;
+}
+
+export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
+export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<
+  TypeAnimalSkeleton,
+  Modifiers,
+  Locales
+>;
+
+export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
+export type TypeAnimalWithUnresolvableLinksResponse = TypeAnimal<'WITHOUT_UNRESOLVABLE_LINKS'>;
+export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> =
+  TypeAnimal<'WITH_ALL_LOCALES'>;
+export type TypeAnimalWithAllLocalesAndWithoutLinkResolutionResponse<
+  Locales extends LocaleCode = LocaleCode,
+> = TypeAnimal<'WITH_ALL_LOCALES' | 'WITHOUT_LINK_RESOLUTION', Locales>;
+export type TypeAnimalWithAllLocalesAndWithoutUnresolvableLinksResponse<
+  Locales extends LocaleCode = LocaleCode,
+> = TypeAnimal<'WITH_ALL_LOCALES' | 'WITHOUT_UNRESOLVABLE_LINKS', Locales>;
 ```
 
 # Direct Usage
