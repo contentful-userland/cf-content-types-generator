@@ -15,6 +15,7 @@ import {
   V10ContentTypeRenderer,
   V10TypeGuardRenderer,
 } from '../renderer';
+import { ResponseTypeRenderer } from '../renderer/type/response-type-renderer';
 import { CFEditorInterface } from '../types';
 
 class ContentfulMdg extends Command {
@@ -29,6 +30,7 @@ class ContentfulMdg extends Command {
     localized: Flags.boolean({ char: 'l', description: 'add localized types' }),
     jsdoc: Flags.boolean({ char: 'd', description: 'add JSDoc comments' }),
     typeguard: Flags.boolean({ char: 'g', description: 'add type guards' }),
+    response: Flags.boolean({ char: 'r', description: 'add response types' }),
 
     // remote access
     spaceId: Flags.string({ char: 's', description: 'space id' }),
@@ -92,6 +94,14 @@ class ContentfulMdg extends Command {
 
     if (flags.typeguard) {
       renderers.push(flags.v10 ? new V10TypeGuardRenderer() : new TypeGuardRenderer());
+    }
+
+    if (flags.response) {
+      if (!flags.v10) {
+        this.error('"--response" option is only available for contentful.js v10 types.');
+      }
+
+      renderers.push(new ResponseTypeRenderer());
     }
 
     const editorInterfaces = content.editorInterfaces as CFEditorInterface[] | undefined;
