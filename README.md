@@ -517,7 +517,7 @@ export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleC
 >;
 
 export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
-export type TypeAnimalWithUnresolvableLinksResponse = TypeAnimal<'WITHOUT_UNRESOLVABLE_LINKS'>;
+export type TypeAnimalWithoutUnresolvableLinksResponse = TypeAnimal<'WITHOUT_UNRESOLVABLE_LINKS'>;
 export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> =
   TypeAnimal<'WITH_ALL_LOCALES'>;
 export type TypeAnimalWithAllLocalesAndWithoutLinkResolutionResponse<
