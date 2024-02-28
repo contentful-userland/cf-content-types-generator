@@ -1,0 +1,17 @@
+# Backstage documentation
+# https://backstage.io/docs/features/software-catalog/descriptor-format/
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: cf-content-types-generator 
+  description: Generate TS declarations for content types
+  annotations:
+    github.com/project-slug: contentful-userland/cf-content-types-generator 
+    contentful.com/service-tier: "4"
+  tags:
+    - tier-4
+spec:
+  type: cli
+  lifecycle: production
+  owner: user:marcolink 
