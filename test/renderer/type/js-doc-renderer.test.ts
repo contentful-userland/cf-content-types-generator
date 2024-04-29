@@ -125,7 +125,7 @@ describe('A JSDoc content type renderer class', () => {
          * @name TypeAnimal
          * @type {TypeAnimal}
          */
-        export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+        export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
         `),
       );
     });

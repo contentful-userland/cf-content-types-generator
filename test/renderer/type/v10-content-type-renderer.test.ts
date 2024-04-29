@@ -69,7 +69,7 @@ describe('The v10 content type renderer', () => {
         }
         
         export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
-        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
         `),
     );
   });
@@ -147,7 +147,7 @@ describe('A derived content type renderer class', () => {
         }
         
         export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
-        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
         `),
     );
   });
@@ -268,7 +268,7 @@ describe('A derived content type renderer class', () => {
         }
         
         export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
-        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode> = CustomEntry<TypeTestSkeleton, Modifiers, Locales>;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = CustomEntry<TypeTestSkeleton, Modifiers, Locales>;
         `),
     );
   });
