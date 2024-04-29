@@ -102,7 +102,7 @@ export class V10ContentTypeRenderer extends BaseContentTypeRenderer {
       name: renderTypeGeneric(
         context.moduleName(contentType.sys.id),
         'Modifiers extends ChainModifiers',
-        'Locales extends LocaleCode',
+        'Locales extends LocaleCode = LocaleCode',
       ),
       isExported: true,
       type: this.renderEntryType(contentType, context),
