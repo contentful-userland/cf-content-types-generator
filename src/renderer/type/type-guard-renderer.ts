@@ -50,7 +50,7 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
           type: TypeGuardRenderer.WithContentTypeLink,
         },
       ],
-      statements: `return entry.sys.contentType.sys.id === '${contentType.sys.id}'`,
+      statements: `return entry?.sys?.contentType?.sys?.id === '${contentType.sys.id}'`,
     });
 
     file.organizeImports({
