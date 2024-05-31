@@ -60,7 +60,7 @@ describe('A content type type guard renderer class', () => {
         export type TypeAnimal = Entry<TypeAnimalFields>;
         
         export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
-            return entry.sys.contentType.sys.id === 'animal'
+            return entry?.sys?.contentType?.sys?.id === 'animal'
         }
         `),
       );
