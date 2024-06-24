@@ -2971,9 +2971,9 @@ contentful-batch-libs@^9.4.1:
     uuid "^9.0.1"
 
 contentful-export@^7.19.77:
-  version "7.19.108"
-  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.19.108.tgz#b291e3af44d2b7c0402ca12a1f607d79ba1afed7"
-  integrity sha512-3hphzDnEc4lCG1JTx1cPpw9WeWfY0Xlbq1v1P7+tQZSF7drNNYFqtFrnwRPGIgie0xGAY34yco4qCi8jYHY30g==
+  version "7.19.145"
+  resolved "https://registry.yarnpkg.com/contentful-export/-/contentful-export-7.19.145.tgz#66064f57344249dfea4eea3416c9d8ba03d8e0b9"
+  integrity sha512-tGhoC/w94pnQs6L+AnFUkC/mTTBIez32SPWfuZ6kJVyqCKlXzAxvDzgN7aPr3W7/wtw17jam5M5a3vK4KSABtw==
   dependencies:
     bfj "^8.0.0"
     bluebird "^3.3.3"
@@ -2981,7 +2981,7 @@ contentful-export@^7.19.77:
     contentful "^10.6.9"
     contentful-batch-libs "^9.4.1"
     contentful-management "^11.0.1"
-    date-fns "^2.28.0"
+    date-fns "^3.6.0"
     figures "^3.2.0"
     jsonwebtoken "^9.0.0"
     listr "^0.14.1"
@@ -3165,6 +3165,11 @@ date-fns@^2.0.1, date-fns@^2.28.0:
   integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==
   dependencies:
     "@babel/runtime" "^7.21.0"
+
+date-fns@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.6.0.tgz#f20ca4fe94f8b754951b24240676e8618c0206bf"
+  integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
 
 dateformat@^3.0.0:
   version "3.0.3"
