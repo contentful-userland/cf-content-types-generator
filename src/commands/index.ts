@@ -11,11 +11,11 @@ import {
   DefaultContentTypeRenderer,
   JsDocRenderer,
   LocalizedContentTypeRenderer,
+  ResponseTypeRenderer,
   TypeGuardRenderer,
   V10ContentTypeRenderer,
   V10TypeGuardRenderer,
 } from '../renderer';
-import { ResponseTypeRenderer } from '../renderer/type/response-type-renderer';
 import { CFEditorInterface } from '../types';
 
 class ContentfulMdg extends Command {

@@ -554,7 +554,7 @@ describe('A Contentful definitions builder', () => {
           export type TypeSysId = Entry<TypeSysIdFields>;
 
           export function isTypeSysId(entry: WithContentTypeLink): entry is TypeSysId {
-              return entry.sys.contentType.sys.id === 'sysId'
+              return entry?.sys?.contentType?.sys?.id === 'sysId'
           }
           
           export type WithContentTypeLink = { sys: { contentType: { sys: { id: string } } } };

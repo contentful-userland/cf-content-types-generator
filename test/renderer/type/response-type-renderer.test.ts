@@ -1,6 +1,5 @@
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
-import { CFContentType } from '../../../src';
-import { ResponseTypeRenderer } from '../../../src/renderer/type/response-type-renderer';
+import { CFContentType, ResponseTypeRenderer } from '../../../src';
 import stripIndent = require('strip-indent');
 
 describe('A response type renderer class', () => {
