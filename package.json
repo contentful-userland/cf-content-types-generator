@@ -23,11 +23,11 @@
     "/lib"
   ],
   "dependencies": {
-    "@oclif/core": "^3.16.0",
-    "@oclif/plugin-help": "^6.0.9",
-    "contentful": "^10.6.1",
-    "contentful-export": "^7.19.77",
-    "contentful-management": "^10.40.1",
+    "@oclif/core": "^4.0.17",
+    "@oclif/plugin-help": "^6.2.8",
+    "contentful": "^10.14.1",
+    "contentful-export": "^7.19.147",
+    "contentful-management": "^11.31.6",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "ts-morph": "^19.0.0"
@@ -37,6 +37,7 @@
     "@types/cli-progress": "^3.11.5",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.4",
+    "@types/json-patch": "^0.0.33",
     "@types/lodash": "^4.14.155",
     "@types/node": "^18.11.17",
     "eslint": "^7.32.0",
