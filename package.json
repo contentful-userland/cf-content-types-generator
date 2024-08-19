@@ -11,7 +11,7 @@
   "types": "lib/index.d.ts",
   "bugs": "https://github.com/contentful-labs/cf-content-types-generator/issues",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "oclif": {
     "default": ".",
@@ -50,7 +50,7 @@
     "oclif": "^4.1.3",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.0.0",
-    "semantic-release": "^19.0.2",
+    "semantic-release": "^24.1.0",
     "strip-indent": "^3.0.0",
     "ts-jest": "29.1.1",
     "ts-node": "^10.9.1",
