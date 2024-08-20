@@ -5,8 +5,8 @@
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
 [![Downloads/week](https://img.shields.io/npm/dw/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
-[![License](https://img.shields.io/npm/l/cf-content-types-generator.svg)](https://github.com/contentful-labs/cf-content-types-generator/blob/master/package.json)
-[![Coverage Status](https://coveralls.io/repos/github/contentful-labs/cf-content-types-generator/badge.svg)](https://coveralls.io/github/contentful-labs/cf-content-types-generator)
+[![License](https://img.shields.io/npm/l/cf-content-types-generator.svg)](https://github.com/contentful-userland/cf-content-types-generator/blob/master/package.json)
+[![Coverage Status](https://coveralls.io/repos/github/contentful-userland/cf-content-types-generator/badge.svg)](https://coveralls.io/github/contentful-userland/cf-content-types-generator)
 
 # Table of Contents
 
