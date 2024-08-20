@@ -9,7 +9,7 @@
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "bugs": "https://github.com/contentful-labs/cf-content-types-generator/issues",
+  "bugs": "https://github.com/contentful-userland/cf-content-types-generator/issues",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -17,7 +17,7 @@
     "default": ".",
     "commands": "./lib/commands"
   },
-  "repository": "contentful-labs/cf-content-types-generator",
+  "repository": "contentful-userland/cf-content-types-generator",
   "files": [
     "/bin",
     "/lib"
