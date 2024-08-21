@@ -23,7 +23,7 @@
     "/lib"
   ],
   "dependencies": {
-    "@oclif/core": "^4.0.17",
+    "@oclif/core": "^3.27.0",
     "@oclif/plugin-help": "^6.2.8",
     "contentful": "^10.14.1",
     "contentful-export": "^7.19.147",
