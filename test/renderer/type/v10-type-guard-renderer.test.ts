@@ -58,8 +58,8 @@ describe('A content type type guard renderer class', () => {
         
         export type TypeAnimal = Entry<TypeAnimalFields>;
         
-        export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: Entry<EntrySkeletonType, Modifiers, Locales>): entry is TypeAnimal<Modifiers, Locales> {
-            return entry.sys.contentType.sys.id === 'animal'
+        export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry?: Entry<EntrySkeletonType, Modifiers, Locales>): entry is TypeAnimal<Modifiers, Locales> {
+            return entry?.sys?.contentType?.sys?.id === 'animal'
         }
         `),
       );
@@ -75,8 +75,8 @@ describe('A content type type guard renderer class', () => {
         stripIndent(`
         import type { ChainModifiers, Entry, LocaleCode } from "contentful";
 
-        export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: Entry<EntrySkeletonType, Modifiers, Locales>): entry is TypeAnimal<Modifiers, Locales> {
-            return entry.sys.contentType.sys.id === 'animal'
+        export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry?: Entry<EntrySkeletonType, Modifiers, Locales>): entry is TypeAnimal<Modifiers, Locales> {
+            return entry?.sys?.contentType?.sys?.id === 'animal'
         }
         `),
       );
