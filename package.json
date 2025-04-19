@@ -25,7 +25,7 @@
   "dependencies": {
     "@oclif/core": "^3.27.0",
     "@oclif/plugin-help": "^6.2.8",
-    "contentful": "^10.14.1",
+    "contentful": "^10.15.1",
     "contentful-export": "^7.19.147",
     "contentful-management": "^11.31.6",
     "fs-extra": "^11.2.0",
