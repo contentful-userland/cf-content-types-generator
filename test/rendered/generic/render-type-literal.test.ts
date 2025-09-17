@@ -6,5 +6,5 @@ describe('A renderTypeLiteral function', () => {
     });
     it('renders a string with an escapable character', () => {
         expect(renderTypeLiteral('foo\nbar')).toEqual('"foo\\nbar"');
-    });    
+    });
 });
