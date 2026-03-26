@@ -32,6 +32,8 @@
 npm install cf-content-types-generator
 ```
 
+> Repo development uses `pnpm@9.15.9` via Corepack: `corepack enable && pnpm install`.
+
 ## Usage
 
 ```bash

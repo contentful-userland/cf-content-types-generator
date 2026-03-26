@@ -13,6 +13,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "packageManager": "pnpm@9.15.9",
   "oclif": {
     "default": ".",
     "commands": "./lib/commands"
@@ -49,7 +50,6 @@
     "jest-fixtures": "^0.6.0",
     "lint-staged": "^15.2.9",
     "oclif": "^4.1.3",
-    "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.0.0",
     "semantic-release": "^24.1.0",
     "strip-indent": "^3.0.0",
@@ -61,16 +61,17 @@
     "posttest": "eslint . --ext .ts --config .eslintrc --fix",
     "prepack": "rm -rf lib && tsc -b && oclif readme",
     "lint": "eslint . --ext .ts --config .eslintrc",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "eslint . --ext .ts --config .eslintrc --fix",
     "lint-staged": "lint-staged",
     "prettier": "prettier .",
-    "prettier:fix": "yarn run prettier --write",
+    "prettier:fix": "prettier . --write",
+    "prepare": "husky",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "build": "tsc",
     "version": "oclif readme && git add README.md",
-    "presemantic-release": "yarn run build",
+    "presemantic-release": "tsc",
     "semantic-release": "semantic-release"
   },
   "release": {
