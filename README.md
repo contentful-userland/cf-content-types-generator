@@ -118,16 +118,60 @@ export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleC
   Entry<TypeAnimalSkeleton, Modifiers, Locales>;
 ```
 
-## Migration notes
+## Migration path
 
-- `V10ContentTypeRenderer` -> `ContentTypeRenderer`
-- `V10TypeGuardRenderer` -> `TypeGuardRenderer`
-- `createV10Context()` -> `createContext()`
-- `DefaultContentTypeRenderer` removed
-- `LocalizedContentTypeRenderer` removed
-- classic `Entry<TypeFields>` output removed
+1. Remove `--v10` from CLI usage.
+2. Remove `--localized`; no replacement needed.
+3. Rename programmatic imports:
+   `V10ContentTypeRenderer` -> `ContentTypeRenderer`
+   `V10TypeGuardRenderer` -> `TypeGuardRenderer`
+   `createV10Context()` -> `createContext()`
+4. Regenerate all generated types.
+5. Update downstream code that still assumes classic `Entry<TypeFields>` output.
 
-If downstream code still expects classic output, regenerate and update those types at the same time.
+CLI before:
+
+```bash
+cf-content-types-generator path/to/export.json -o src/@types/generated --v10 --response
+```
+
+CLI after:
+
+```bash
+cf-content-types-generator path/to/export.json -o src/@types/generated --response
+```
+
+Programmatic before:
+
+```ts
+import {
+  CFDefinitionsBuilder,
+  V10ContentTypeRenderer,
+  V10TypeGuardRenderer,
+} from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([
+  new V10ContentTypeRenderer(),
+  new V10TypeGuardRenderer(),
+]);
+```
+
+Programmatic after:
+
+```ts
+import {
+  CFDefinitionsBuilder,
+  ContentTypeRenderer,
+  TypeGuardRenderer,
+} from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([
+  new ContentTypeRenderer(),
+  new TypeGuardRenderer(),
+]);
+```
+
+If downstream code still expects classic output, regenerate and adapt those types in the same change.
 
 ## Input
 
