@@ -1,20 +1,20 @@
-import { ContentTypeField, ContentTypeFieldType } from 'contentful';
-
+import { ContentTypeFieldType } from 'contentful';
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
 import {
   CFContentType,
-  DefaultContentTypeRenderer,
-  defaultRenderers,
+  ContentTypeRenderer,
+  createContext,
   FieldRenderer,
   moduleFieldsName,
   moduleName,
   moduleSkeletonName,
   RenderContext,
+  renderers,
   renderTypeGeneric,
 } from '../../../src';
 import stripIndent = require('strip-indent');
 
-describe('The default content type renderer', () => {
+describe('ContentTypeRenderer', () => {
   let project: Project;
   let testFile: SourceFile;
 
@@ -29,8 +29,8 @@ describe('The default content type renderer', () => {
     testFile = project.createSourceFile('test.ts');
   });
 
-  it('adds import for field type', () => {
-    const renderer = new DefaultContentTypeRenderer();
+  it('renders modern content type output', () => {
+    const renderer = new ContentTypeRenderer();
 
     const contentType: CFContentType = {
       name: 'unused-name',
@@ -59,17 +59,18 @@ describe('The default content type renderer', () => {
 
     renderer.render(contentType, testFile);
 
-    expect('\n' + testFile.getFullText()).toEqual(
+    expect(('\n' + testFile.getFullText()).trim()).toEqual(
       stripIndent(`
-        import type { Entry } from "contentful";
-        import type { TypeLinkedTypeFields } from "./TypeLinkedType";
-        
+        import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+        import type { TypeLinkedTypeSkeleton } from "./TypeLinkedType";
+
         export interface TypeTestFields {
-            linkFieldId: Entry<TypeLinkedTypeFields>;
+            linkFieldId: EntryFieldTypes.EntryLink<TypeLinkedTypeSkeleton>;
         }
-        
-        export type TypeTest = Entry<TypeTestFields>;
-        `),
+
+        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+      `).trim(),
     );
   });
 });
@@ -78,7 +79,7 @@ const symbolTypeRenderer = () => {
   return 'Test.Symbol';
 };
 
-describe('A derived content type renderer class', () => {
+describe('Derived ContentTypeRenderer', () => {
   let project: Project;
   let testFile: SourceFile;
 
@@ -93,177 +94,118 @@ describe('A derived content type renderer class', () => {
     testFile = project.createSourceFile('test.ts');
   });
 
-  it('can return a custom field type renderer', () => {
-    class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
+  it('can override field renderers', () => {
+    class DerivedContentTypeRenderer extends ContentTypeRenderer {
       public createContext(): RenderContext {
         return {
+          ...createContext(),
           moduleName,
           moduleFieldsName,
-          moduleReferenceName: moduleFieldsName,
+          moduleReferenceName: moduleSkeletonName,
           moduleSkeletonName,
           getFieldRenderer: <FType extends ContentTypeFieldType>(fieldType: FType) => {
             if (fieldType === 'Symbol') {
               return symbolTypeRenderer as FieldRenderer<FType>;
             }
 
-            return defaultRenderers[fieldType] as FieldRenderer<FType>;
+            return renderers[fieldType] as FieldRenderer<FType>;
           },
-          imports: new Set(),
         };
       }
     }
 
     const renderer = new DerivedContentTypeRenderer();
 
-    const contentType: CFContentType = {
-      name: 'unused-name',
-      sys: {
-        id: 'test',
-        type: 'Symbol',
-      },
-      fields: [
-        {
-          id: 'field_id',
-          name: 'field_name',
-          disabled: false,
-          localized: false,
-          required: true,
+    renderer.render(
+      {
+        name: 'unused-name',
+        sys: {
+          id: 'test',
           type: 'Symbol',
-          omitted: false,
-          validations: [],
         },
-      ],
-    };
+        fields: [
+          {
+            id: 'field_id',
+            name: 'field_name',
+            disabled: false,
+            localized: false,
+            required: true,
+            type: 'Symbol',
+            omitted: false,
+            validations: [],
+          },
+        ],
+      },
+      testFile,
+    );
 
-    renderer.render(contentType, testFile);
-
-    expect('\n' + testFile.getFullText()).toEqual(
+    expect(('\n' + testFile.getFullText()).trim()).toEqual(
       stripIndent(`
-        import type { Entry } from "contentful";
-        
+        import type { ChainModifiers, Entry, EntrySkeletonType, LocaleCode } from "contentful";
+
         export interface TypeTestFields {
             field_id: Test.Symbol;
         }
-        
-        export type TypeTest = Entry<TypeTestFields>;
-        `),
+
+        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeTestSkeleton, Modifiers, Locales>;
+      `).trim(),
     );
   });
 
-  it('can return a custom field renderer with docs support', () => {
-    class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
-      protected renderField(field: ContentTypeField, context: RenderContext) {
-        return {
-          docs: [{ description: `Field of type "${field.type}"` }],
-          name: field.id,
-          hasQuestionToken: field.omitted || !field.required,
-          type: super.renderFieldType(field, context),
-        };
-      }
-
-      protected renderEntry(contentType: CFContentType, context: RenderContext) {
-        return {
-          docs: [
-            {
-              description: `content type "${contentType.name}" with id: ${contentType.sys.id}`,
-            },
-          ],
-          name: context.moduleName(contentType.sys.id),
-          isExported: true,
-          type: super.renderEntryType(contentType, context),
-        };
-      }
-    }
-
-    const renderer = new DerivedContentTypeRenderer();
-
-    const contentType: CFContentType = {
-      name: 'display name',
-      sys: {
-        id: 'test',
-        type: 'Symbol',
-      },
-      fields: [
-        {
-          id: 'field_id',
-          name: 'field_name',
-          disabled: false,
-          localized: false,
-          required: true,
-          type: 'Symbol',
-          omitted: false,
-          validations: [],
-        },
-      ],
-    };
-
-    renderer.render(contentType, testFile);
-
-    expect('\n' + testFile.getFullText()).toEqual(
-      stripIndent(`
-        import type { Entry, EntryFields } from "contentful";
-        
-        export interface TypeTestFields {
-            /** Field of type "Symbol" */
-            field_id: EntryFields.Symbol;
-        }
-        
-        /** content type "display name" with id: test */
-        export type TypeTest = Entry<TypeTestFields>;
-        `),
-    );
-  });
-
-  it('can render custom entries', () => {
-    class DerivedContentTypeRenderer extends DefaultContentTypeRenderer {
+  it('can override entry rendering', () => {
+    class DerivedContentTypeRenderer extends ContentTypeRenderer {
       protected renderEntryType(contentType: CFContentType, context: RenderContext): string {
         context.imports.add({
           moduleSpecifier: '@custom',
           namedImports: ['IdScopedEntry'],
           isTypeOnly: true,
         });
+
         return renderTypeGeneric(
           'IdScopedEntry',
-          `'${contentType.sys.id}', ${context.moduleFieldsName(contentType.sys.id)}`,
+          `'${contentType.sys.id}', ${context.moduleSkeletonName(contentType.sys.id)}`,
         );
       }
     }
 
     const renderer = new DerivedContentTypeRenderer();
 
-    const contentType: CFContentType = {
-      name: 'display name',
-      sys: {
-        id: 'test',
-        type: 'Symbol',
-      },
-      fields: [
-        {
-          id: 'field_id',
-          name: 'field_name',
-          disabled: false,
-          localized: false,
-          required: true,
+    renderer.render(
+      {
+        name: 'display name',
+        sys: {
+          id: 'test',
           type: 'Symbol',
-          omitted: false,
-          validations: [],
         },
-      ],
-    };
+        fields: [
+          {
+            id: 'field_id',
+            name: 'field_name',
+            disabled: false,
+            localized: false,
+            required: true,
+            type: 'Symbol',
+            omitted: false,
+            validations: [],
+          },
+        ],
+      },
+      testFile,
+    );
 
-    renderer.render(contentType, testFile);
-
-    expect('\n' + testFile.getFullText()).toEqual(
+    expect(('\n' + testFile.getFullText()).trim()).toEqual(
       stripIndent(`
         import type { IdScopedEntry } from "@custom";
-        import type { EntryFields } from "contentful";
-        
+        import type { EntryFieldTypes, EntrySkeletonType } from "contentful";
+
         export interface TypeTestFields {
-            field_id: EntryFields.Symbol;
+            field_id: EntryFieldTypes.Symbol;
         }
-        
-        export type TypeTest = IdScopedEntry<'test', TypeTestFields>;
-        `),
+
+        export type TypeTestSkeleton = EntrySkeletonType<TypeTestFields, "test">;
+        export type TypeTest<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = IdScopedEntry<'test', TypeTestSkeleton>;
+      `).trim(),
     );
   });
 });

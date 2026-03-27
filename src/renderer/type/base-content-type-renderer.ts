@@ -1,9 +1,9 @@
 import { Project, SourceFile } from 'ts-morph';
 import { CFContentType } from '../../types';
-import { ContentTypeRenderer } from './content-type-renderer';
-import { createDefaultContext, RenderContext } from './create-default-context';
+import { Renderer } from './renderer';
+import { createContext, RenderContext } from './create-context';
 
-export class BaseContentTypeRenderer implements ContentTypeRenderer {
+export class BaseContentTypeRenderer implements Renderer {
   setup(project: Project): void {
     /**/
   }
@@ -13,7 +13,7 @@ export class BaseContentTypeRenderer implements ContentTypeRenderer {
   }
 
   public createContext(): RenderContext {
-    return createDefaultContext();
+    return createContext();
   }
 
   additionalFiles(): SourceFile[] {
