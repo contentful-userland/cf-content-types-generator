@@ -32,7 +32,12 @@ pnpm install
 
 ## Quickstart
 
-Generate from a local export:
+You can use this CLI in two ways:
+
+- provide a static JSON file in the [Input](#input) shape, usually generated with `contentful space export`
+- provide Contentful credentials and let the CLI fetch the schema on the fly
+
+Generate from a local export JSON file:
 
 ```bash
 cf-content-types-generator path/to/export.json -o src/@types/generated
@@ -44,7 +49,7 @@ Generate with optional helpers:
 cf-content-types-generator path/to/export.json -o src/@types/generated --typeguard --response
 ```
 
-Generate by fetching directly from Contentful:
+Generate by fetching directly from Contentful on the fly:
 
 ```bash
 cf-content-types-generator \
