@@ -2,7 +2,7 @@
 
 Generate TypeScript types from Contentful content types.
 
-> Breaking in the next major: pre-v10 output is removed. Modern `contentful.js` typing becomes the default and only output model.
+> Breaking in v3.x: this is the migration from `2.x` to `3.x`. Pre-v10 output is removed, and modern `contentful.js` typing becomes the default and only output model.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
@@ -118,7 +118,7 @@ export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleC
   Entry<TypeAnimalSkeleton, Modifiers, Locales>;
 ```
 
-## Migration path
+## Migration from 2.x to 3.x
 
 1. Remove `--v10` from CLI usage.
 2. Remove `--localized`; no replacement needed.
@@ -172,6 +172,8 @@ const builder = new CFDefinitionsBuilder([
 ```
 
 If downstream code still expects classic output, regenerate and adapt those types in the same change.
+
+This PR introduces `3.x`, so every existing `2.x` user should treat the steps above as the required upgrade path.
 
 ## Input
 
