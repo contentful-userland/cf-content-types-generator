@@ -177,7 +177,19 @@ This PR introduces `3.x`, so every existing `2.x` user should treat the steps ab
 
 ## Input
 
-Input must be a Contentful export JSON with a `contentTypes` field:
+This tool is built to consume the JSON export shape produced by the Contentful CLI `space export` command.
+
+Typical source:
+
+```bash
+contentful space export --config ./export-config.json
+```
+
+In other words: if you already export your space with the official Contentful CLI, the generated JSON dump is the exact input shape this tool expects.
+
+At minimum, this generator needs a JSON object with a `contentTypes` field. A full `contentful space export` dump usually also contains keys such as `entries`, `assets`, `locales`, `roles`, `webhooks`, and `editorInterfaces`, but this generator mainly reads `contentTypes` and `editorInterfaces`.
+
+Example shape:
 
 ```json
 {
@@ -200,6 +212,8 @@ Input must be a Contentful export JSON with a `contentTypes` field:
   ]
 }
 ```
+
+If you pass a local file, it should be one of these CLI export JSON files, or another JSON payload with the same structure.
 
 ## Development
 
