@@ -2,7 +2,7 @@
 
 Generate TypeScript types from Contentful content types.
 
-> Breaking in v3.x: this is the migration from `2.x` to `3.x`. Pre-v10 output is removed, and modern `contentful.js` typing becomes the default and only output model.
+> As of v3.x, pre-v10 output is removed. If you are upgrading from `2.x`, modern `contentful.js` typing is now the default and only output model.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
@@ -77,7 +77,7 @@ Flags:
 - `-e, --environment` Contentful environment
 - `-a, --host` Management API host
 
-Removed in next major:
+Removed in v3.x:
 
 - `--v10`
 - `--localized`
@@ -235,7 +235,7 @@ const builder = new CFDefinitionsBuilder([
 
 If downstream code still expects classic output, regenerate and adapt those types in the same change.
 
-This PR introduces `3.x`, so every existing `2.x` user should treat the steps above as the required upgrade path.
+If you are upgrading from `2.x` to `3.x`, treat the steps above as the required migration path.
 
 ## Input
 
