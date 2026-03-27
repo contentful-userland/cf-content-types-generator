@@ -84,6 +84,63 @@ Removed in next major:
 
 Both now error with explicit migration hints.
 
+## Optional renderers
+
+All examples below assume the same content type:
+
+```ts
+export interface TypeAnimalFields {
+  breed?: EntryFieldTypes.Symbol;
+}
+
+export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
+export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> =
+  Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+```
+
+### `-d, --jsdoc`
+
+Adds generated comments to fields, skeletons, and entries.
+
+```ts
+/**
+ * Fields type definition for content type 'TypeAnimal'
+ * @name TypeAnimalFields
+ * @type {TypeAnimalFields}
+ * @memberof TypeAnimal
+ */
+export interface TypeAnimalFields {
+  /**
+   * Field type definition for field 'breed' (Breed)
+   * @name Breed
+   * @localized false
+   */
+  breed?: EntryFieldTypes.Symbol;
+}
+```
+
+### `-g, --typeguard`
+
+Adds a runtime predicate for the generated entry type.
+
+```ts
+export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
+  entry: Entry<EntrySkeletonType, Modifiers, Locales>,
+): entry is TypeAnimal<Modifiers, Locales> {
+  return entry.sys.contentType.sys.id === 'animal';
+}
+```
+
+### `-r, --response`
+
+Adds aliases for common response modifier combinations.
+
+```ts
+export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
+export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> =
+  TypeAnimal<'WITH_ALL_LOCALES', Locales>;
+```
+
 ## Programmatic usage
 
 ```ts
@@ -201,15 +258,18 @@ Example shape:
   "contentTypes": [
     {
       "sys": {
-        "id": "artist",
+        "id": "animal",
         "type": "ContentType"
       },
-      "name": "Artist",
+      "name": "Animal",
       "fields": [
         {
-          "id": "name",
+          "id": "breed",
           "type": "Symbol",
-          "required": true,
+          "required": false,
+          "localized": false,
+          "omitted": false,
+          "disabled": false,
           "validations": []
         }
       ]
