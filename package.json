@@ -33,7 +33,7 @@
     "contentful-export": "^7.19.147",
     "contentful-management": "^11.31.6",
     "fs-extra": "^11.2.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "ts-morph": "^23.0.0"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.4",
     "@types/json-patch": "^0.0.33",
-    "@types/lodash": "^4.14.155",
+    "@types/lodash": "^4.17.24",
     "@types/node": "^20.16.1",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^9.39.1",

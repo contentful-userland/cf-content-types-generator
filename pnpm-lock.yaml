@@ -25,9 +25,6 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
       ts-morph:
         specifier: ^23.0.0
         version: 23.0.0
@@ -48,8 +45,8 @@ importers:
         specifier: ^0.0.33
         version: 0.0.33
       '@types/lodash':
-        specifier: ^4.14.155
-        version: 4.17.20
+        specifier: ^4.17.24
+        version: 4.17.24
       '@types/node':
         specifier: ^20.16.1
         version: 20.16.1
@@ -74,6 +71,9 @@ importers:
       lint-staged:
         specifier: ^15.2.9
         version: 15.2.9
+      lodash:
+        specifier: ^4.17.23
+        version: 4.17.23
       oclif:
         specifier: ^4.22.96
         version: 4.22.96(@types/node@20.16.1)
@@ -2184,10 +2184,10 @@ packages:
         integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==,
       }
 
-  '@types/lodash@4.17.20':
+  '@types/lodash@4.17.24':
     resolution:
       {
-        integrity: sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==,
+        integrity: sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ==,
       }
 
   '@types/mute-stream@0.0.4':
@@ -6274,12 +6274,6 @@ packages:
     resolution:
       {
         integrity: sha512-e/zcLx6CSbmaEgFHCA7BnoQKyCtKMxnuWrJygbwPs/AIn+IMKl66L8/s+wBUn5LRw2pZx3bUHibiV1b6aTWIww==,
-      }
-
-  lodash@4.17.21:
-    resolution:
-      {
-        integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==,
       }
 
   lodash@4.17.23:
@@ -10394,7 +10388,7 @@ snapshots:
       '@semantic-release/error': 3.0.0
       aggregate-error: 3.1.0
       fs-extra: 11.2.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       semantic-release: 25.0.3(typescript@5.5.4)
 
   '@semantic-release/commit-analyzer@13.0.1(semantic-release@25.0.3(typescript@5.5.4))':
@@ -10937,7 +10931,7 @@ snapshots:
     dependencies:
       '@types/node': 22.4.1
 
-  '@types/lodash@4.17.20': {}
+  '@types/lodash@4.17.24': {}
 
   '@types/mute-stream@0.0.4':
     dependencies:
@@ -12333,7 +12327,7 @@ snapshots:
       indent-string: 4.0.0
       is-builtin-module: 3.2.1
       jsesc: 3.1.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       pluralize: 8.0.0
       read-pkg-up: 7.0.1
       regexp-tree: 0.1.27
@@ -13831,8 +13825,6 @@ snapshots:
   lodash.startcase@4.4.0: {}
 
   lodash.uniqby@4.7.0: {}
-
-  lodash@4.17.21: {}
 
   lodash@4.17.23: {}
 
