@@ -2,7 +2,7 @@ import { Args, Command, Flags } from '@oclif/core';
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
 import * as path from 'node:path';
-import { createRenderers } from './create-renderers';
+import { createRenderers } from '../cli/create-renderers';
 import { emitDefinitions } from '../internal/emit-definitions';
 import { loadModel } from '../internal/load-model';
 import { normalizeModel } from '../internal/normalize-model';
