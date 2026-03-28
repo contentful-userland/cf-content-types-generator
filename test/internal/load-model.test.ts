@@ -52,4 +52,34 @@ describe('loadModel', () => {
     });
     expect(model.data).toEqual(remoteModel);
   });
+
+  it('passes proxy options to contentful-export when provided', async () => {
+    const remoteModel = {
+      contentTypes: [],
+      editorInterfaces: [],
+    };
+    contentfulExport.mockResolvedValue(remoteModel);
+
+    await loadModel({
+      spaceId: 'space-id',
+      managementToken: 'token',
+      environmentId: 'master',
+      host: 'api.contentful.com',
+      proxy: 'https://user:password@proxy.example:8443',
+      rawProxy: true,
+    });
+
+    expect(contentfulExport).toHaveBeenCalledWith({
+      spaceId: 'space-id',
+      managementToken: 'token',
+      environmentId: 'master',
+      skipContent: true,
+      skipRoles: true,
+      skipWebhooks: true,
+      saveFile: false,
+      host: 'api.contentful.com',
+      proxy: 'https://user:password@proxy.example:8443',
+      rawProxy: true,
+    });
+  });
 });

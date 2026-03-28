@@ -13,6 +13,8 @@ export type LoadModelOptions =
       managementToken: string;
       environmentId?: string;
       host: string;
+      proxy?: string;
+      rawProxy?: boolean;
     };
 
 export const loadModel = async (options: LoadModelOptions): Promise<LoadedModel> => {
@@ -39,6 +41,8 @@ export const loadModel = async (options: LoadModelOptions): Promise<LoadedModel>
       skipWebhooks: true,
       saveFile: false,
       host: options.host,
+      ...(options.proxy ? { proxy: options.proxy } : {}),
+      ...(options.rawProxy !== undefined ? { rawProxy: options.rawProxy } : {}),
     }),
   };
 };

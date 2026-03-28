@@ -38,6 +38,12 @@ class ContentfulMdg extends Command {
     }),
     environment: Flags.string({ char: 'e', description: 'environment' }),
     host: Flags.string({ char: 'a', description: 'host', default: 'api.contentful.com' }),
+    proxy: Flags.string({
+      description: 'proxy URL in HTTP auth format, e.g. https://user:password@host:port',
+    }),
+    rawProxy: Flags.boolean({
+      description: 'pass proxy config to Axios instead of creating a custom httpsAgent',
+    }),
   };
 
   static args = {
@@ -67,6 +73,8 @@ class ContentfulMdg extends Command {
         managementToken: flags.token,
         environmentId: flags.environment,
         host: flags.host,
+        proxy: flags.proxy,
+        rawProxy: flags.rawProxy,
       });
     }
 

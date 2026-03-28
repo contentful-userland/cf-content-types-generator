@@ -50,6 +50,33 @@ describe('commands/index', () => {
     expect(await fs.pathExists(path.join(outDir, 'TypeAnimal.ts'))).toBe(true);
   });
 
+  it('passes proxy flags through remote fetch data', async () => {
+    const outDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cfctg-proxy-'));
+    contentfulExport.mockResolvedValue({
+      contentTypes: [],
+      editorInterfaces: [],
+    });
+
+    await ContentfulMdg.run([
+      '-s',
+      'space-id',
+      '-t',
+      'token',
+      '--proxy',
+      'https://user:password@proxy.example:8443',
+      '--rawProxy',
+      '-o',
+      outDir,
+    ]);
+
+    expect(contentfulExport).toHaveBeenCalledWith(
+      expect.objectContaining({
+        proxy: 'https://user:password@proxy.example:8443',
+        rawProxy: true,
+      }),
+    );
+  });
+
   it('keeps missing source input error behavior', async () => {
     await expect(ContentfulMdg.run([])).rejects.toThrow('Please specify "spaceId".');
   });

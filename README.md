@@ -63,8 +63,11 @@ cf-content-types-generator \
   -s <space-id> \
   -t <management-token> \
   -e <environment> \
+  --proxy https://user:password@proxy.example:8443 \
   -o src/@types/generated
 ```
+
+If your network requires a proxy, you can also add `--rawProxy` to pass the proxy config straight to Axios.
 
 ## What It’s For
 
@@ -103,6 +106,8 @@ Key flags:
 - `-t, --token` Contentful management token
 - `-e, --environment` Contentful environment
 - `-a, --host` Management API host
+- `--proxy` proxy URL in HTTP auth format
+- `--rawProxy` pass proxy config to Axios directly
 
 Removed in v3.x:
 
