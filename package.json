@@ -18,7 +18,10 @@
     "default": ".",
     "commands": "./lib/commands"
   },
-  "repository": "contentful-userland/cf-content-types-generator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contentful-userland/cf-content-types-generator.git"
+  },
   "files": [
     "/bin",
     "/lib"

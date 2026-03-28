@@ -6,6 +6,12 @@ on:
       - master
       - v3
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   build:
     name: Build & Release
@@ -21,10 +27,11 @@ jobs:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: '24.x'
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -39,7 +46,6 @@ jobs:
         run: pnpm semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
