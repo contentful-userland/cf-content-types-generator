@@ -1,30 +1,13 @@
-import { ContentTypeField } from 'contentful';
+import type {
+  NormalizedContentType,
+  NormalizedEditorControl,
+  NormalizedEditorInterface,
+} from './internal/model';
 
 export type WriteCallback = (filePath: string, content: string) => Promise<void>;
 
-export type CFContentType = {
-  name: string;
-  sys: {
-    id: string;
-    type: string;
-  };
-  fields: ContentTypeField[];
-};
+export type CFContentType = NormalizedContentType;
 
-export type CFEditorInterface = {
-  sys: {
-    contentType: {
-      sys: {
-        id: string;
-      };
-    };
-  };
-  controls: CFEditorInterfaceControl[];
-};
+export type CFEditorInterface = NormalizedEditorInterface;
 
-export type CFEditorInterfaceControl = {
-  fieldId: string;
-  settings?: {
-    helpText: string;
-  };
-};
+export type CFEditorInterfaceControl = NormalizedEditorControl;

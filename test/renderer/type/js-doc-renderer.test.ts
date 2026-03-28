@@ -82,9 +82,7 @@ describe('JsDocRenderer', () => {
   });
 
   it('includes optional metadata tags', () => {
-    // @ts-expect-error test fixture keeps sys loose on purpose
     mockContentType.sys.createdBy = { sys: { id: '<user-id>' } };
-    // @ts-expect-error test fixture keeps sys loose on purpose
     mockContentType.sys.publishedVersion = 5;
 
     const contentTypeRenderer = new ContentTypeRenderer();

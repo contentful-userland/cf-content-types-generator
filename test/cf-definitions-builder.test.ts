@@ -3,6 +3,9 @@ import CFDefinitionsBuilder, {
   ResponseTypeRenderer,
   TypeGuardRenderer,
 } from '../src';
+import * as fs from 'fs-extra';
+import * as os from 'node:os';
+import * as path from 'node:path';
 import stripIndent = require('strip-indent');
 
 describe('A Contentful definitions builder', () => {
@@ -131,5 +134,15 @@ describe('A Contentful definitions builder', () => {
     builder.appendType(modelType);
 
     expect(builder.toString()).toContain('export type TypeSysIdWithoutLinkResolutionResponse');
+  });
+
+  it('writes generated files and index output', async () => {
+    const outDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cfctg-builder-'));
+    builder.appendType(modelType);
+
+    await builder.write(outDir, fs.writeFile);
+
+    expect(await fs.pathExists(path.join(outDir, 'index.ts'))).toBe(true);
+    expect(await fs.pathExists(path.join(outDir, 'TypeSysId.ts'))).toBe(true);
   });
 });
