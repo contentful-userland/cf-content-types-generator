@@ -9,6 +9,14 @@
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "bugs": "https://github.com/contentful-userland/cf-content-types-generator/issues",
   "engines": {
     "node": ">=24.0.0"

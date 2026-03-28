@@ -6,6 +6,7 @@ describe('public API', () => {
     expect(api).toHaveProperty('TypeGuardRenderer');
     expect(api).toHaveProperty('ResponseTypeRenderer');
     expect(api).toHaveProperty('JsDocRenderer');
+    expect(api).toHaveProperty('defaultJsDocRenderOptions');
     expect(api).toHaveProperty('createContext');
     expect(api).toHaveProperty('renderers');
   });
