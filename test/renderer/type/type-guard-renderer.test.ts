@@ -57,8 +57,9 @@ describe('TypeGuardRenderer', () => {
         export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, "animal">;
         export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
 
-        export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: Entry<EntrySkeletonType, Modifiers, Locales>): entry is TypeAnimal<Modifiers, Locales> {
-            return entry.sys.contentType.sys.id === 'animal'
+        export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: unknown): entry is TypeAnimal<Modifiers, Locales> {
+            const candidate = entry as { sys?: { contentType?: { sys?: { id?: string } } } };
+            return candidate.sys?.contentType?.sys?.id === 'animal'
         }
       `).trim(),
     );

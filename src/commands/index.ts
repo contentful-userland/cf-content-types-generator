@@ -1,11 +1,13 @@
 import { Args, Command, Flags } from '@oclif/core';
-import contentfulExport from 'contentful-export';
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
 import * as path from 'node:path';
 import CFDefinitionsBuilder from '../cf-definitions-builder';
 import { createRenderers } from './create-renderers';
 import { CFEditorInterface } from '../types';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const contentfulExport: typeof import('contentful-export').default = require('contentful-export');
 
 class ContentfulMdg extends Command {
   static description = 'Contentful Content Types (TS Definitions) Generator';
