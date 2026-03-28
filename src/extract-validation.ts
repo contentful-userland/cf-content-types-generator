@@ -2,11 +2,16 @@ import { FieldItem, ContentTypeFieldValidation } from 'contentful';
 
 type WithValidations = Pick<FieldItem, 'validations'>;
 
-const validation = (node: WithValidations, field: keyof ContentTypeFieldValidation): any => {
+const validation = <T extends keyof ContentTypeFieldValidation>(
+  node: WithValidations,
+  field: T,
+): NonNullable<ContentTypeFieldValidation[T]> | [] => {
   if (node.validations && node.validations.length > 0) {
     const linkContentValidation = node.validations.find((value) => value[field]);
     if (linkContentValidation) {
-      return linkContentValidation[field] || [];
+      return (linkContentValidation[field] ?? []) as
+        | NonNullable<ContentTypeFieldValidation[T]>
+        | [];
     }
   }
 

@@ -1,6 +1,5 @@
 import { Args, Command, Flags } from '@oclif/core';
-
-const contentfulExport = require('contentful-export');
+import contentfulExport from 'contentful-export';
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
 import * as path from 'node:path';
