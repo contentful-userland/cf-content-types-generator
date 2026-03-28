@@ -41,6 +41,7 @@
     "@types/json-patch": "^0.0.33",
     "@types/lodash": "^4.14.155",
     "@types/node": "^20.16.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
     "eslint": "^7.32.0",
     "eslint-config-oclif": "^4.0.0",
     "eslint-config-oclif-typescript": "^2.0.1",
@@ -87,6 +88,8 @@
       [
         "@semantic-release/commit-analyzer",
         {
+          "preset": "conventionalcommits",
+          "presetConfig": {},
           "releaseRules": [
             {
               "type": "build",
@@ -96,7 +99,13 @@
           ]
         }
       ],
-      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits",
+          "presetConfig": {}
+        }
+      ],
       "@semantic-release/npm",
       "@semantic-release/changelog",
       "@semantic-release/github"
