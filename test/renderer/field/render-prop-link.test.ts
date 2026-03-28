@@ -1,109 +1,33 @@
-import {
-  createDefaultContext,
-  createV10Context,
-  renderPropLink,
-  renderPropLinkV10,
-} from '../../../src';
+import { createContext, renderPropLink } from '../../../src';
 
-describe('A renderPropLink function', () => {
-  it('can evaluate a "Link" type', () => {
-    const field = JSON.parse(`
-        {
-          "id": "category",
-          "name": "Category",
-          "type": "Link",
-          "localized": false,
-          "required": true,
-          "validations": [
-            {
-              "linkContentType": [
-                "topicCategory"
-              ]
-            }
-          ],
-          "disabled": false,
-          "omitted": false,
-          "linkType": "Entry"
-        }
-        `);
-
-    expect(renderPropLink(field, createDefaultContext())).toEqual('Entry<TypeTopicCategoryFields>');
-  });
-
-  it('can evaluate a "Link" type with no validations', () => {
+describe('renderPropLink', () => {
+  it('renders linked entry skeleton references', () => {
     const field = JSON.parse(`
       {
-        "id": "components",
-        "name": "Components",
+        "id": "category",
+        "name": "Category",
         "type": "Link",
         "localized": false,
         "required": true,
-        "validations": [],
+        "validations": [
+          {
+            "linkContentType": [
+              "topicCategory"
+            ]
+          }
+        ],
         "disabled": false,
         "omitted": false,
         "linkType": "Entry"
       }
-      `);
+    `);
 
-    expect(renderPropLink(field, createDefaultContext())).toEqual('Entry<Record<string, any>>');
-  });
-});
-
-describe('A renderPropLinkV10 function', () => {
-  it('can evaluate a "Link" type', () => {
-    const field = JSON.parse(`
-        {
-          "id": "category",
-          "name": "Category",
-          "type": "Link",
-          "localized": false,
-          "required": true,
-          "validations": [
-            {
-              "linkContentType": [
-                "topicCategory"
-              ]
-            }
-          ],
-          "disabled": false,
-          "omitted": false,
-          "linkType": "Entry"
-        }
-        `);
-
-    expect(renderPropLinkV10(field, createV10Context())).toEqual(
+    expect(renderPropLink(field, createContext())).toEqual(
       'EntryFieldTypes.EntryLink<TypeTopicCategorySkeleton>',
     );
   });
 
-  it('can evaluate a "Link" type with multiple linked content types', () => {
-    const field = JSON.parse(`
-        {
-          "id": "category",
-          "name": "Category",
-          "type": "Link",
-          "localized": false,
-          "required": true,
-          "validations": [
-            {
-              "linkContentType": [
-                "topicCategoryA",
-                "topicCategoryB"
-              ]
-            }
-          ],
-          "disabled": false,
-          "omitted": false,
-          "linkType": "Entry"
-        }
-        `);
-
-    expect(renderPropLinkV10(field, createV10Context())).toEqual(
-      'EntryFieldTypes.EntryLink<TypeTopicCategoryASkeleton | TypeTopicCategoryBSkeleton>',
-    );
-  });
-
-  it('can evaluate a "Link" type with no validations', () => {
+  it('falls back to EntrySkeletonType without validations', () => {
     const field = JSON.parse(`
       {
         "id": "components",
@@ -116,9 +40,9 @@ describe('A renderPropLinkV10 function', () => {
         "omitted": false,
         "linkType": "Entry"
       }
-      `);
+    `);
 
-    expect(renderPropLinkV10(field, createV10Context())).toEqual(
+    expect(renderPropLink(field, createContext())).toEqual(
       'EntryFieldTypes.EntryLink<EntrySkeletonType>',
     );
   });

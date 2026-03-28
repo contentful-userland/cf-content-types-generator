@@ -1,61 +1,13 @@
-import {
-  createDefaultContext,
-  createV10Context,
-  RenderContext,
-  renderPropAny,
-  renderPropAnyV10,
-} from '../../../src';
+import { createContext, RenderContext, renderPropAny } from '../../../src';
 
-describe('A renderPropAny function', () => {
+describe('renderPropAny', () => {
   let context: RenderContext;
 
   beforeEach(() => {
-    context = createDefaultContext();
+    context = createContext();
   });
 
-  it('can evaluate a "Symbol" type', () => {
-    const field = JSON.parse(`
-        {
-          "id": "internalName",
-          "name": "Internal name",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-          ],
-          "disabled": false,
-          "omitted": false
-        }
-        `);
-
-    expect(renderPropAny(field, context)).toEqual('EntryFields.Symbol');
-  });
-
-  it('can evaluate a "Symbol" type with "in" validation', () => {
-    const field = JSON.parse(`
-        {
-          "id": "headerAlignment",
-          "name": "Header alignment",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-            {
-              "in": [
-                "Left-aligned",
-                "Center-aligned"
-              ]
-            }
-          ],
-          "disabled": false,
-          "omitted": false
-        }
-        `);
-
-    expect(renderPropAny(field, context)).toEqual('"Center-aligned" | "Left-aligned"');
-  });
-
-  it('can evaluate a "Symbol" type with missing validations', () => {
+  it('renders modern scalar field types', () => {
     const field = JSON.parse(`
       {
         "id": "internalName",
@@ -63,79 +15,38 @@ describe('A renderPropAny function', () => {
         "type": "Symbol",
         "localized": false,
         "required": false,
+        "validations": [],
         "disabled": false,
         "omitted": false
       }
-      `);
+    `);
 
-    expect(renderPropAny(field, context)).toEqual('EntryFields.Symbol');
-  });
-});
-
-describe('A renderPropAnyV10 function', () => {
-  let context: RenderContext;
-
-  beforeEach(() => {
-    context = createV10Context();
+    expect(renderPropAny(field, context)).toEqual('EntryFieldTypes.Symbol');
   });
 
-  it('can evaluate a "Symbol" type', () => {
+  it('renders validation-constrained scalar field types', () => {
     const field = JSON.parse(`
-        {
-          "id": "internalName",
-          "name": "Internal name",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-          ],
-          "disabled": false,
-          "omitted": false
-        }
-        `);
+      {
+        "id": "headerAlignment",
+        "name": "Header alignment",
+        "type": "Symbol",
+        "localized": false,
+        "required": false,
+        "validations": [
+          {
+            "in": [
+              "Left-aligned",
+              "Center-aligned"
+            ]
+          }
+        ],
+        "disabled": false,
+        "omitted": false
+      }
+    `);
 
-    expect(renderPropAnyV10(field, context)).toEqual('EntryFieldTypes.Symbol');
-  });
-
-  it('can evaluate a "Symbol" type with "in" validation', () => {
-    const field = JSON.parse(`
-        {
-          "id": "headerAlignment",
-          "name": "Header alignment",
-          "type": "Symbol",
-          "localized": false,
-          "required": false,
-          "validations": [
-            {
-              "in": [
-                "Left-aligned",
-                "Center-aligned"
-              ]
-            }
-          ],
-          "disabled": false,
-          "omitted": false
-        }
-        `);
-
-    expect(renderPropAnyV10(field, context)).toEqual(
+    expect(renderPropAny(field, context)).toEqual(
       'EntryFieldTypes.Symbol<"Center-aligned" | "Left-aligned">',
     );
-  });
-
-  it('can evaluate a "Symbol" type with missing validations', () => {
-    const field = JSON.parse(`
-      {
-        "id": "internalName",
-        "name": "Internal name",
-        "type": "Symbol",
-        "localized": false,
-        "required": false,
-        "disabled": false,
-        "omitted": false
-      }
-      `);
-
-    expect(renderPropAnyV10(field, context)).toEqual('EntryFieldTypes.Symbol');
   });
 });

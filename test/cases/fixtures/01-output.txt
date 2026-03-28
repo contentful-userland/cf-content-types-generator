@@ -1,38 +1,41 @@
-import type { Asset, Entry, EntryFields } from "contentful";
+import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
 
 export interface TypeBrandFields {
-    companyName: EntryFields.Text;
-    logo?: Asset;
-    companyDescription?: EntryFields.Text;
-    website?: EntryFields.Symbol;
-    twitter?: EntryFields.Symbol;
-    email?: EntryFields.Symbol;
-    phone?: EntryFields.Symbol[];
+    companyName: EntryFieldTypes.Text;
+    logo?: EntryFieldTypes.AssetLink;
+    companyDescription?: EntryFieldTypes.Text;
+    website?: EntryFieldTypes.Symbol;
+    twitter?: EntryFieldTypes.Symbol;
+    email?: EntryFieldTypes.Symbol;
+    phone?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
 }
 
-export type TypeBrand = Entry<TypeBrandFields>;
+export type TypeBrandSkeleton = EntrySkeletonType<TypeBrandFields, "brand">;
+export type TypeBrand<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeBrandSkeleton, Modifiers, Locales>;
 
 export interface TypeCategoryFields {
-    title: EntryFields.Text;
-    icon?: Asset;
-    categoryDescription?: EntryFields.Text;
+    title: EntryFieldTypes.Text;
+    icon?: EntryFieldTypes.AssetLink;
+    categoryDescription?: EntryFieldTypes.Text;
 }
 
-export type TypeCategory = Entry<TypeCategoryFields>;
+export type TypeCategorySkeleton = EntrySkeletonType<TypeCategoryFields, "category">;
+export type TypeCategory<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeCategorySkeleton, Modifiers, Locales>;
 
 export interface TypeProductFields {
-    productName: EntryFields.Text;
-    slug?: EntryFields.Symbol;
-    productDescription?: EntryFields.Text;
-    sizetypecolor?: EntryFields.Symbol;
-    image?: Asset[];
-    tags?: EntryFields.Symbol[];
-    categories?: Entry<TypeCategoryFields>[];
-    price?: EntryFields.Number;
-    brand?: Entry<TypeBrandFields>;
-    quantity?: EntryFields.Integer;
-    sku?: EntryFields.Symbol;
-    website?: EntryFields.Symbol;
+    productName: EntryFieldTypes.Text;
+    slug?: EntryFieldTypes.Symbol;
+    productDescription?: EntryFieldTypes.Text;
+    sizetypecolor?: EntryFieldTypes.Symbol;
+    image?: EntryFieldTypes.Array<EntryFieldTypes.AssetLink>;
+    tags?: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
+    categories?: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<TypeCategorySkeleton>>;
+    price?: EntryFieldTypes.Number;
+    brand?: EntryFieldTypes.EntryLink<TypeBrandSkeleton>;
+    quantity?: EntryFieldTypes.Integer;
+    sku?: EntryFieldTypes.Symbol;
+    website?: EntryFieldTypes.Symbol;
 }
 
-export type TypeProduct = Entry<TypeProductFields>;
+export type TypeProductSkeleton = EntrySkeletonType<TypeProductFields, "product">;
+export type TypeProduct<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeProductSkeleton, Modifiers, Locales>;

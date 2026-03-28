@@ -8,18 +8,18 @@ import {
   StructureKind,
 } from 'ts-morph';
 import { moduleName } from './module-name';
-import { ContentTypeRenderer, DefaultContentTypeRenderer } from './renderer';
+import { ContentTypeRenderer, Renderer } from './renderer';
 import { CFContentType, CFEditorInterface, WriteCallback } from './types';
 import { flatten } from 'lodash';
 
 export default class CFDefinitionsBuilder {
   private readonly project: Project;
 
-  private readonly contentTypeRenderers: ContentTypeRenderer[];
+  private readonly contentTypeRenderers: Renderer[];
 
-  constructor(contentTypeRenderers: ContentTypeRenderer[] = []) {
+  constructor(contentTypeRenderers: Renderer[] = []) {
     if (contentTypeRenderers.length === 0) {
-      contentTypeRenderers.push(new DefaultContentTypeRenderer());
+      contentTypeRenderers.push(new ContentTypeRenderer());
     }
 
     this.contentTypeRenderers = contentTypeRenderers;
