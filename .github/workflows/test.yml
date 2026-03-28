@@ -17,9 +17,9 @@ jobs:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24.x'
           cache: 'pnpm'
 
       - name: Install Dependencies
@@ -42,9 +42,9 @@ jobs:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24.x'
           cache: 'pnpm'
 
       - name: Install Dependencies
@@ -70,9 +70,9 @@ jobs:
           run_install: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24.x'
           cache: 'pnpm'
 
       - name: Install Dependencies

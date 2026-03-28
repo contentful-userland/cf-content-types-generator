@@ -11,7 +11,7 @@
   "types": "lib/index.d.ts",
   "bugs": "https://github.com/contentful-userland/cf-content-types-generator/issues",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   },
   "packageManager": "pnpm@9.15.9",
   "oclif": {
