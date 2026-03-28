@@ -229,6 +229,8 @@ contentful space export --config ./export-config.json
 
 If you pass a local file, that exported JSON shape is the exact shape this tool expects.
 
+When you fetch the model remotely, this tool intentionally skips entry data and only reads schema data. A log line about skipping content entries is expected and does not mean generation is incomplete.
+
 At minimum, this generator needs a JSON object with a `contentTypes` field. A full `contentful space export` dump usually also contains keys such as `entries`, `assets`, `locales`, `roles`, `webhooks`, and `editorInterfaces`, but this generator mainly reads `contentTypes` and `editorInterfaces`.
 
 Example shape:
