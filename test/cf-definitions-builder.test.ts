@@ -136,6 +136,28 @@ describe('A Contentful definitions builder', () => {
     expect(builder.toString()).toContain('export type TypeSysIdWithoutLinkResolutionResponse');
   });
 
+  it('sanitizes generated identifiers while preserving original content type ids', () => {
+    builder.appendType({
+      ...modelType,
+      sys: {
+        id: 'Page.ComparisonBlock',
+        type: 'ContentType',
+      },
+    });
+
+    expect(('\n' + builder.toString()).trim()).toEqual(
+      stripIndent(`
+        import type { ChainModifiers, Entry, EntrySkeletonType, LocaleCode } from "contentful";
+
+        export interface TypePage__ComparisonBlockFields {
+        }
+
+        export type TypePage__ComparisonBlockSkeleton = EntrySkeletonType<TypePage__ComparisonBlockFields, "Page.ComparisonBlock">;
+        export type TypePage__ComparisonBlock<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypePage__ComparisonBlockSkeleton, Modifiers, Locales>;
+      `).trim(),
+    );
+  });
+
   it('writes generated files and index output', async () => {
     const outDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cfctg-builder-'));
     builder.appendType(modelType);

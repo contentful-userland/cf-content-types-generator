@@ -9,6 +9,8 @@ describe('A moduleName function', () => {
     { input: '1-0-helloWorld', expect: 'Type1__0__helloWorld' },
     { input: 'hello World', expect: 'TypeHelloWorld' },
     { input: 'hello-World', expect: 'TypeHello__World' },
+    { input: 'Page.ComparisonBlock', expect: 'TypePage__ComparisonBlock' },
+    { input: 'marketing/hero', expect: 'TypeMarketing__hero' },
     { input: '12345', expect: 'Type12345' },
   ];
 
