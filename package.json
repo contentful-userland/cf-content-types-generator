@@ -32,7 +32,7 @@
     "contentful": "^10.15.1",
     "contentful-export": "^7.19.147",
     "contentful-management": "^11.31.6",
-    "fs-extra": "^11.2.0",
+    "fs-extra": "^11.3.4",
     "lodash": "^4.17.23",
     "ts-morph": "^27.0.2"
   },
