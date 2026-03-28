@@ -1,6 +1,8 @@
 # cf-content-types-generator
 
-Generate TypeScript types from Contentful content types.
+Generate TypeScript types from your Contentful content model, either from a local `contentful space export` JSON file or by fetching the model directly from Contentful.
+
+Use the generated types with `contentful.js` v10+ for safer queries, autocomplete, and less schema drift between Contentful and your app.
 
 > As of v3.x, pre-v10 output is removed. If you are upgrading from `2.x`, modern `contentful.js` typing is now the default and only output model.
 
@@ -10,12 +12,9 @@ Generate TypeScript types from Contentful content types.
 [![License](https://img.shields.io/npm/l/cf-content-types-generator.svg)](https://github.com/contentful-userland/cf-content-types-generator/blob/master/package.json)
 [![Coverage Status](https://coveralls.io/repos/github/contentful-userland/cf-content-types-generator/badge.svg)](https://coveralls.io/github/contentful-userland/cf-content-types-generator)
 
-## Why
-
-- generate checked-in types from Contentful schema exports
-- support local export JSON or direct remote fetch
-- emit modern `EntrySkeletonType` / `Entry` typings
-- layer optional response aliases, JSDoc, and type guards
+```ts
+import type { TypeAnimal } from './@types/generated';
+```
 
 ## Install
 
@@ -30,26 +29,34 @@ corepack enable
 pnpm install
 ```
 
-## Quickstart
+## Quickstart In 60 Seconds
 
-You can use this CLI in two ways:
+You can generate types in two ways:
 
-- provide a static JSON file in the [Input](#input) shape, usually generated with `contentful space export`
-- provide Contentful credentials and let the CLI fetch the schema on the fly
+- from a local export JSON file in the exact [Input](#input) shape, usually created with `contentful space export`
+- by providing Contentful credentials and letting the CLI fetch the same model data on the fly
 
-Generate from a local export JSON file:
+### Path A: Generate From A Local Export JSON File
 
-```bash
-cf-content-types-generator path/to/export.json -o src/@types/generated
-```
-
-Generate with optional helpers:
+Export your space model:
 
 ```bash
-cf-content-types-generator path/to/export.json -o src/@types/generated --typeguard --response
+contentful space export --config ./export-config.json
 ```
 
-Generate by fetching directly from Contentful on the fly:
+Generate types:
+
+```bash
+cf-content-types-generator ./contentful-export.json -o src/@types/generated
+```
+
+Use the generated type:
+
+```ts
+import type { TypeAnimal } from './@types/generated';
+```
+
+### Path B: Generate By Fetching From Contentful
 
 ```bash
 cf-content-types-generator \
@@ -59,13 +66,33 @@ cf-content-types-generator \
   -o src/@types/generated
 ```
 
-## CLI
+## What It’s For
+
+- turn a Contentful content model into generated TypeScript types
+- use those generated types in apps built with `contentful.js` v10+
+- optionally add JSDoc, type guards, and response aliases
+
+### When To Use It
+
+- you keep Contentful schema in source control and want generated app types
+- you use `contentful.js` in TypeScript and want typed entries based on your real model
+- you want type generation in CI from either exports or live space data
+
+Further reading: if you want broader context on typing Contentful projects with TypeScript, see Contentful’s guide to [TypeScript and Contentful](https://www.contentful.com/blog/contentful-typescript/).
+
+## CLI Usage
 
 ```text
 cf-content-types-generator [FILE]
 ```
 
-Flags:
+Common tasks:
+
+- generate from a local export JSON file: `cf-content-types-generator ./contentful-export.json -o src/@types/generated`
+- generate by fetching live data: `cf-content-types-generator -s <space-id> -t <management-token> -e <environment> -o src/@types/generated`
+- add optional helpers: `cf-content-types-generator ./contentful-export.json -o src/@types/generated --jsdoc --typeguard --response`
+
+Key flags:
 
 - `-o, --out` output directory
 - `-p, --preserve` preserve existing output folder
@@ -84,9 +111,9 @@ Removed in v3.x:
 
 Both now error with explicit migration hints.
 
-## Optional renderers
+## Optional Renderers
 
-All examples below assume the same content type:
+All examples below use the same generated base type:
 
 ```ts
 export interface TypeAnimalFields {
@@ -102,21 +129,21 @@ export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleC
 
 Adds generated comments to fields, skeletons, and entries.
 
-```ts
-/**
- * Fields type definition for content type 'TypeAnimal'
- * @name TypeAnimalFields
- * @type {TypeAnimalFields}
- * @memberof TypeAnimal
- */
-export interface TypeAnimalFields {
-  /**
-   * Field type definition for field 'breed' (Breed)
-   * @name Breed
-   * @localized false
-   */
-  breed?: EntryFieldTypes.Symbol;
-}
+```diff
+ /**
+  * Fields type definition for content type 'TypeAnimal'
+  * @name TypeAnimalFields
+  * @type {TypeAnimalFields}
+  * @memberof TypeAnimal
+  */
+ export interface TypeAnimalFields {
+   /**
+    * Field type definition for field 'breed' (Breed)
+    * @name Breed
+    * @localized false
+    */
+   breed?: EntryFieldTypes.Symbol;
+ }
 ```
 
 ### `-g, --typeguard`
@@ -124,11 +151,11 @@ export interface TypeAnimalFields {
 Adds a runtime predicate for the generated entry type.
 
 ```ts
-export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
-  entry: Entry<EntrySkeletonType, Modifiers, Locales>,
-): entry is TypeAnimal<Modifiers, Locales> {
-  return entry.sys.contentType.sys.id === 'animal';
-}
+ export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
+   entry: Entry<EntrySkeletonType, Modifiers, Locales>,
+ ): entry is TypeAnimal<Modifiers, Locales> {
+   return entry.sys.contentType.sys.id === 'animal';
+ }
 ```
 
 ### `-r, --response`
@@ -136,12 +163,12 @@ export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends L
 Adds aliases for common response modifier combinations.
 
 ```ts
-export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
-export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> =
-  TypeAnimal<'WITH_ALL_LOCALES', Locales>;
+ export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
+ export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> =
+   TypeAnimal<'WITH_ALL_LOCALES', Locales>;
 ```
 
-## Programmatic usage
+## Programmatic Usage
 
 ```ts
 import {
@@ -160,27 +187,53 @@ const builder = new CFDefinitionsBuilder([
 
 If you want custom output, extend `BaseContentTypeRenderer` or implement the `Renderer` interface.
 
-## Example output
+## Input
 
-```ts
-import type {
-  ChainModifiers,
-  Entry,
-  EntryFieldTypes,
-  EntrySkeletonType,
-  LocaleCode,
-} from 'contentful';
+This tool accepts either:
 
-export interface TypeAnimalFields {
-  breed?: EntryFieldTypes.Symbol;
-}
+- a local JSON file in the exact shape produced by `contentful space export`
+- or enough CLI credentials for the generator to fetch equivalent model data live
 
-export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
-export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> =
-  Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+Typical export command:
+
+```bash
+contentful space export --config ./export-config.json
 ```
 
-## Migration from 2.x to 3.x
+If you pass a local file, that exported JSON shape is the exact shape this tool expects.
+
+At minimum, this generator needs a JSON object with a `contentTypes` field. A full `contentful space export` dump usually also contains keys such as `entries`, `assets`, `locales`, `roles`, `webhooks`, and `editorInterfaces`, but this generator mainly reads `contentTypes` and `editorInterfaces`.
+
+Example shape:
+
+```json
+{
+  "contentTypes": [
+    {
+      "sys": {
+        "id": "animal",
+        "type": "ContentType"
+      },
+      "name": "Animal",
+      "fields": [
+        {
+          "id": "breed",
+          "type": "Symbol",
+          "required": false,
+          "localized": false,
+          "omitted": false,
+          "disabled": false,
+          "validations": []
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Migration From 2.x To 3.x
+
+`3.x` removes all pre-v10 output behavior. If you are upgrading from `2.x`, use this migration path:
 
 1. Remove `--v10` from CLI usage.
 2. Remove `--localized`; no replacement needed.
@@ -194,13 +247,13 @@ export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleC
 CLI before:
 
 ```bash
-cf-content-types-generator path/to/export.json -o src/@types/generated --v10 --response
+cf-content-types-generator ./contentful-export.json -o src/@types/generated --v10 --response
 ```
 
 CLI after:
 
 ```bash
-cf-content-types-generator path/to/export.json -o src/@types/generated --response
+cf-content-types-generator ./contentful-export.json -o src/@types/generated --response
 ```
 
 Programmatic before:
@@ -234,51 +287,6 @@ const builder = new CFDefinitionsBuilder([
 ```
 
 If downstream code still expects classic output, regenerate and adapt those types in the same change.
-
-If you are upgrading from `2.x` to `3.x`, treat the steps above as the required migration path.
-
-## Input
-
-This tool is built to consume the JSON export shape produced by the Contentful CLI `space export` command.
-
-Typical source:
-
-```bash
-contentful space export --config ./export-config.json
-```
-
-In other words: if you already export your space with the official Contentful CLI, the generated JSON dump is the exact input shape this tool expects.
-
-At minimum, this generator needs a JSON object with a `contentTypes` field. A full `contentful space export` dump usually also contains keys such as `entries`, `assets`, `locales`, `roles`, `webhooks`, and `editorInterfaces`, but this generator mainly reads `contentTypes` and `editorInterfaces`.
-
-Example shape:
-
-```json
-{
-  "contentTypes": [
-    {
-      "sys": {
-        "id": "animal",
-        "type": "ContentType"
-      },
-      "name": "Animal",
-      "fields": [
-        {
-          "id": "breed",
-          "type": "Symbol",
-          "required": false,
-          "localized": false,
-          "omitted": false,
-          "disabled": false,
-          "validations": []
-        }
-      ]
-    }
-  ]
-}
-```
-
-If you pass a local file, it should be one of these CLI export JSON files, or another JSON payload with the same structure.
 
 ## Development
 
