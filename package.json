@@ -78,9 +78,9 @@
     "branches": [
       "master",
       {
-        "name": "experimental",
-        "channel": "experimental",
-        "prerelease": true
+        "name": "v3",
+        "channel": "next",
+        "prerelease": "next"
       }
     ],
     "plugins": [
