@@ -177,6 +177,8 @@ export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = Locale
 >;
 ```
 
+These aliases are convenience aliases for the top-level entry type only. Linked entries still stay typed as `Entry<LinkedSkeleton, Modifiers, Locales>`, which is expected and matches `contentful.js`.
+
 ## Programmatic Usage
 
 ```ts
