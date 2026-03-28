@@ -22,6 +22,9 @@ importers:
       contentful-management:
         specifier: ^11.31.6
         version: 11.31.8
+      fs-extra:
+        specifier: ^11.3.4
+        version: 11.3.4
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -59,9 +62,6 @@ importers:
       eslint-config-oclif:
         specifier: ^6.0.153
         version: 6.0.153(eslint@9.39.4)(typescript@5.9.3)
-      fs-extra:
-        specifier: ^11.3.4
-        version: 11.3.4
       husky:
         specifier: ^9.1.4
         version: 9.1.7
@@ -78,14 +78,14 @@ importers:
         specifier: ^4.22.96
         version: 4.22.96(@types/node@24.12.0)
       prettier:
-        specifier: ^3.0.0
-        version: 3.3.3
+        specifier: ^3.8.1
+        version: 3.8.1
       semantic-release:
         specifier: ^25.0.3
         version: 25.0.3(typescript@5.9.3)
       strip-indent:
-        specifier: ^4.1.1
-        version: 4.1.1
+        specifier: ^3.0.0
+        version: 3.0.0
       ts-jest:
         specifier: 29.2.5
         version: 29.2.5(@babel/core@7.25.2)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.25.2))(jest@29.7.0(@types/node@24.12.0)(ts-node@10.9.2(@types/node@24.12.0)(typescript@5.9.3)))(typescript@5.9.3)
@@ -7197,10 +7197,10 @@ packages:
       }
     engines: { node: '>= 0.8.0' }
 
-  prettier@3.3.3:
+  prettier@3.8.1:
     resolution:
       {
-        integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==,
+        integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==,
       }
     engines: { node: '>=14' }
     hasBin: true
@@ -8002,13 +8002,6 @@ packages:
         integrity: sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==,
       }
     engines: { node: '>=8' }
-
-  strip-indent@4.1.1:
-    resolution:
-      {
-        integrity: sha512-SlyRoSkdh1dYP0PzclLE7r0M9sgbFKKMFXpFRUMNuKhQSbC6VQIGzq3E0qsfvGJaUFJPGv6Ws1NZ/haTAjfbMA==,
-      }
-    engines: { node: '>=12' }
 
   strip-json-comments@2.0.1:
     resolution:
@@ -12065,7 +12058,7 @@ snapshots:
       eslint-config-xo: 0.49.0(eslint@9.39.4)
       eslint-config-xo-space: 0.35.0(eslint@9.39.4)
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4))(eslint@9.39.4)
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4))(eslint@9.39.4))(eslint@9.39.4)
       eslint-plugin-jsdoc: 50.8.0(eslint@9.39.4)
       eslint-plugin-mocha: 10.5.0(eslint@9.39.4)
       eslint-plugin-n: 17.24.0(eslint@9.39.4)(typescript@5.9.3)
@@ -12117,7 +12110,7 @@ snapshots:
       tinyglobby: 0.2.15
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4))(eslint@9.39.4))(eslint@9.39.4)
     transitivePeerDependencies:
       - supports-color
 
@@ -12145,7 +12138,7 @@ snapshots:
       eslint-utils: 2.1.0
       regexpp: 3.2.0
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4))(eslint@9.39.4))(eslint@9.39.4):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -14196,7 +14189,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.3.3: {}
+  prettier@3.8.1: {}
 
   pretty-format@29.7.0:
     dependencies:
@@ -14732,8 +14725,6 @@ snapshots:
   strip-indent@3.0.0:
     dependencies:
       min-indent: 1.0.1
-
-  strip-indent@4.1.1: {}
 
   strip-json-comments@2.0.1: {}
 

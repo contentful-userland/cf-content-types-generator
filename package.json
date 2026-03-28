@@ -52,7 +52,7 @@
     "jest-fixtures": "^0.6.0",
     "lint-staged": "^15.2.9",
     "oclif": "^4.22.96",
-    "prettier": "^3.0.0",
+    "prettier": "^3.8.1",
     "semantic-release": "^25.0.3",
     "strip-indent": "^3.0.0",
     "ts-jest": "29.2.5",
