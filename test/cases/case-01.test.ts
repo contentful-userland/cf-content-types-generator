@@ -11,7 +11,6 @@ function testCase(id: string, description: string) {
     }
 
     expect(builder.toString()).toEqual(
-      // eslint-disable-next-line unicorn/prefer-module
       readFileSync(path.resolve(__dirname, `./fixtures/${id}-output.txt`)).toString(),
     );
   });

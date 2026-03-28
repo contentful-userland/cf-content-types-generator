@@ -121,8 +121,10 @@ export interface TypeAnimalFields {
 }
 
 export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
-export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> =
-  Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+export type TypeAnimal<
+  Modifiers extends ChainModifiers,
+  Locales extends LocaleCode = LocaleCode,
+> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
 ```
 
 ### `-d, --jsdoc`
@@ -151,11 +153,11 @@ Adds generated comments to fields, skeletons, and entries.
 Adds a runtime predicate for the generated entry type.
 
 ```ts
- export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
-   entry: Entry<EntrySkeletonType, Modifiers, Locales>,
- ): entry is TypeAnimal<Modifiers, Locales> {
-   return entry.sys.contentType.sys.id === 'animal';
- }
+export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
+  entry: Entry<EntrySkeletonType, Modifiers, Locales>,
+): entry is TypeAnimal<Modifiers, Locales> {
+  return entry.sys.contentType.sys.id === 'animal';
+}
 ```
 
 ### `-r, --response`
@@ -163,9 +165,11 @@ Adds a runtime predicate for the generated entry type.
 Adds aliases for common response modifier combinations.
 
 ```ts
- export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
- export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> =
-   TypeAnimal<'WITH_ALL_LOCALES', Locales>;
+export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
+export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> = TypeAnimal<
+  'WITH_ALL_LOCALES',
+  Locales
+>;
 ```
 
 ## Programmatic Usage
@@ -280,10 +284,7 @@ import {
   TypeGuardRenderer,
 } from 'cf-content-types-generator';
 
-const builder = new CFDefinitionsBuilder([
-  new ContentTypeRenderer(),
-  new TypeGuardRenderer(),
-]);
+const builder = new CFDefinitionsBuilder([new ContentTypeRenderer(), new TypeGuardRenderer()]);
 ```
 
 If downstream code still expects classic output, regenerate and adapt those types in the same change.

@@ -1,6 +1,5 @@
 import { Args, Command, Flags } from '@oclif/core';
 
-// eslint-disable-next-line unicorn/prefer-module
 const contentfulExport = require('contentful-export');
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
