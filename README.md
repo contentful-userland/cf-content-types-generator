@@ -179,6 +179,22 @@ export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = Locale
 
 These aliases are convenience aliases for the top-level entry type only. Linked entries still stay typed as `Entry<LinkedSkeleton, Modifiers, Locales>`, which is expected and matches `contentful.js`.
 
+### Link Resolution Tips
+
+If you want resolved assets and entries without unresolved-link unions, call the client with the matching chain modifier:
+
+```ts
+const articles = await client.withoutUnresolvableLinks.getEntries<TypeBlogArticleSkeleton>({
+  content_type: 'blogArticle',
+  include: 4,
+});
+
+articles.items[0]?.fields.image?.fields.file?.url;
+articles.items[0]?.fields.category?.[0]?.fields;
+```
+
+If a reference field allows multiple content types, generate type guards with `--typeguard` and narrow linked entries where you use them.
+
 ## Programmatic Usage
 
 ```ts
