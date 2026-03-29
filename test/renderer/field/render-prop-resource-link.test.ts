@@ -57,6 +57,30 @@ describe('renderPropResourceLink', () => {
     );
   });
 
+  it('renders external-only resource links', () => {
+    const field = JSON.parse(`
+      {
+        "id": "category",
+        "name": "Category",
+        "type": "ResourceLink",
+        "localized": false,
+        "required": true,
+        "validations": [],
+        "disabled": false,
+        "omitted": false,
+        "allowedResources": [
+          {
+            "type": "ExternalProvider:ExternalReference"
+          }
+        ]
+      }
+    `);
+
+    expect(renderPropResourceLink(field, createContext())).toEqual(
+      'EntryFieldTypes.ExternalResourceLink',
+    );
+  });
+
   it('rejects unknown cross-space resource types', () => {
     const field = JSON.parse(`
       {

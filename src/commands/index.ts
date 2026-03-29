@@ -2,12 +2,10 @@ import { Args, Command, Flags } from '@oclif/core';
 import * as fs from 'fs-extra';
 import { writeFile } from 'fs-extra';
 import * as path from 'node:path';
-import CFDefinitionsBuilder from '../cf-definitions-builder';
-import { createRenderers } from './create-renderers';
-import { CFEditorInterface } from '../types';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const contentfulExport: typeof import('contentful-export').default = require('contentful-export');
+import { createRenderers } from '../cli/create-renderers';
+import { emitDefinitions } from '../internal/emit-definitions';
+import { loadModel } from '../internal/load-model';
+import { normalizeModel } from '../internal/normalize-model';
 
 class ContentfulMdg extends Command {
   static description = 'Contentful Content Types (TS Definitions) Generator';
@@ -40,6 +38,12 @@ class ContentfulMdg extends Command {
     }),
     environment: Flags.string({ char: 'e', description: 'environment' }),
     host: Flags.string({ char: 'a', description: 'host', default: 'api.contentful.com' }),
+    proxy: Flags.string({
+      description: 'proxy URL in HTTP auth format, e.g. https://user:password@host:port',
+    }),
+    rawProxy: Flags.boolean({
+      description: 'pass proxy config to Axios instead of creating a custom httpsAgent',
+    }),
   };
 
   static args = {
@@ -48,6 +52,7 @@ class ContentfulMdg extends Command {
 
   async run(): Promise<string | void> {
     const { args, flags } = await this.parse(ContentfulMdg);
+    const renderers = createRenderers(flags, (message) => this.error(message));
 
     if (args.file && !fs.pathExistsSync(args.file)) {
       this.error(`file ${args.file} doesn't exists.`);
@@ -56,35 +61,25 @@ class ContentfulMdg extends Command {
     let content;
 
     if (args.file) {
-      content = await fs.readJSON(args.file);
-      if (!content.contentTypes) this.error(`file ${args.file} is missing "contentTypes" field`);
+      content = await loadModel({
+        filePath: args.file,
+      });
     } else {
       if (!flags.spaceId) this.error('Please specify "spaceId".');
       if (!flags.token) this.error('Please specify "token".');
 
-      content = await contentfulExport({
+      content = await loadModel({
         spaceId: flags.spaceId,
         managementToken: flags.token,
         environmentId: flags.environment,
-        skipContent: true,
-        skipRoles: true,
-        skipWebhooks: true,
-        saveFile: false,
         host: flags.host,
+        proxy: flags.proxy,
+        rawProxy: flags.rawProxy,
       });
     }
 
-    const renderers = createRenderers(flags, (message) => this.error(message));
-
-    const editorInterfaces = content.editorInterfaces as CFEditorInterface[] | undefined;
-
-    const builder = new CFDefinitionsBuilder(renderers);
-    for (const model of content.contentTypes) {
-      const editorInterface = editorInterfaces?.find(
-        (e) => e.sys.contentType.sys.id === model.sys.id,
-      );
-      builder.appendType(model, editorInterface);
-    }
+    const model = normalizeModel(content);
+    const builder = emitDefinitions(model, renderers);
 
     if (flags.out) {
       const outDir = path.resolve(flags.out);

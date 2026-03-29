@@ -1,5 +1,4 @@
 import { ContentTypeField } from 'contentful';
-import { ContentTypeProps } from 'contentful-management';
 import { JSDocStructure, JSDocTagStructure, OptionalKind, SourceFile } from 'ts-morph';
 import { CFContentType, CFEditorInterface, CFEditorInterfaceControl } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
@@ -50,26 +49,24 @@ export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
       },
     );
 
-    const cmaContentType = contentType as ContentTypeProps;
-
-    if (cmaContentType.sys.createdBy?.sys?.id) {
+    if (contentType.sys.createdBy?.sys?.id) {
       tags.push({
         tagName: 'author',
-        text: cmaContentType.sys.createdBy.sys.id,
+        text: contentType.sys.createdBy.sys.id,
       });
     }
 
-    if (cmaContentType.sys.firstPublishedAt) {
+    if (contentType.sys.firstPublishedAt) {
       tags.push({
         tagName: 'since',
-        text: cmaContentType.sys.firstPublishedAt,
+        text: contentType.sys.firstPublishedAt,
       });
     }
 
-    if (cmaContentType.sys.publishedVersion) {
+    if (contentType.sys.publishedVersion) {
       tags.push({
         tagName: 'version',
-        text: cmaContentType.sys.publishedVersion.toString(),
+        text: contentType.sys.publishedVersion.toString(),
       });
     }
 
@@ -138,26 +135,24 @@ export const defaultJsDocRenderOptions: Required<JSDocRenderOptions> = {
       },
     );
 
-    const cmaContentType = contentType as ContentTypeProps;
-
-    if (cmaContentType.sys.createdBy?.sys?.id) {
+    if (contentType.sys.createdBy?.sys?.id) {
       tags.push({
         tagName: 'author',
-        text: cmaContentType.sys.createdBy.sys.id,
+        text: contentType.sys.createdBy.sys.id,
       });
     }
 
-    if (cmaContentType.sys.firstPublishedAt) {
+    if (contentType.sys.firstPublishedAt) {
       tags.push({
         tagName: 'since',
-        text: cmaContentType.sys.firstPublishedAt,
+        text: contentType.sys.firstPublishedAt,
       });
     }
 
-    if (cmaContentType.sys.publishedVersion) {
+    if (contentType.sys.publishedVersion) {
       tags.push({
         tagName: 'version',
-        text: cmaContentType.sys.publishedVersion.toString(),
+        text: contentType.sys.publishedVersion.toString(),
       });
     }
 

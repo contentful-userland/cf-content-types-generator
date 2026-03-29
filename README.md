@@ -63,8 +63,11 @@ cf-content-types-generator \
   -s <space-id> \
   -t <management-token> \
   -e <environment> \
+  --proxy https://user:password@proxy.example:8443 \
   -o src/@types/generated
 ```
+
+If your network requires a proxy, you can also add `--rawProxy` to pass the proxy config straight to Axios.
 
 ## What It’s For
 
@@ -103,6 +106,8 @@ Key flags:
 - `-t, --token` Contentful management token
 - `-e, --environment` Contentful environment
 - `-a, --host` Management API host
+- `--proxy` proxy URL in HTTP auth format
+- `--rawProxy` pass proxy config to Axios directly
 
 Removed in v3.x:
 
@@ -172,6 +177,24 @@ export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = Locale
 >;
 ```
 
+These aliases are convenience aliases for the top-level entry type only. Linked entries still stay typed as `Entry<LinkedSkeleton, Modifiers, Locales>`, which is expected and matches `contentful.js`.
+
+### Link Resolution Tips
+
+If you want resolved assets and entries without unresolved-link unions, call the client with the matching chain modifier:
+
+```ts
+const articles = await client.withoutUnresolvableLinks.getEntries<TypeBlogArticleSkeleton>({
+  content_type: 'blogArticle',
+  include: 4,
+});
+
+articles.items[0]?.fields.image?.fields.file?.url;
+articles.items[0]?.fields.category?.[0]?.fields;
+```
+
+If a reference field allows multiple content types, generate type guards with `--typeguard` and narrow linked entries where you use them.
+
 ## Programmatic Usage
 
 ```ts
@@ -205,6 +228,8 @@ contentful space export --config ./export-config.json
 ```
 
 If you pass a local file, that exported JSON shape is the exact shape this tool expects.
+
+When you fetch the model remotely, this tool intentionally skips entry data and only reads schema data. A log line about skipping content entries is expected and does not mean generation is incomplete.
 
 At minimum, this generator needs a JSON object with a `contentTypes` field. A full `contentful space export` dump usually also contains keys such as `entries`, `assets`, `locales`, `roles`, `webhooks`, and `editorInterfaces`, but this generator mainly reads `contentTypes` and `editorInterfaces`.
 

@@ -1,4 +1,4 @@
-import { createRenderers } from '../../src/commands/create-renderers';
+import { createRenderers } from '../../src/cli/create-renderers';
 import {
   ContentTypeRenderer,
   JsDocRenderer,
