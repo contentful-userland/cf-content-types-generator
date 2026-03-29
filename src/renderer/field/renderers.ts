@@ -5,7 +5,7 @@ import { renderPropResourceLink } from './render-prop-resource-link';
 import { renderRichText } from './render-prop-richtext';
 import { FieldRenderers } from './render-types';
 
-export const defaultRenderers: FieldRenderers = {
+export const renderers: FieldRenderers = {
   RichText: renderRichText,
   Link: renderPropLink,
   ResourceLink: renderPropResourceLink,

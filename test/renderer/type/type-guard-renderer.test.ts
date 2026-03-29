@@ -1,8 +1,8 @@
 import { Project, ScriptTarget, SourceFile } from 'ts-morph';
-import { CFContentType, DefaultContentTypeRenderer, TypeGuardRenderer } from '../../../src';
+import { CFContentType, ContentTypeRenderer, TypeGuardRenderer } from '../../../src';
 import stripIndent = require('strip-indent');
 
-describe('A content type type guard renderer class', () => {
+describe('TypeGuardRenderer', () => {
   let project: Project;
   let testFile: SourceFile;
   let mockContentType: CFContentType;
@@ -24,8 +24,8 @@ describe('A content type type guard renderer class', () => {
       },
       fields: [
         {
-          id: 'bread',
-          name: 'Bread',
+          id: 'breed',
+          name: 'Breed',
           disabled: false,
           localized: false,
           required: true,
@@ -39,44 +39,29 @@ describe('A content type type guard renderer class', () => {
     testFile = project.createSourceFile('test.ts');
   });
 
-  describe('with default content type declarations', () => {
-    it('renders entry type guard', () => {
-      const defaultRenderer = new DefaultContentTypeRenderer();
-      defaultRenderer.setup(project);
-      defaultRenderer.render(mockContentType, testFile);
+  it('renders modern type guards', () => {
+    const contentTypeRenderer = new ContentTypeRenderer();
+    contentTypeRenderer.render(mockContentType, testFile);
 
-      const typeGuardRenderer = new TypeGuardRenderer();
-      typeGuardRenderer.render(mockContentType, testFile);
+    const typeGuardRenderer = new TypeGuardRenderer();
+    typeGuardRenderer.render(mockContentType, testFile);
 
-      expect('\n' + testFile.getFullText()).toEqual(
-        stripIndent(`
-        import type { Entry, EntryFields } from "contentful";
-        import type { WithContentTypeLink } from "./WithContentTypeLink";
-        
+    expect(('\n' + testFile.getFullText()).trim()).toEqual(
+      stripIndent(`
+        import type { ChainModifiers, Entry, EntryFieldTypes, EntrySkeletonType, LocaleCode } from "contentful";
+
         export interface TypeAnimalFields {
-            bread: EntryFields.Symbol;
+            breed: EntryFieldTypes.Symbol;
         }
-        
-        export type TypeAnimal = Entry<TypeAnimalFields>;
-        
-        export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
-            return entry?.sys?.contentType?.sys?.id === 'animal'
+
+        export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, "animal">;
+        export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode = LocaleCode> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+
+        export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: unknown): entry is TypeAnimal<Modifiers, Locales> {
+            const candidate = entry as { sys?: { contentType?: { sys?: { id?: string } } } };
+            return candidate.sys?.contentType?.sys?.id === 'animal'
         }
-        `),
-      );
-    });
-
-    it('creates type guard helper types', () => {
-      const typeGuardRenderer = new TypeGuardRenderer();
-      typeGuardRenderer.setup(project);
-      typeGuardRenderer.render(mockContentType, testFile);
-      const typeGuardFile = project.getSourceFiles()[1];
-
-      expect('\n' + typeGuardFile.getFullText()).toEqual(
-        stripIndent(`
-        export type WithContentTypeLink = { sys: { contentType: { sys: { id: string } } } };
-        `),
-      );
-    });
+      `).trim(),
+    );
   });
 });

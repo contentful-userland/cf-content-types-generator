@@ -2,29 +2,13 @@ import { ContentTypeField } from 'contentful';
 import { renderTypeGeneric } from '../generic';
 import { RenderContext } from '../type';
 
-export const renderPropResourceLink = (field: ContentTypeField, context: RenderContext): string => {
-  for (const resource of field.allowedResources!) {
-    if (resource.type !== 'Contentful:Entry') {
-      throw new Error(`Unknown type "${resource.type}"`);
-    }
-  }
-
-  context.imports.add({
-    moduleSpecifier: 'contentful',
-    namedImports: ['Entry'],
-    isTypeOnly: true,
-  });
-
-  return renderTypeGeneric('Entry', 'Record<string, any>');
-};
-
-const EntryResourceType = renderTypeGeneric('EntryFieldTypes.EntryResourceLink', 'EntrySkeletonType');
+const EntryResourceType = renderTypeGeneric(
+  'EntryFieldTypes.EntryResourceLink',
+  'EntrySkeletonType',
+);
 const ExternalResourceType = 'EntryFieldTypes.ExternalResourceLink';
 
-export const renderPropResourceLinkV10 = (
-  field: ContentTypeField,
-  context: RenderContext,
-): string => {
+export const renderPropResourceLink = (field: ContentTypeField, context: RenderContext): string => {
   const resourceTypes = new Set() as Set<string>;
   for (const resource of field.allowedResources!) {
     if (resource.type !== 'Contentful:Entry') {
@@ -33,13 +17,12 @@ export const renderPropResourceLinkV10 = (
         throw new Error(`Unknown type "${resource.type}"`);
       }
 
-      // Handle native external references
-      console.log(`Unknown external (?) resource link type "${resource.type}"`);
+      // Handle native external references.
       if (!resourceTypes.has(ExternalResourceType)) {
         context.imports.add({
-            moduleSpecifier: 'contentful',
-            namedImports: ['EntryFieldTypes', 'ExternalResourceLink'],
-            isTypeOnly: true,
+          moduleSpecifier: 'contentful',
+          namedImports: ['EntryFieldTypes', 'ExternalResourceLink'],
+          isTypeOnly: true,
         });
         resourceTypes.add(ExternalResourceType);
       }
@@ -53,5 +36,5 @@ export const renderPropResourceLinkV10 = (
     }
   }
 
-  return [...resourceTypes].join(" | ");
+  return [...resourceTypes].join(' | ');
 };

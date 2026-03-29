@@ -1,6 +1,10 @@
-# TS contentful content types generator
+# cf-content-types-generator
 
-> A CLI to generate Typescript definitions based on [JSON export](https://github.com/contentful/contentful-cli/tree/master/docs/space/export) generated with [contentful CLI](https://github.com/contentful/contentful-cli).
+Generate TypeScript types from your Contentful content model, either from a local `contentful space export` JSON file or by fetching the model directly from Contentful.
+
+Use the generated types with `contentful.js` v10+ for safer queries, autocomplete, and less schema drift between Contentful and your app.
+
+> As of v3.x, pre-v10 output is removed. If you are upgrading from `2.x`, modern `contentful.js` typing is now the default and only output model.
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/cf-content-types-generator.svg)](https://npmjs.org/package/cf-content-types-generator)
@@ -8,204 +12,247 @@
 [![License](https://img.shields.io/npm/l/cf-content-types-generator.svg)](https://github.com/contentful-userland/cf-content-types-generator/blob/master/package.json)
 [![Coverage Status](https://coveralls.io/repos/github/contentful-userland/cf-content-types-generator/badge.svg)](https://coveralls.io/github/contentful-userland/cf-content-types-generator)
 
-# Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Example](#example)
-    - [Local](#local)
-    - [Remote](#remote)
-  - [Input](#input)
-  - [Output](#output)
-- [Renderer](#renderer)
-  - [Default Renderer](#DefaultContentTypeRenderer)
-  - [Localized Renderer](#LocalizedContentTypeRenderer)
-  - [JSDoc Renderer](#JSDocRenderer)
-  - [Type Guard Renderer](#TypeGuardRenderer)
-  - [Response Type Renderer](#ResponseTypeRenderer)
-- [Direct Usage](#direct-usage)
-- [Browser Usage](#browser-usage)
-
-## Installation
-
-```bash
-npm install cf-content-types-generator
+```ts
+import type { TypeAnimal } from './@types/generated';
 ```
 
-> Repo development uses `pnpm@9.15.9` via Corepack: `corepack enable && pnpm install`.
-
-## Usage
+## Install
 
 ```bash
-Contentful Content Types (TS Definitions) Generator
-
-USAGE
-  $ cf-content-types-generator [FILE]
-
-ARGUMENTS
-  FILE  local export (.json)
-
-OPTIONS
-  -e, --environment=environment  environment
-  -h, --help                     show CLI help
-  -o, --out=out                  output directory
-  -p, --preserve                 preserve output folder
-  -X  --v10                      create contentful.js v10 types
-  -r, --response                 add response types (only for v10 types)
-  -l, --localized                add localized types
-  -d, --jsdoc                    add JSDoc comments
-  -g, --typeguard                add type guards
-  -s, --spaceId=spaceId          space id
-  -t, --token=token              management token
-  -v, --version                  show CLI version
-  -a, --host                     The Management API host
-
+npm install cf-content-types-generator contentful
 ```
 
-### Example
-
-#### Local
-
-Use a local `JSON` file to load `contentTypes`. Flags for `spaceId`, `token` and `environement` will be ignored.
-
-**Will print result to console**
+Repo dev uses `pnpm@9.15.9` via Corepack:
 
 ```bash
-cf-content-types-generator path/to/exported/file.json
+corepack enable
+pnpm install
 ```
 
-> in a real world scenario, you would pipe the result to a file.
+## Quickstart In 60 Seconds
 
-**Will store resulting files in target directory**
+You can generate types in two ways:
+
+- from a local export JSON file in the exact [Input](#input) shape, usually created with `contentful space export`
+- by providing Contentful credentials and letting the CLI fetch the same model data on the fly
+
+### Path A: Generate From A Local Export JSON File
+
+Export your space model:
 
 ```bash
-cf-content-types-generator path/to/exported/file.json -o path/to/target/out/directory
+contentful space export --config ./export-config.json
 ```
 
-> existing directory content will be removed.
-
-#### Remote
-
-If no `file` arg provided, remote mode is enabled.
-`spaceId` and `token` flags need to be set.
+Generate types:
 
 ```bash
-cf-content-types-generator -s 2l3j7k267xxx  -t CFPAT-64FtZEIOruksuaE_Td0qBvHdELNWBCC0fZUWq1NFxxx
+cf-content-types-generator ./contentful-export.json -o src/@types/generated
 ```
 
-### Input
+Use the generated type:
 
-As input a [json file](https://github.com/contentful/contentful-cli/tree/master/docs/space/export#exported-data) with a `contentTypes` field is expected:
+```ts
+import type { TypeAnimal } from './@types/generated';
+```
+
+### Path B: Generate By Fetching From Contentful
+
+```bash
+cf-content-types-generator \
+  -s <space-id> \
+  -t <management-token> \
+  -e <environment> \
+  --proxy https://user:password@proxy.example:8443 \
+  -o src/@types/generated
+```
+
+If your network requires a proxy, you can also add `--rawProxy` to pass the proxy config straight to Axios.
+
+## What It’s For
+
+- turn a Contentful content model into generated TypeScript types
+- use those generated types in apps built with `contentful.js` v10+
+- optionally add JSDoc, type guards, and response aliases
+
+### When To Use It
+
+- you keep Contentful schema in source control and want generated app types
+- you use `contentful.js` in TypeScript and want typed entries based on your real model
+- you want type generation in CI from either exports or live space data
+
+Further reading: if you want broader context on typing Contentful projects with TypeScript, see Contentful’s guide to [TypeScript and Contentful](https://www.contentful.com/blog/contentful-typescript/).
+
+## CLI Usage
+
+```text
+cf-content-types-generator [FILE]
+```
+
+Common tasks:
+
+- generate from a local export JSON file: `cf-content-types-generator ./contentful-export.json -o src/@types/generated`
+- generate by fetching live data: `cf-content-types-generator -s <space-id> -t <management-token> -e <environment> -o src/@types/generated`
+- add optional helpers: `cf-content-types-generator ./contentful-export.json -o src/@types/generated --jsdoc --typeguard --response`
+
+Key flags:
+
+- `-o, --out` output directory
+- `-p, --preserve` preserve existing output folder
+- `-d, --jsdoc` add JSDoc comments
+- `-g, --typeguard` add modern type guards
+- `-r, --response` add response aliases
+- `-s, --spaceId` Contentful space id
+- `-t, --token` Contentful management token
+- `-e, --environment` Contentful environment
+- `-a, --host` Management API host
+- `--proxy` proxy URL in HTTP auth format
+- `--rawProxy` pass proxy config to Axios directly
+
+Removed in v3.x:
+
+- `--v10`
+- `--localized`
+
+Both now error with explicit migration hints.
+
+## Optional Renderers
+
+All examples below use the same generated base type:
+
+```ts
+export interface TypeAnimalFields {
+  breed?: EntryFieldTypes.Symbol;
+}
+
+export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
+export type TypeAnimal<
+  Modifiers extends ChainModifiers,
+  Locales extends LocaleCode = LocaleCode,
+> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+```
+
+### `-d, --jsdoc`
+
+Adds generated comments to fields, skeletons, and entries.
+
+```diff
+ /**
+  * Fields type definition for content type 'TypeAnimal'
+  * @name TypeAnimalFields
+  * @type {TypeAnimalFields}
+  * @memberof TypeAnimal
+  */
+ export interface TypeAnimalFields {
+   /**
+    * Field type definition for field 'breed' (Breed)
+    * @name Breed
+    * @localized false
+    */
+   breed?: EntryFieldTypes.Symbol;
+ }
+```
+
+### `-g, --typeguard`
+
+Adds a runtime predicate for the generated entry type.
+
+```ts
+export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
+  entry: Entry<EntrySkeletonType, Modifiers, Locales>,
+): entry is TypeAnimal<Modifiers, Locales> {
+  return entry.sys.contentType.sys.id === 'animal';
+}
+```
+
+### `-r, --response`
+
+Adds aliases for common response modifier combinations.
+
+```ts
+export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
+export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> = TypeAnimal<
+  'WITH_ALL_LOCALES',
+  Locales
+>;
+```
+
+These aliases are convenience aliases for the top-level entry type only. Linked entries still stay typed as `Entry<LinkedSkeleton, Modifiers, Locales>`, which is expected and matches `contentful.js`.
+
+### Link Resolution Tips
+
+If you want resolved assets and entries without unresolved-link unions, call the client with the matching chain modifier:
+
+```ts
+const articles = await client.withoutUnresolvableLinks.getEntries<TypeBlogArticleSkeleton>({
+  content_type: 'blogArticle',
+  include: 4,
+});
+
+articles.items[0]?.fields.image?.fields.file?.url;
+articles.items[0]?.fields.category?.[0]?.fields;
+```
+
+If a reference field allows multiple content types, generate type guards with `--typeguard` and narrow linked entries where you use them.
+
+## Programmatic Usage
+
+```ts
+import {
+  CFDefinitionsBuilder,
+  ContentTypeRenderer,
+  ResponseTypeRenderer,
+  TypeGuardRenderer,
+} from 'cf-content-types-generator';
+
+const builder = new CFDefinitionsBuilder([
+  new ContentTypeRenderer(),
+  new TypeGuardRenderer(),
+  new ResponseTypeRenderer(),
+]);
+```
+
+If you want custom output, extend `BaseContentTypeRenderer` or implement the `Renderer` interface.
+
+## Input
+
+This tool accepts either:
+
+- a local JSON file in the exact shape produced by `contentful space export`
+- or enough CLI credentials for the generator to fetch equivalent model data live
+
+Typical export command:
+
+```bash
+contentful space export --config ./export-config.json
+```
+
+If you pass a local file, that exported JSON shape is the exact shape this tool expects.
+
+When you fetch the model remotely, this tool intentionally skips entry data and only reads schema data. A log line about skipping content entries is expected and does not mean generation is incomplete.
+
+At minimum, this generator needs a JSON object with a `contentTypes` field. A full `contentful space export` dump usually also contains keys such as `entries`, `assets`, `locales`, `roles`, `webhooks`, and `editorInterfaces`, but this generator mainly reads `contentTypes` and `editorInterfaces`.
+
+Example shape:
 
 ```json
 {
   "contentTypes": [
     {
       "sys": {
-        "id": "artist",
+        "id": "animal",
         "type": "ContentType"
       },
-      "displayField": "name",
-      "name": "Artist",
+      "name": "Animal",
       "fields": [
         {
-          "id": "name",
-          "name": "Name",
+          "id": "breed",
           "type": "Symbol",
-          "required": true,
-          "validations": [
-            {
-              "unique": true
-            }
-          ]
-        },
-        {
-          "id": "profilePicture",
-          "name": "Profile Picture",
-          "type": "Link",
           "required": false,
-          "validations": [
-            {
-              "linkMimetypeGroup": ["image"]
-            }
-          ],
-          "linkType": "Asset"
-        },
-        {
-          "id": "bio",
-          "name": "Bio",
-          "type": "RichText",
-          "required": false,
-          "validations": [
-            {
-              "nodes": {}
-            },
-            {
-              "enabledMarks": [],
-              "message": "Marks are not allowed"
-            },
-            {
-              "enabledNodeTypes": [],
-              "message": "Nodes are not allowed"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "sys": {
-        "id": "artwork",
-        "type": "ContentType"
-      },
-      "displayField": "name",
-      "name": "Artwork",
-      "fields": [
-        {
-          "id": "name",
-          "name": "Name",
-          "type": "Symbol",
-          "required": true,
+          "localized": false,
+          "omitted": false,
+          "disabled": false,
           "validations": []
-        },
-        {
-          "id": "type",
-          "name": "Type",
-          "type": "Symbol",
-          "required": false,
-          "validations": [
-            {
-              "in": ["print", "drawing", "painting"],
-              "message": "Hello - this is a custom error message."
-            }
-          ]
-        },
-        {
-          "id": "preview",
-          "name": "Preview",
-          "type": "Array",
-          "required": false,
-          "validations": [],
-          "items": {
-            "type": "Link",
-            "validations": [
-              {
-                "linkMimetypeGroup": ["image", "audio", "video"]
-              }
-            ],
-            "linkType": "Asset"
-          }
-        },
-        {
-          "id": "artist",
-          "name": "Artist",
-          "type": "Link",
-          "required": true,
-          "validations": [
-            {
-              "linkContentType": ["artist"]
-            }
-          ],
-          "linkType": "Entry"
         }
       ]
     }
@@ -213,230 +260,34 @@ As input a [json file](https://github.com/contentful/contentful-cli/tree/master/
 }
 ```
 
-> This example shows a subset of the actual payload provided by contentful's cli export command.
+## Migration From 2.x To 3.x
 
-### Output
+`3.x` removes all pre-v10 output behavior. If you are upgrading from `2.x`, use this migration path:
 
-```typescript
-import * as CFRichTextTypes from '@contentful/rich-text-types';
-import { Entry, EntryFields } from 'contentful';
+1. Remove `--v10` from CLI usage.
+2. Remove `--localized`; no replacement needed.
+3. Rename programmatic imports:
+   `V10ContentTypeRenderer` -> `ContentTypeRenderer`
+   `V10TypeGuardRenderer` -> `TypeGuardRenderer`
+   `createV10Context()` -> `createContext()`
+4. Regenerate all generated types.
+5. Update downstream code that still assumes classic `Entry<TypeFields>` output.
 
-export interface TypeArtistFields {
-  name: Contentful.EntryFields.Symbol;
-  profilePicture?: Contentful.Asset;
-  bio?: EntryFields.RichText;
-}
+CLI before:
 
-export type TypeArtist = Entry<TypeArtistFields>;
-
-export interface TypeArtworkFields {
-  name: EntryFields.Symbol;
-  type?: 'print' | 'drawing' | 'painting';
-  preview?: Asset[];
-  artist: Entry<TypeArtistFields>;
-}
-
-export type TypeArtwork = Entry<TypeArtworkFields>;
+```bash
+cf-content-types-generator ./contentful-export.json -o src/@types/generated --v10 --response
 ```
 
-This all only works if you add the [`contentful`](https://www.npmjs.com/package/contentful) package to your target project to get all relevant type definitions.
+CLI after:
 
-# Renderer
-
-Extend the default `BaseContentTypeRenderer` class, or implement the `ContentTypeRenderer` interface for custom rendering.
-
-Relevant methods to override:
-
-| Methods             | Description                                                                | Override                                                              |
-| ------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `render`            | Enriches a `SourceFile` with all relevant nodes                            | To control content type rendering (you should know what you're doing) |
-| `getContext`        | Returns new render context object                                          | To define custom type renderer and custom module name function        |
-| `addDefaultImports` | Define set of default imports added to every file                          | To control default imported modules                                   |
-| `renderField`       | Returns a `PropertySignatureStructure` representing a field property       | To control Field property rendering                                   |
-| `renderFieldType`   | Returns a `string` representing a field type                               | To control field type rendering (recommended)                         |
-| `renderEntry`       | Returns a `TypeAliasDeclarationStructure` representing an entry type alias | To control entry type alias rendering                                 |
-| `renderEntryType`   | Returns a `string` representing an entry type                              | To control entry type rendering (recommended)                         |
-
-> Table represents order of execution
-
-Set content type renderers:
-
-```typescript
-import {
-  CFDefinitionsBuilder,
-  DefaultContentTypeRenderer,
-  LocalizedContentTypeRenderer,
-} from 'cf-content-types-generator';
-
-const builder = new CFDefinitionsBuilder([
-  new DefaultContentTypeRenderer(),
-  new LocalizedContentTypeRenderer(),
-]);
+```bash
+cf-content-types-generator ./contentful-export.json -o src/@types/generated --response
 ```
 
-## DefaultContentTypeRenderer
+Programmatic before:
 
-A renderer to render type fields and entry definitions. For most scenarios, this renderer is sufficient.
-If no custom renderers given, `CFDefinitionsBuilder` creates a `DefaultContentTypeRenderer` by default.
-
-#### Example Usage
-
-```typescript
-import { CFDefinitionsBuilder, DefaultContentTypeRenderer } from 'cf-content-types-generator';
-
-const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer()]);
-```
-
-## V10ContentTypeRenderer
-
-A renderer to render type fields and entry definitions compatible with contentful.js v10.
-
-```typescript
-import { CFDefinitionsBuilder, V10ContentTypeRenderer } from 'cf-content-types-generator';
-
-const builder = new CFDefinitionsBuilder([new V10ContentTypeRenderer()]);
-```
-
-## LocalizedContentTypeRenderer
-
-Add additional types for localized fields. It adds utility types to transform fields into localized fields for given locales
-More details on the utility types can be found here: [Issue 121](https://github.com/contentful-userland/cf-content-types-generator/issues/121)
-Note that these types are not needed when using `V10ContentTypeRenderer` as the v10 entry type already supports localization.
-
-#### Example Usage
-
-```typescript
-import {
-  CFDefinitionsBuilder,
-  DefaultContentTypeRenderer,
-  LocalizedContentTypeRenderer,
-} from 'cf-content-types-generator';
-
-const builder = new CFDefinitionsBuilder([
-  new DefaultContentTypeRenderer(),
-  new LocalizedContentTypeRenderer(),
-]);
-```
-
-#### Example output
-
-```typescript
-export interface TypeCategoryFields {
-  title: Contentful.EntryFields.Text;
-  icon?: Contentful.Asset;
-  categoryDescription?: Contentful.EntryFields.Text;
-}
-
-export type TypeCategory = Contentful.Entry<TypeCategoryFields>;
-
-export type LocalizedTypeCategoryFields<Locales extends keyof any> = LocalizedFields<
-  TypeCategoryFields,
-  Locales
->;
-
-export type LocalizedTypeCategory<Locales extends keyof any> = LocalizedEntry<
-  TypeCategory,
-  Locales
->;
-```
-
-#### Example output usage
-
-```typescript
-const localizedCategory: LocalizedTypeCategory<'DE-de' | 'En-en'> = {
-  fields: {
-    categoryDescription: {
-      'DE-de': 'german description',
-      'En-en': 'english description',
-    },
-  },
-};
-```
-
-## JSDocRenderer
-
-Adds [JSDoc](https://jsdoc.app/) Comments to every Entry type and Field type (created by the default renderer, or a renderer that creates the same entry and field type names). This renderer can be customized through [renderer options](src/renderer/type/js-doc-renderer.ts#L20).
-
-JSDocContentTypeRenderer can only render comments for already rendered types. It's essential to add it after the default renderer, or any renderer that creates entry and field types based on the context moduleName resolution.
-
-#### Example Usage
-
-```typescript
-import { CFDefinitionsBuilder, JsDocRenderer } from 'cf-content-types-generator';
-
-const builder = new CFDefinitionsBuilder([new DefaultContentTypeRenderer(), new JsDocRenderer()]);
-```
-
-#### Example output
-
-```typescript
-import * as Contentful from 'contentful';
-/**
- * Fields type definition for content type 'TypeAnimal'
- * @name TypeAnimalFields
- * @type {TypeAnimalFields}
- * @memberof TypeAnimal
- */
-export interface TypeAnimalFields {
-  /**
-   * Field type definition for field 'bread' (Bread)
-   * @name Bread
-   * @localized false
-   */
-  bread: Contentful.EntryFields.Symbol;
-}
-
-/**
- * Entry type definition for content type 'animal' (Animal)
- * @name TypeAnimal
- * @type {TypeAnimal}
- */
-export type TypeAnimal = Contentful.Entry<TypeAnimalFields>;
-```
-
-## TypeGuardRenderer
-
-Adds type guard functions for every content type
-
-#### Example Usage
-
-```typescript
-import {
-  CFDefinitionsBuilder,
-  DefaultContentTypeRenderer,
-  TypeGuardRenderer,
-} from 'cf-content-types-generator';
-
-const builder = new CFDefinitionsBuilder([
-  new DefaultContentTypeRenderer(),
-  new TypeGuardRenderer(),
-]);
-```
-
-#### Example output
-
-```typescript
-import { Entry, EntryFields } from 'contentful';
-import type { WithContentTypeLink } from 'TypeGuardTypes';
-
-export interface TypeAnimalFields {
-  bread: EntryFields.Symbol;
-}
-
-export type TypeAnimal = Entry<TypeAnimalFields>;
-
-export function isTypeAnimal(entry: WithContentTypeLink): entry is TypeAnimal {
-  return entry.sys.contentType.sys.id === 'animal';
-}
-```
-
-## V10TypeGuardRenderer
-
-Adds type guard functions for every content type which are compatible with contentful.js v10.
-
-#### Example Usage
-
-```typescript
+```ts
 import {
   CFDefinitionsBuilder,
   V10ContentTypeRenderer,
@@ -449,131 +300,25 @@ const builder = new CFDefinitionsBuilder([
 ]);
 ```
 
-#### Example output
+Programmatic after:
 
-```typescript
-import type {
-  ChainModifiers,
-  Entry,
-  EntryFieldTypes,
-  EntrySkeletonType,
-  LocaleCode,
-} from 'contentful';
-
-export interface TypeAnimalFields {
-  bread?: EntryFieldTypes.Symbol;
-}
-
-export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
-export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<
-  TypeAnimalSkeleton,
-  Modifiers,
-  Locales
->;
-
-export function isTypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode>(
-  entry: Entry<EntrySkeletonType, Modifiers, Locales>,
-): entry is TypeAnimal<Modifiers, Locales> {
-  return entry.sys.contentType.sys.id === 'animal';
-}
-```
-
-## ResponseTypeRenderer
-
-Adds response types for every content type which are compatible with contentful.js v10.
-
-#### Example Usage
-
-```typescript
+```ts
 import {
   CFDefinitionsBuilder,
-  V10ContentTypeRenderer,
-  ResponseTypeRenderer,
+  ContentTypeRenderer,
+  TypeGuardRenderer,
 } from 'cf-content-types-generator';
 
-const builder = new CFDefinitionsBuilder([
-  new V10ContentTypeRenderer(),
-  new ResponseTypeRenderer(),
-]);
+const builder = new CFDefinitionsBuilder([new ContentTypeRenderer(), new TypeGuardRenderer()]);
 ```
 
-#### Example output
+If downstream code still expects classic output, regenerate and adapt those types in the same change.
 
-```typescript
-import type {
-  ChainModifiers,
-  Entry,
-  EntryFieldTypes,
-  EntrySkeletonType,
-  LocaleCode,
-} from 'contentful';
+## Development
 
-export interface TypeAnimalFields {
-  bread?: EntryFieldTypes.Symbol;
-}
-
-export type TypeAnimalSkeleton = EntrySkeletonType<TypeAnimalFields, 'animal'>;
-export type TypeAnimal<Modifiers extends ChainModifiers, Locales extends LocaleCode> = Entry<
-  TypeAnimalSkeleton,
-  Modifiers,
-  Locales
->;
-
-export type TypeAnimalWithoutLinkResolutionResponse = TypeAnimal<'WITHOUT_LINK_RESOLUTION'>;
-export type TypeAnimalWithoutUnresolvableLinksResponse = TypeAnimal<'WITHOUT_UNRESOLVABLE_LINKS'>;
-export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = LocaleCode> =
-  TypeAnimal<'WITH_ALL_LOCALES'>;
-export type TypeAnimalWithAllLocalesAndWithoutLinkResolutionResponse<
-  Locales extends LocaleCode = LocaleCode,
-> = TypeAnimal<'WITH_ALL_LOCALES' | 'WITHOUT_LINK_RESOLUTION', Locales>;
-export type TypeAnimalWithAllLocalesAndWithoutUnresolvableLinksResponse<
-  Locales extends LocaleCode = LocaleCode,
-> = TypeAnimal<'WITH_ALL_LOCALES' | 'WITHOUT_UNRESOLVABLE_LINKS', Locales>;
+```bash
+pnpm test
+pnpm build
 ```
 
-# Direct Usage
-
-If you're not a CLI person, or you want to integrate it with your tooling workflow, you can also directly use the `CFDefinitionsBuilder` from `cf-definitions-builder.ts`
-
-```typescript
-import CFDefinitionsBuilder from 'cf-content-types-generator';
-
-const stringContent = new CFDefinitionsBuilder()
-  .appendType({
-    name: 'My Entry',
-    sys: {
-      id: 'myEntry',
-      type: 'ContentType',
-    },
-    fields: [
-      {
-        id: 'myField',
-        name: 'My Field',
-        type: 'Symbol',
-        required: true,
-        validations: [],
-        disabled: false,
-        localized: false,
-        omitted: false,
-      },
-    ],
-  })
-  .toString();
-
-console.log(stringContent);
-
-// import { Entry, EntryFields } from "contentful";
-
-//
-// export interface TypeMyEntryFields {
-//   myField: EntryFields.Symbol;
-// }
-//
-// export type TypeMyEntry = Entry<TypeMyEntryFields>;
-```
-
-# Browser Usage
-
-You can use `CFDefinitionsBuilder` also in a browser environment.
-
-> Example: [TS Content Types Generator App](https://github.com/marcolink/cf-content-types-generator-app)
+Related app: [cf-content-types-generator-app](https://github.com/marcolink/cf-content-types-generator-app)
