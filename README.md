@@ -22,13 +22,6 @@ import type { TypeAnimal } from './@types/generated';
 npm install cf-content-types-generator contentful
 ```
 
-Repo dev uses `pnpm@9.15.9` via Corepack:
-
-```bash
-corepack enable
-pnpm install
-```
-
 ## Quickstart In 60 Seconds
 
 You can generate types in two ways:
