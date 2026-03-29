@@ -5,7 +5,7 @@
   "author": "Marco Link<marco.link@contentful.com>",
   "license": "MIT",
   "bin": {
-    "cf-content-types-generator": "./bin/run"
+    "cf-content-types-generator": "bin/run"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
