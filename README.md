@@ -19,7 +19,7 @@ import type { TypeAnimal } from './@types/generated';
 ## Install
 
 ```bash
-npm install cf-content-types-generator
+npm install --save-dev cf-content-types-generator
 ```
 
 ## Quickstart In 60 Seconds
