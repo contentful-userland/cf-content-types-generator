@@ -23,8 +23,10 @@
   },
   "packageManager": "pnpm@9.15.9",
   "oclif": {
-    "default": ".",
-    "commands": "./lib/commands"
+    "commands": {
+      "strategy": "single",
+      "target": "./lib/commands/index"
+    }
   },
   "repository": {
     "type": "git",
