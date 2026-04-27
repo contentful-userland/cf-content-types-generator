@@ -170,7 +170,20 @@ export type TypeAnimalWithAllLocalesResponse<Locales extends LocaleCode = Locale
 >;
 ```
 
-These aliases are convenience aliases for the top-level entry type only. Linked entries still stay typed as `Entry<LinkedSkeleton, Modifiers, Locales>`, which is expected and matches `contentful.js`.
+### `-m, --modifiers`
+
+Adds default modifiers to resolved types. Multiple modifiers are allows and will be unionized. Valid options are `WITH_ALL_LOCALES`, `WITHOUT_LINK_RESOLUTION`, `WITHOUT_UNRESOLVABLE_LINKS`, `WITH_LOCALE_BASED_PUBLISHING`, `undefined`.
+
+```
+--modifiers WITH_ALL_LOCALES --modifiers WITHOUT_LINK_RESOLUTION
+```
+
+```ts
+export type TypeAnimal<
+  Modifiers extends ChainModifiers = 'WITH_ALL_LOCALES' | 'WITHOUT_LINK_RESOLUTION',
+  Locales extends LocaleCode = LocaleCode,
+> = Entry<TypeAnimalSkeleton, Modifiers, Locales>;
+```
 
 ### Link Resolution Tips
 
