@@ -59,6 +59,8 @@ export class DefinitionsOutputWriter {
           case StructureKind.Function:
             mergeFile.addFunction(childStructure);
             break;
+          case StructureKind.FunctionOverload:
+            break;
           default:
             throw new Error(`Unhandled node type '${StructureKind[childStructure.kind]}'.`);
         }

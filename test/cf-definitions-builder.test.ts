@@ -124,8 +124,12 @@ describe('A Contentful definitions builder', () => {
     builder = new CFDefinitionsBuilder([new ContentTypeRenderer(), new TypeGuardRenderer()]);
     builder.appendType(modelType);
 
-    expect(builder.toString()).toContain(
-      'export function isTypeSysId<Modifiers extends ChainModifiers, Locales extends LocaleCode>',
+    const output = builder.toString();
+    expect(output).toContain(
+      'export function isTypeSysId<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry?: Entry<EntrySkeletonType, Modifiers, Locales>)',
+    );
+    expect(output).toContain(
+      'export function isTypeSysId<Modifiers extends ChainModifiers, Locales extends LocaleCode>(entry: unknown)',
     );
   });
 

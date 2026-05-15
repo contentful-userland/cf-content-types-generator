@@ -25,6 +25,8 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
       isTypeOnly: true,
     });
 
+    const returnType = `entry is ${renderTypeGeneric(entryInterfaceName, 'Modifiers', 'Locales')}`;
+
     file.addFunction({
       isExported: true,
       name: renderTypeGeneric(
@@ -32,7 +34,7 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
         'Modifiers extends ChainModifiers',
         'Locales extends LocaleCode',
       ),
-      returnType: `entry is ${renderTypeGeneric(entryInterfaceName, 'Modifiers', 'Locales')}`,
+      returnType,
       parameters: [
         {
           name: 'entry',
@@ -42,6 +44,29 @@ export class TypeGuardRenderer extends BaseContentTypeRenderer {
       statements: [
         `const candidate = entry as { sys?: { contentType?: { sys?: { id?: string } } } };`,
         `return candidate.sys?.contentType?.sys?.id === '${contentType.sys.id}'`,
+      ],
+      overloads: [
+        {
+          isExported: true,
+          returnType,
+          parameters: [
+            {
+              name: 'entry',
+              type: renderTypeGeneric('Entry', 'EntrySkeletonType', 'Modifiers', 'Locales'),
+              hasQuestionToken: true,
+            },
+          ],
+        },
+        {
+          isExported: true,
+          returnType,
+          parameters: [
+            {
+              name: 'entry',
+              type: 'unknown',
+            },
+          ],
+        },
       ],
     });
 
