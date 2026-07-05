@@ -6,12 +6,29 @@ import {
   TypeAliasDeclarationStructure,
 } from 'ts-morph';
 import { propertyImports } from '../../property-imports';
-import { renderTypeGeneric } from '../generic';
+import { renderTypeGeneric, renderTypeLiteral, renderTypeUnion } from '../generic';
 import { CFContentType } from '../../types';
 import { BaseContentTypeRenderer } from './base-content-type-renderer';
 import { createContext, RenderContext } from './create-context';
 
+export type ContentTypeRendererOptions = {
+  defaultModifiers: string[];
+};
+
+const defaultContentTypeRendererOptions: ContentTypeRendererOptions = {
+  defaultModifiers: [],
+};
+
 export class ContentTypeRenderer extends BaseContentTypeRenderer {
+  private readonly options: ContentTypeRendererOptions;
+  constructor(options?: Partial<ContentTypeRendererOptions>) {
+    super();
+    this.options = {
+      defaultModifiers:
+        options?.defaultModifiers ?? defaultContentTypeRendererOptions.defaultModifiers,
+    };
+  }
+
   public render(contentType: CFContentType, file: SourceFile): void {
     const context = this.createContext();
 
@@ -97,10 +114,14 @@ export class ContentTypeRenderer extends BaseContentTypeRenderer {
     contentType: CFContentType,
     context: RenderContext,
   ): OptionalKind<TypeAliasDeclarationStructure> {
+    const modifiersParam = this.options.defaultModifiers.length
+      ? `Modifiers extends ChainModifiers = ${renderTypeUnion(this.options.defaultModifiers.map(renderTypeLiteral))}`
+      : 'Modifiers extends ChainModifiers';
+
     return {
       name: renderTypeGeneric(
         context.moduleName(contentType.sys.id),
-        'Modifiers extends ChainModifiers',
+        modifiersParam,
         'Locales extends LocaleCode = LocaleCode',
       ),
       isExported: true,

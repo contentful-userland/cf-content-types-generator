@@ -12,6 +12,7 @@ export type RendererFlags = {
   jsdoc?: boolean;
   typeguard?: boolean;
   response?: boolean;
+  modifiers?: string[];
 };
 
 export const createRenderers = (
@@ -26,7 +27,7 @@ export const createRenderers = (
     onError('"--localized" was removed. Localization support is built into the default output.');
   }
 
-  const renderers: Renderer[] = [new ContentTypeRenderer()];
+  const renderers: Renderer[] = [new ContentTypeRenderer({ defaultModifiers: flags.modifiers })];
 
   if (flags.jsdoc) {
     renderers.push(new JsDocRenderer());
