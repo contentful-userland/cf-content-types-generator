@@ -37,14 +37,14 @@
     "/lib"
   ],
   "dependencies": {
-    "@oclif/core": "^4.10.3",
-    "@oclif/plugin-help": "^6.2.40",
+    "@oclif/core": "^5.1.12",
+    "@oclif/plugin-help": "^7.0.10",
     "contentful": "^11.12.0",
     "contentful-export": "^7.22.5",
     "contentful-management": "^12.0.0",
     "fs-extra": "^11.3.4",
     "lodash": "^4.17.23",
-    "ts-morph": "^27.0.2"
+    "ts-morph": "^28.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
