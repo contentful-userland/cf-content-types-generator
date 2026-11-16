@@ -7,11 +7,23 @@ jest.mock('contentful-export', () => jest.fn());
 
 const contentfulExport = require('contentful-export') as jest.Mock;
 
+// @oclif/core >= 4.14 detects WSL via a dynamic `import('wsl-utils')` (an ESM-only package)
+// during Config.load. Jest's CommonJS runtime rejects dynamic imports unless Node runs with
+// --experimental-vm-modules, so stub the platform lookup for these command tests.
+const oclifOs = require(
+  path.join(path.dirname(require.resolve('@oclif/core')), 'util', 'os.js'),
+) as { getPlatform: () => Promise<string> };
+
 describe('commands/index', () => {
   const fixturePath = path.resolve(__dirname, '../cases/fixtures/01-input.json');
 
   beforeEach(() => {
     contentfulExport.mockReset();
+    jest.spyOn(oclifOs, 'getPlatform').mockResolvedValue(process.platform);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('generates from a local export file', async () => {
